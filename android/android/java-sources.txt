@@ -1,0 +1,3 @@
+"/Users/uerceg/GitHub/titanium_sdk/android/android/src/ti/adjust/AdjustModule.java"
+"/Users/uerceg/GitHub/titanium_sdk/android/android/src/ti/adjust/AdjustUtil.java"
+"/Users/uerceg/GitHub/titanium_sdk/android/android/build/generated/java/ti/adjust/AdjustBootstrap.java"
