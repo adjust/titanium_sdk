@@ -54,8 +54,8 @@ if (OS_IOS) {
 }
 
 (function() {
-	var adjustConfig = new AdjustConfig("2fm9gkqubvpc", AdjustConfig.EnvironmentProduction);
-    adjustConfig.setLogLevel(AdjustConfig.LogLevelSuppress);
+	var adjustConfig = new AdjustConfig("2fm9gkqubvpc", AdjustConfig.EnvironmentSandbox);
+    adjustConfig.setLogLevel(AdjustConfig.LogLevelVerbose);
     adjustConfig.setDelayStart(6.0);
     adjustConfig.setSendInBackground(true);
     adjustConfig.setShouldLaunchDeeplink(false);
