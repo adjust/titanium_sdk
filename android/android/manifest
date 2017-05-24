@@ -5,10 +5,10 @@
 version: 4.11.0
 apiversion: 3
 architectures: armeabi-v7a x86
-description: adjust
+description: This is Titanium Android module of the Adjust SDK.
 author: Adjust GmbH
-license: Specify your license
-copyright: Copyright (c) 2017 by Your Company
+license: MIT License
+copyright: Copyright (c) 2012-2017 by Adjust GmbH
 
 # these should not be edited
 name: adjust
