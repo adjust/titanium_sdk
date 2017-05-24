@@ -9,6 +9,7 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
    * [Get the SDK](#sdk-get)
    * [Add the SDK to your project](#sdk-add)
    * [Integrate the SDK into your app](#sdk-integrate)
+   * [Session tracking on Android](#sdk-android-session-tracking)
    * [Adjust logging](#adjust-logging)
    * [Adjust project settings](#adjust-project-settings)
       * [Android permissions](#android-permissions)
@@ -110,6 +111,39 @@ AdjustConfig.EnvironmentProduction
 **Important:** This value should be set to `AdjustConfig.EnvironmentSandbox` if and only if you or someone else is testing your app. Make sure to set the environment to `AdjustConfig.EnvironmentProduction` just before you publish the app. Set it back to `AdjustConfig.EnvironmentSandbox` when you start developing and testing it again.
 
 We use this environment to distinguish between real traffic and test traffic from test devices. It is very important that you keep this value meaningful at all times! This is especially important if you are tracking revenue.
+
+### <a id="sdk-android-session-tracking">Session tracking on Android
+
+You need to do one additional and **really important step** when integrating Adjust SDK to your app which is related to enable proper session tracking for Android platform. After your app starts in Android environment, you should subscribe to get notifications when ever your app goes to background or comes back to foreground. In these moments, you need to add calls to `Adjust.onResume()` (once app comes to foreground) and `Adjust.onPause()` (when app goes to background).
+
+Feel free to do subscription to these events in Android app how ever you like, but it is crucial that you do that in proper way otherwise session tracking might be affected. In our example app, we managed to do that with usage of [benCoding.Android.Tools][bencooding-android-tools] Titanium module in following way:
+
+```js
+Ti.App.addEventListener('resumed', function(e) {
+    Adjust.onResume();
+});
+
+Ti.App.addEventListener('paused', function(e) {
+    Adjust.onPause();
+});
+
+if (OS_ANDROID) {
+    var platformTools = require('bencoding.android.tools').createPlatform(),
+        wasInForeGround = true;
+
+    setInterval(function() {
+        var isInForeground = platformTools.isInForeground();
+
+        if (wasInForeGround !== isInForeground) {
+            Ti.App.fireEvent(isInForeground ? 'resumed' : 'paused');
+
+            wasInForeGround = isInForeground;
+        }
+    }, 1000);
+}
+```
+
+For additional information about this approach, please check Github page of the `benCoding.Android.Tools` module.
 
 ### <a id="sdk-logging">Adjust logging
 
