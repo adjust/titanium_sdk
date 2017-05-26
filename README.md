@@ -9,7 +9,7 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
    * [Get the SDK](#sdk-get)
    * [Add the SDK to your project](#sdk-add)
    * [Integrate the SDK into your app](#sdk-integrate)
-   * [Session tracking on Android](#sdk-android-session-tracking)
+      * [Session tracking on Android](#sdk-android-session-tracking)
    * [Adjust logging](#adjust-logging)
    * [Adjust project settings](#adjust-project-settings)
       * [Android permissions](#android-permissions)
