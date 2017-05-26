@@ -64,7 +64,7 @@ You can get the latest version of the Adjust SDK modules from our [releases page
 
 ### <a id="sdk-add">Add the SDK to your project
 
-Add Adjust SDK to Titanium SDK installed on your machine and after that add it to your app by opening your `tiapp.xml` file in Appcelerator Studio and adding `ti.adjust` module in `Modules` section.
+Add Adjust SDK to Titanium SDK installed on your machine. After that add it to your app by opening your `tiapp.xml` file in Appcelerator Studio and adding `ti.adjust` module in `Modules` section.
 
 After adding Adjust SDK module, you should see following in your `tiapp.xml` source code:
 
@@ -82,7 +82,7 @@ In addition to Titanium module, we have created two additional JavaScript classe
 - `adjust_config.js`
 - `adjust_event.js`
 
-Please, add these two JavaScript files to your app as well. In order to be able to use these two classes like they will be used in code examples in this README, please add following line(s) on places where you want to use objects of these two classes:
+Please, add these two JavaScript files to your app as well. In order to be able to use these two classes like they will be used in code examples in this README, please add following line(s) on places where you want to use instances of these two classes:
 
 ```js
 var AdjustEvent = require('adjust_event');
@@ -110,11 +110,11 @@ AdjustConfig.EnvironmentProduction
 
 **Important:** This value should be set to `AdjustConfig.EnvironmentSandbox` if and only if you or someone else is testing your app. Make sure to set the environment to `AdjustConfig.EnvironmentProduction` just before you publish the app. Set it back to `AdjustConfig.EnvironmentSandbox` when you start developing and testing it again.
 
-We use this environment to distinguish between real traffic and test traffic from test devices. It is very important that you keep this value meaningful at all times! This is especially important if you are tracking revenue.
+We use this environment to distinguish between real traffic and test traffic from test devices. It is very important that you keep this value meaningful at all times!
 
 ### <a id="sdk-android-session-tracking">Session tracking on Android
 
-You need to do one additional and **really important step** when integrating Adjust SDK to your app which is related to enable proper session tracking for Android platform. After your app starts in Android environment, you should subscribe to get notifications when ever your app goes to background or comes back to foreground. In these moments, you need to add calls to `Adjust.onResume()` (once app comes to foreground) and `Adjust.onPause()` (when app goes to background).
+You need to perform one additional and **really important step** when integrating Adjust SDK to your app which is related to enable proper session tracking for Android platform. After your app starts in Android environment, you should subscribe to get notifications when ever your app goes to background or comes back to foreground. In these moments, you need to add calls to `Adjust.onResume()` (once app comes to foreground) and `Adjust.onPause()` (when app goes to background).
 
 Feel free to do subscription to these events in Android app how ever you like, but it is crucial that you do that in proper way otherwise session tracking might be affected. In our example app, we managed to do that with usage of [benCoding.Android.Tools][bencooding-android-tools] Titanium module in following way:
 
@@ -161,7 +161,7 @@ adjustConfig.setLogLevel(AdjustConfig.LogLevelSuppress);  // disable all logging
 
 ### <a id="adjust-project-settings">Adjust project settings
 
-Once the Adjust SDK has been added to your app, certain tweeks are being performed so that the Adjust SDK can work properly. Everything that is being done in this process is written in the `plugin.xml` file of the Adjust SDK plugin. Below you can find a description of every additional thing that the Adjust SDK performs after you've added it to your app.
+Once the Adjust SDK has been added to your app, certain tweeks are being performed so that the Adjust SDK can work properly. Below you can find a description of every additional thing that the Adjust SDK performs after you've added it to your app.
 
 ### <a id="android-permissions">Android permissions
 
@@ -195,7 +195,7 @@ The Adjust SDK adds Google Play Services by default to your app. This is done wi
 </manifest>
 ```
 
-If you are using other Titanium modules, they might also be importing Google Play Services by default into your app. If this is the case, Google Play Services from our SDK and other plugins can conflict and cause build time errors. Google Play Services does not have to be present in your app as part of our SDK exclusively. As long as you have the **analytics part of the Google Play Services library integrated in your app**, our SDK will be able to read all the necessary information. In case you choose to add Google Play Services into your app as part of another Cordova plugin, you can simply remove the above line from the `plugin.xml` file of our SDK.
+If you are using other Titanium modules, they might also be importing Google Play Services by default into your app. If this is the case, Google Play Services from our SDK and other modules can conflict and cause build time errors. Google Play Services does not have to be present in your app as part of our SDK exclusively. As long as you have the part of the Google Play Services library needed to read Google Play Advertising Identifier added to your app, our SDK will be able to read all the necessary information. In case you choose to add Google Play Services into your app as part of another Titanium module, you can simply remove `android/android/lib/google-play-services.jar` file, `android/android/platform/android/res` folder and `<meta-data>` entry Android `timodule.xml` file from our Android module.
 
 To check whether the analytics part of the Google Play Services library has been successfully added to your app so that the Adjust SDK can read it properly, you should start your app by configuring the SDK to run in `sandbox` mode and set the log level to `verbose`. After that, track a session or some events in your app and observe the list of parameters in the verbose logs which are being read once the session or event has been tracked. If you see a parameter called `gps_adid` in there, you have successfully added the analytics part of the Google Play Services library to your app and our SDK is reading the necessary information from it.
 
@@ -754,8 +754,6 @@ By completing this, you should be able to handle direct deep linking in **iOS 8 
 Starting from **iOS 9**, Apple has introduced suppressed support for old style deep linking with custom URL schemes like described above in favour of `universal links`. If you want to support deep linking in your app for iOS 9 and higher, you need to add support for universal links handling.
 
 First thing you need to do is to enable universal links for your app in the Adjust dashboard. Instructions on how to do that can be found in our native iOS SDK [README][enable-ulinks].
-
-After you have enabled universal links handling for your app in your dashboard, you need to add support for it in your app as well. You can achieve this by adding this [plugin][plugin-ulinks] to your cordova app. Please, read the README of this plugin, because it precisely describes what should be done in order to properly integrate it.
 
 **Note**: You can disregard any information in the README that states that you need to have a domain and website or you need to upload a file to the root of your domain. Adjust is taking care of this instead of you and you can skip this chapter of the README.
 
