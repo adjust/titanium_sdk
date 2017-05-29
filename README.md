@@ -47,6 +47,8 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
         * [Deeplinking on Android](#deeplinking-android)
         * [Deferred deeplinking scenario](#deeplinking-deferred)
         * [Reattribution via deeplinks](#deeplinking-reattribution)
+* [Troubleshooting](#troubleshooting)
+    * [I'm seeing the "The Google Play services resources were not found" error](#ts-gps-resources-not-found)
 * [License](#license)
 
 
@@ -947,6 +949,22 @@ if (OS_ANDROID) {
 ```
 
 Having added these calls, if the deeplink that opened your app contains any reattribution parameters, our SDK will pass that information to the backend, which will decide whether the user is going to be reattributed or not. As already mentioned, if a user gets reattributed, an attribution callback (if implemented) will be triggered with the new attribution value, and you will have this information in your app as well.
+
+## <a id="troubleshooting">Troubleshooting
+
+### <a id="ts-gps-resources-not-found">I'm seeing the "The Google Play services resources were not found" error
+
+You might notice error message in Appcelerator Studio Console output originating from Google Play Services library and saying following:
+
+```
+[ERROR] :  GooglePlayServicesUtil: The Google Play services resources were not found. Check your project configuration to ensure that the resources are included.
+```
+
+Even though message indicates that Google Play Services resources couldn't be found, nothing is actually wrong and version number from resources is being read correctly. Still, message is being printed for unknown reason.
+
+For the record: [Stackoverflow discussion](https://stackoverflow.com/questions/18068627/logcat-message-the-google-play-services-resources-were-not-found-check-your-pr)
+
+If you see that `gps_adid` parameter is being successfully sent with SDK packages from your Android app, it is completely safe to ignore this error message.
 
 ## <a id="license">License
 
