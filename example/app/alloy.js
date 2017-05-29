@@ -46,10 +46,10 @@ if (OS_IOS) {
 	});
 } else if (OS_ANDROID) {
 	var activity = Ti.Android.currentActivity;
-	var data = activity.getIntent().getData();
+	var url = activity.getIntent().getData();
 
-	if (data) {
-		Adjust.appWillOpenUrl(data);
+	if (url) {
+		Adjust.appWillOpenUrl(url);
 	}
 }
 
@@ -85,15 +85,15 @@ if (OS_IOS) {
         Ti.API.info("JSON response: " + eventSuccess.jsonResponse);
     });
 
-    adjustConfig.setEventTrackingFailureCallback(function(eventFailed) {
+    adjustConfig.setEventTrackingFailureCallback(function(eventFailure) {
         Ti.API.info(">>> Event tracking failed callback received");
 
-        Ti.API.info("Message: " + eventFailed.message);
-        Ti.API.info("Timestamp: " + eventFailed.timestamp);
-        Ti.API.info("Adid: " + eventFailed.adid);
-        Ti.API.info("Event token: " + eventFailed.eventToken);
-        Ti.API.info("Will retry: " + eventFailed.willRetry);
-        Ti.API.info("JSON response: " + eventFailed.jsonResponse);
+        Ti.API.info("Message: " + eventFailure.message);
+        Ti.API.info("Timestamp: " + eventFailure.timestamp);
+        Ti.API.info("Adid: " + eventFailure.adid);
+        Ti.API.info("Event token: " + eventFailure.eventToken);
+        Ti.API.info("Will retry: " + eventFailure.willRetry);
+        Ti.API.info("JSON response: " + eventFailure.jsonResponse);
     });
 
     adjustConfig.setSessionTrackingSuccessCallback(function(sessionSuccess) {
@@ -105,14 +105,14 @@ if (OS_IOS) {
         Ti.API.info("JSON response: " + sessionSuccess.jsonResponse);
     });
 
-    adjustConfig.setSessionTrackingFailureCallback(function(sessionFailed) {
+    adjustConfig.setSessionTrackingFailureCallback(function(sessionFailure) {
         Ti.API.info(">>> Session tracking failed callback received");
 
-        Ti.API.info("Message: " + sessionFailed.message);
-        Ti.API.info("Timestamp: " + sessionFailed.timestamp);
-        Ti.API.info("Adid: " + sessionFailed.adid);
-        Ti.API.info("Will retry: " + sessionFailed.willRetry);
-        Ti.API.info("JSON response: " + sessionFailed.jsonResponse);
+        Ti.API.info("Message: " + sessionFailure.message);
+        Ti.API.info("Timestamp: " + sessionFailure.timestamp);
+        Ti.API.info("Adid: " + sessionFailure.adid);
+        Ti.API.info("Will retry: " + sessionFailure.willRetry);
+        Ti.API.info("JSON response: " + sessionFailure.jsonResponse);
     });
 
     adjustConfig.setDeferredDeeplinkCallback(function(uri) {
