@@ -954,17 +954,17 @@ Having added these calls, if the deeplink that opened your app contains any reat
 
 ### <a id="ts-gps-resources-not-found">I'm seeing the "The Google Play services resources were not found" error
 
-You might notice error message in Appcelerator Studio Console output originating from Google Play Services library and saying following:
+You might notice an error message in your Appcelerator Studio Console output originating from the Google Play Services library saying the following:
 
 ```
 [ERROR] :  GooglePlayServicesUtil: The Google Play services resources were not found. Check your project configuration to ensure that the resources are included.
 ```
 
-Even though message indicates that Google Play Services resources couldn't be found, nothing is actually wrong and version number from resources is being read correctly. Still, message is being printed for unknown reason.
+Even though this message indicates that the Google Play Services resources couldn't be found, nothing is actually wrong and the version number from these resources is being read correctly. The reason for this message being printed is unknown.
 
-For the record: [Stackoverflow discussion](https://stackoverflow.com/questions/18068627/logcat-message-the-google-play-services-resources-were-not-found-check-your-pr)
+For reference: [Stackoverflow discussion](https://stackoverflow.com/questions/18068627/logcat-message-the-google-play-services-resources-were-not-found-check-your-pr)
 
-If you see that `gps_adid` parameter is being successfully sent with SDK packages from your Android app, it is completely safe to ignore this error message.
+If you see that the `gps_adid` parameter is being successfully sent with SDK packages from your Android app, it is completely safe to ignore this error message.
 
 ## <a id="license">License
 
