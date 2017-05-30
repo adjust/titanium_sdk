@@ -1,4 +1,4 @@
-### Version 4.11.0 (xxth May 2017)
+### Version 4.11.0 (30th May 2017)
 #### Added
 - **[IOS][AND]** Initial release of Titanium SDK. Supported platforms: `iOS` and `Android`.
 
