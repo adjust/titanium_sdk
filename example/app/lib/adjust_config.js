@@ -1,25 +1,25 @@
 function AdjustConfig(appToken, environment) {
-	this.sdkPrefix = "titanium4.11.0";
+    this.sdkPrefix = "titanium4.11.1";
 
     this.appToken = appToken;
     this.environment = environment;
 
-    this.logLevel = null;
-    this.userAgent = null;
-    this.delayStart = null;
-    this.processName = null;
-    this.defaultTracker = null;
+    this.logLevel = undefined;
+    this.userAgent = undefined;
+    this.delayStart = undefined;
+    this.processName = undefined;
+    this.defaultTracker = undefined;
 
-    this.sendInBackground = null;
-    this.shouldLaunchDeeplink = null;
-    this.eventBufferingEnabled = null;
+    this.sendInBackground = undefined;
+    this.shouldLaunchDeeplink = undefined;
+    this.eventBufferingEnabled = undefined;
     
-    this.attributionCallback = null;
-    this.sessionSuccessCallback = null;
-    this.sessionFailureCallback = null;
-    this.eventSuccessCallback = null;
-    this.eventFailureCallback = null;
-    this.deferredDeeplinkCallback = null;
+    this.attributionCallback = undefined;
+    this.sessionSuccessCallback = undefined;
+    this.sessionFailureCallback = undefined;
+    this.eventSuccessCallback = undefined;
+    this.eventFailureCallback = undefined;
+    this.deferredDeeplinkCallback = undefined;
 };
 
 AdjustConfig.EnvironmentSandbox = "sandbox";

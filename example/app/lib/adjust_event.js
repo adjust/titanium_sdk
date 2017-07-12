@@ -1,8 +1,8 @@
 function AdjustEvent(eventToken) {
     this.eventToken = eventToken;
-    this.revenue = null;
-    this.currency = null;
-    this.transactionId = null;
+    this.revenue = undefined;
+    this.currency = undefined;
+    this.transactionId = undefined;
     this.callbackParameters = {};
     this.partnerParameters = {};
 }
