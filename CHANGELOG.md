@@ -1,6 +1,9 @@
 ### Version 4.11.1 (17th July 2017)
+#### Added
+- [REPO] Added `adjust_config.js` and `adjust_event.js` files to `js` folder in repository.
+
 #### Fixed
-- Fixed attempts to trigger JavaScript callbacks from native iOS code if they are not implemented.
+- [iOS] Fixed attempts to trigger JavaScript callbacks from native iOS code if they are not implemented.
 
 #### Native SDKs
 - **[iOS]** [iOS@v4.11.4][ios_sdk_v4.11.4]
