@@ -1,4 +1,4 @@
-### Version 4.11.1 (xxth July 2017)
+### Version 4.11.1 (17th July 2017)
 #### Fixed
 - Fixed attempts to trigger JavaScript callbacks from native iOS code if they are not implemented.
 
