@@ -91,6 +91,8 @@ var AdjustEvent = require('adjust_event');
 var AdjustConfig = require('adjust_config');
 ```
 
+**Note**: With each SDK update, please make sure that you **update these two files as well**.
+
 ### <a id="sdk-integrate">Integrate the SDK into your app
 
 You should initialize the Adjust SDK **as soon as possible** within your application, pretty much upon app launch. Run the initialization code once per app launch: there's no need to place this code where it will be executed multiple times per app life cycle, since the Adjust SDK exists in your app as a static instance. In order to initialize the Adjust SDK in your app, please do the following:
@@ -991,13 +993,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 [callbacks-guide]:      https://docs.adjust.com/en/callbacks
 [attribution-data]:     https://github.com/adjust/sdks/blob/master/doc/attribution-data.md
 [special-partners]:     https://docs.adjust.com/en/special-partners
-[custom-url-scheme]:    https://github.com/EddyVerbruggen/Custom-URL-scheme
 [broadcast-receiver]:   https://github.com/adjust/android_sdk#sdk-broadcast-receiver
 
 [google-launch-modes]:    http://developer.android.com/guide/topics/manifest/activity-element.html#lmode
 [currency-conversion]:    https://docs.adjust.com/en/event-tracking/#tracking-purchases-in-different-currencies
 [google-play-services]:   http://developer.android.com/google/play-services/index.html
 
-[custom-url-scheme-usage]:      https://github.com/EddyVerbruggen/Custom-URL-scheme#3-usage
+[bencooding-android-tools]: 	https://github.com/benbahrenburg/benCoding.Android.Tools
 [broadcast-receiver-custom]:    https://github.com/adjust/android_sdk/blob/master/doc/english/referrer.md
 [reattribution-with-deeplinks]: https://docs.adjust.com/en/deeplinking/#manually-appending-attribution-data-to-a-deep-link
