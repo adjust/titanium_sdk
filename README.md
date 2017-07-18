@@ -993,13 +993,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 [callbacks-guide]:      https://docs.adjust.com/en/callbacks
 [attribution-data]:     https://github.com/adjust/sdks/blob/master/doc/attribution-data.md
 [special-partners]:     https://docs.adjust.com/en/special-partners
-[custom-url-scheme]:    https://github.com/EddyVerbruggen/Custom-URL-scheme
 [broadcast-receiver]:   https://github.com/adjust/android_sdk#sdk-broadcast-receiver
 
 [google-launch-modes]:    http://developer.android.com/guide/topics/manifest/activity-element.html#lmode
 [currency-conversion]:    https://docs.adjust.com/en/event-tracking/#tracking-purchases-in-different-currencies
 [google-play-services]:   http://developer.android.com/google/play-services/index.html
 
-[custom-url-scheme-usage]:      https://github.com/EddyVerbruggen/Custom-URL-scheme#3-usage
+[bencooding-android-tools]: 	https://github.com/benbahrenburg/benCoding.Android.Tools
 [broadcast-receiver-custom]:    https://github.com/adjust/android_sdk/blob/master/doc/english/referrer.md
 [reattribution-with-deeplinks]: https://docs.adjust.com/en/deeplinking/#manually-appending-attribution-data-to-a-deep-link
