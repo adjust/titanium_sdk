@@ -91,6 +91,8 @@ var AdjustEvent = require('adjust_event');
 var AdjustConfig = require('adjust_config');
 ```
 
+**Note**: With each SDK update, please make sure that you **update these two files as well**.
+
 ### <a id="sdk-integrate">Integrate the SDK into your app
 
 You should initialize the Adjust SDK **as soon as possible** within your application, pretty much upon app launch. Run the initialization code once per app launch: there's no need to place this code where it will be executed multiple times per app life cycle, since the Adjust SDK exists in your app as a static instance. In order to initialize the Adjust SDK in your app, please do the following:
