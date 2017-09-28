@@ -26,5 +26,5 @@
 // IMPORTANT NOTE: always use $(inherited) in your overrides
 // 
 
-FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.11.1/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.11.1/platform"
+FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.11.2/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.11.2/platform"
 OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework AdjustSdk -ObjC

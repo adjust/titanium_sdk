@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 4.11.1
+version: 4.11.2
 apiversion: 2
 architectures: armv7 arm64 i386 x86_64
 description: This is Titanium iOS module of the Adjust SDK.
