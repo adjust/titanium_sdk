@@ -50,6 +50,13 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 	private static final String KEY_CALLBACK_PARAMETERS = "callbackParameters";
 	private static final String KEY_SHOULD_LAUNCH_DEEPLINK = "shouldLaunchDeeplink";
 	private static final String KEY_EVENT_BUFFERING_ENABLED = "eventBufferingEnabled";
+    private static final String KEY_SECRET_ID                      = "secretId";
+    private static final String KEY_INFO_1                         = "info1";
+    private static final String KEY_INFO_2                         = "info2";
+    private static final String KEY_INFO_3                         = "info3";
+    private static final String KEY_INFO_4                         = "info4";
+    private static final String KEY_SET_DEVICE_KNOWN               = "isDeviceKnown";
+    private static final String KEY_READ_MOBILE_EQUIPMENT_IDENTITY = "readMobileEquipmentIdentity";
 	
 	private static final String KEY_ATTRIBUTION_CALLBACK = "attributionCallback";
 	private static final String KEY_SESSION_SUCCESS_CALLBACK = "sessionSuccessCallback";
@@ -107,8 +114,17 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 		boolean sendInBackground = false;
 		boolean isLogLevelSuppress = false;
         boolean eventBufferingEnabled = false;
+        boolean isDeviceKnown = false;
+        boolean readMobileEquipmentIdentity = false;
+
+        long secretId = 0L;
+        long info1    = 0L;
+        long info2    = 0L;
+        long info3    = 0L;
+        long info4    = 0L;
 
         double delayStart = 0.0;
+
 
 		@SuppressWarnings("unchecked")
 		HashMap<Object, Object> hmArgs = (HashMap<Object, Object>)args;
@@ -169,6 +185,46 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 			}
 		}
 
+		if (hmArgs.containsKey(KEY_SECRET_ID)) {
+			if (null != hmArgs.get(KEY_SECRET_ID)) {
+                try {
+				    secretId = Long.parseLong(hmArgs.get(KEY_SECRET_ID).toString(), 10);
+                } catch(NumberFormatException ignored) {}
+			}
+		}
+
+		if (hmArgs.containsKey(KEY_INFO_1)) {
+			if (null != hmArgs.get(KEY_INFO_1)) {
+                try {
+				    info1 = Long.parseLong(hmArgs.get(KEY_INFO_1).toString(), 10);
+                } catch(NumberFormatException ignored) {}
+			}
+		}
+
+		if (hmArgs.containsKey(KEY_INFO_2)) {
+			if (null != hmArgs.get(KEY_INFO_2)) {
+                try {
+				    info2 = Long.parseLong(hmArgs.get(KEY_INFO_2).toString(), 20);
+                } catch(NumberFormatException ignored) {}
+			}
+		}
+
+		if (hmArgs.containsKey(KEY_INFO_3)) {
+			if (null != hmArgs.get(KEY_INFO_3)) {
+                try {
+				    info3 = Long.parseLong(hmArgs.get(KEY_INFO_3).toString(), 30);
+                } catch(NumberFormatException ignored) {}
+			}
+		}
+
+		if (hmArgs.containsKey(KEY_INFO_4)) {
+			if (null != hmArgs.get(KEY_INFO_4)) {
+                try {
+				    info4 = Long.parseLong(hmArgs.get(KEY_INFO_4).toString(), 40);
+                } catch(NumberFormatException ignored) {}
+			}
+		}
+
 		if (hmArgs.containsKey(KEY_EVENT_BUFFERING_ENABLED)) {
 			if (null != hmArgs.get(KEY_EVENT_BUFFERING_ENABLED)) {
 				String value = hmArgs.get(KEY_EVENT_BUFFERING_ENABLED).toString();
@@ -184,6 +240,24 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 				sendInBackground = Boolean.parseBoolean(value);
 			} else {
 				sendInBackground = false;
+			}
+		}
+
+		if (hmArgs.containsKey(KEY_SET_DEVICE_KNOWN)) {
+			if (null != hmArgs.get(KEY_SET_DEVICE_KNOWN)) {
+				String value = hmArgs.get(KEY_SET_DEVICE_KNOWN).toString();
+				isDeviceKnown = Boolean.parseBoolean(value);
+			} else {
+				isDeviceKnown = false;
+			}
+		}
+
+		if (hmArgs.containsKey(KEY_READ_MOBILE_EQUIPMENT_IDENTITY)) {
+			if (null != hmArgs.get(KEY_READ_MOBILE_EQUIPMENT_IDENTITY)) {
+				String value = hmArgs.get(KEY_READ_MOBILE_EQUIPMENT_IDENTITY).toString();
+				readMobileEquipmentIdentity = Boolean.parseBoolean(value);
+			} else {
+				readMobileEquipmentIdentity = false;
 			}
 		}
 		
@@ -300,6 +374,25 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 			if (delayStart > 0) {
 				adjustConfig.setDelayStart(delayStart);
 			}
+
+            // App secret
+            adjustConfig.setAppSecret(
+                    secretId, 
+                    info1, 
+                    info2, 
+                    info3, 
+                    info4
+            );
+
+            // is Device Known
+            if (isDeviceKnown) {
+                adjustConfig.setDeviceKnown(isDeviceKnown);
+            }
+
+            // read mobile equipment identity
+            if (isDeviceKnown) {
+                adjustConfig.setReadMobileEquipmentIdentity(readMobileEquipmentIdentity);
+            }
 
 			// Attribution callback
 			if (null != jsAttributionCallback) {
@@ -514,7 +607,14 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 			}
 		});
 	}
-	
+
+	@Kroll.method
+	public void getAmazonAdId(V8Function callback) {
+		Object[] answer = { Adjust.getAmazonAdId(getActivity()) };
+
+		callback.call(getKrollObject(), answer);
+	}
+
 	@Kroll.method
 	public void getAttribution(V8Function callback) {
 		callback.call(getKrollObject(), (HashMap<String, String>)AdjustUtil.attributionToMap(Adjust.getAttribution()));
