@@ -9,49 +9,49 @@ Ti.App.addEventListener('paused', function(e) {
 	Adjust.onPause();
 });
 
-if (OS_ANDROID) {
-    var platformTools = require('bencoding.android.tools').createPlatform(),
-        wasInForeGround = true;
-
-    setInterval(function() {
-        var isInForeground = platformTools.isInForeground();
-
-        if (wasInForeGround !== isInForeground) {
-            Ti.App.fireEvent(isInForeground ? 'resumed' : 'paused');
-
-            wasInForeGround = isInForeground;
-        }
-    }, 1000);
-}
-
-if (OS_IOS) {
-	Ti.App.iOS.addEventListener('continueactivity', function(e) {
-		if (e.activityType === "NSUserActivityTypeBrowsingWeb"){
-	    	var deeplink = e.webpageURL;
-	
-			if (deeplink) {
-				Ti.API.info("URL = " + deeplink);
-				Adjust.appWillOpenUrl(deeplink);
-			}
-	  	}
-	});
-
-	Ti.App.addEventListener('resumed', function() {
-		var args = Ti.App.getArguments();
-
-		if (args.url) {
-			Ti.API.info("URL = " + args.url);
-			Adjust.appWillOpenUrl(args.url);
-		}
-	});
-} else if (OS_ANDROID) {
-	var activity = Ti.Android.currentActivity;
-	var url = activity.getIntent().getData();
-
-	if (url) {
-		Adjust.appWillOpenUrl(url);
-	}
-}
+// if (OS_ANDROID) {
+    // var platformTools = require('bencoding.android.tools').createPlatform(),
+        // wasInForeGround = true;
+// 
+    // setInterval(function() {
+        // var isInForeground = platformTools.isInForeground();
+// 
+        // if (wasInForeGround !== isInForeground) {
+            // Ti.App.fireEvent(isInForeground ? 'resumed' : 'paused');
+// 
+            // wasInForeGround = isInForeground;
+        // }
+    // }, 1000);
+// }
+// 
+// if (OS_IOS) {
+	// Ti.App.iOS.addEventListener('continueactivity', function(e) {
+		// if (e.activityType === "NSUserActivityTypeBrowsingWeb"){
+	    	// var deeplink = e.webpageURL;
+// 	
+			// if (deeplink) {
+				// Ti.API.info("URL = " + deeplink);
+				// Adjust.appWillOpenUrl(deeplink);
+			// }
+	  	// }
+	// });
+// 
+	// Ti.App.addEventListener('resumed', function() {
+		// var args = Ti.App.getArguments();
+// 
+		// if (args.url) {
+			// Ti.API.info("URL = " + args.url);
+			// Adjust.appWillOpenUrl(args.url);
+		// }
+	// });
+// } else if (OS_ANDROID) {
+	// var activity = Ti.Android.currentActivity;
+	// var url = activity.getIntent().getData();
+// 
+	// if (url) {
+		// Adjust.appWillOpenUrl(url);
+	// }
+// }
 
 (function() {
 	var adjustConfig = new AdjustConfig("2fm9gkqubvpc", AdjustConfig.EnvironmentSandbox);
