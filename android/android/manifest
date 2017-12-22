@@ -2,17 +2,17 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 4.11.2
-apiversion: 3
-architectures: armeabi-v7a x86
-description: This is Titanium Android module of the Adjust SDK.
-author: Adjust GmbH
-license: MIT License
-copyright: Copyright (c) 2012-2017 by Adjust GmbH
+version: 2.0.0
+apiversion: 4
+architectures: arm64-v8a armeabi-v7a x86
+description: adjust
+author: Your Name
+license: Specify your license
+copyright: Copyright (c) 2017 by Your Company
 
 # these should not be edited
 name: adjust
 moduleid: ti.adjust
-guid: 40276915-527c-444f-a55a-52e06228eebe
+guid: 5041a283-111b-4f37-85a6-6f2da58d8b90
 platform: android
-minsdk: 6.0.4.GA
+minsdk: 7.0.0
