@@ -1,16 +1,21 @@
 var Adjust = require('ti.adjust');
 var AdjustEvent = require('adjust_event');
+// var testmodule = require('com.adjust.testmodule');
+// 
+ // function btnTrackSimpleEventTapped(e) {
+    // testmodule.example();
+ // }
 
-function btnTrackSimpleEventTapped(e) {
-	Adjust.isEnabled(function(isEnabled) {
-        if (isEnabled) {
-			var adjustEvent = new AdjustEvent("g3mfiw");
-            Adjust.trackEvent(adjustEvent);
-        } else {
-            alert("SDK is disabled");
-        }
-    });
-}
+ function btnTrackSimpleEventTapped(e) {
+     Adjust.isEnabled(function(isEnabled) {
+         if (isEnabled) {
+             var adjustEvent = new AdjustEvent("g3mfiw");
+             Adjust.trackEvent(adjustEvent);
+         } else {
+             alert("SDK is disabled");
+         }
+     });
+ }
 
 function btnTrackRevenueEventTapped(e) {
 	Adjust.isEnabled(function(isEnabled) {

@@ -59,8 +59,8 @@ Ti.App.addEventListener('paused', function(e) {
     adjustConfig.setDelayStart(6.0);
     adjustConfig.setSendInBackground(true);
     adjustConfig.setShouldLaunchDeeplink(false);
-    // adjustConfig.setEventBufferingEnabled(true);
-    // adjustConfig.setUserAgent("little_bunny_foo_foo");
+    adjustConfig.setEventBufferingEnabled(true);
+    adjustConfig.setUserAgent("little_bunny_foo_foo");
 
     adjustConfig.setAttributionCallback(function(attribution) {
         Ti.API.info(">>> Attribution callback received");
