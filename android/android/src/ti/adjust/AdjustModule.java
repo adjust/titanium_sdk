@@ -390,7 +390,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
             }
 
             // read mobile equipment identity
-            if (isDeviceKnown) {
+            if (readMobileEquipmentIdentity) {
                 adjustConfig.setReadMobileEquipmentIdentity(readMobileEquipmentIdentity);
             }
 
