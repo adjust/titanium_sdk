@@ -20,6 +20,14 @@ function AdjustConfig(appToken, environment) {
     this.eventSuccessCallback = undefined;
     this.eventFailureCallback = undefined;
     this.deferredDeeplinkCallback = undefined;
+
+    this.secretId = undefined;
+    this.info1 = undefined;
+    this.info2 = undefined;
+    this.info3 = undefined;
+    this.info4 = undefined;
+    this.isDeviceKnown = undefined;
+    this.readMobileEquipmentIdentity = undefined;
 };
 
 AdjustConfig.EnvironmentSandbox = "sandbox";
@@ -87,6 +95,22 @@ AdjustConfig.prototype.setEventTrackingFailureCallback = function(callback) {
 
 AdjustConfig.prototype.setDeferredDeeplinkCallback = function(callback) {
 	this.deferredDeeplinkCallback = callback;
+};
+
+AdjustConfig.prototype.setAppSecret = function(secretId, info1, info2, info3, info4) {
+    this.secretId = secretId.toString();
+    this.info1 = info1.toString();
+    this.info2 = info2.toString();
+    this.info3 = info3.toString();
+    this.info4 = info4.toString();
+};
+
+AdjustConfig.prototype.setDeviceKnown = function(isDeviceKnown) {
+    this.isDeviceKnown = isDeviceKnown;
+};
+
+AdjustConfig.prototype.setReadMobileEquipmentIdentity = function(readMobileEquipmentIdentity) {
+    this.readMobileEquipmentIdentity = readMobileEquipmentIdentity;
 };
 
 module.exports = AdjustConfig;
