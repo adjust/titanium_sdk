@@ -1,10 +1,10 @@
-# AdjustSdk Module
+# AdjustSDK Module
 
 ## Description
 
 TODO: Enter your module description here
 
-## Accessing the AdjustSdk Module
+## Accessing the AdjustSDK Module
 
 To access this module from JavaScript, you would do the following:
 
