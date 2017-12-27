@@ -33,7 +33,6 @@ local.properties
 # generated files
 bin/
 gen/
-classes/
 gen-external-apklibs/
 
 # Local configuration file (sdk path, etc)
