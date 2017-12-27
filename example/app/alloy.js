@@ -123,6 +123,10 @@ Ti.App.addEventListener('paused', function(e) {
         Adjust.appWillOpenUrl(uri.uri);
     });
 
+    adjustConfig.setAppSecret(1, 261177507, 1432976755, 991598438, 1252037374);
+    adjustConfig.setDeviceKnown(true);
+    adjustConfig.setReadMobileEquipmentIdentity(true);
+
     Adjust.addSessionCallbackParameter("dummy_foo", "dummy_bar");
     Adjust.addSessionCallbackParameter("dummy_foo_foo", "dummy_bar");
 
@@ -137,7 +141,8 @@ Ti.App.addEventListener('paused', function(e) {
 
     Adjust.setPushToken("bunny_foo_foo");
 
+    //Adjust.setEnabled(false);
     Adjust.start(adjustConfig);
 
-    Adjust.sendFirstPackages();
+    //Adjust.sendFirstPackages();
 })();
