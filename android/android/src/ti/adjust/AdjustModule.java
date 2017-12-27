@@ -204,7 +204,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 		if (hmArgs.containsKey(KEY_INFO_2)) {
 			if (null != hmArgs.get(KEY_INFO_2)) {
                 try {
-				    info2 = Long.parseLong(hmArgs.get(KEY_INFO_2).toString(), 20);
+				    info2 = Long.parseLong(hmArgs.get(KEY_INFO_2).toString(), 10);
                 } catch(NumberFormatException ignored) {}
 			}
 		}
@@ -212,7 +212,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 		if (hmArgs.containsKey(KEY_INFO_3)) {
 			if (null != hmArgs.get(KEY_INFO_3)) {
                 try {
-				    info3 = Long.parseLong(hmArgs.get(KEY_INFO_3).toString(), 30);
+				    info3 = Long.parseLong(hmArgs.get(KEY_INFO_3).toString(), 10);
                 } catch(NumberFormatException ignored) {}
 			}
 		}
@@ -220,7 +220,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 		if (hmArgs.containsKey(KEY_INFO_4)) {
 			if (null != hmArgs.get(KEY_INFO_4)) {
                 try {
-				    info4 = Long.parseLong(hmArgs.get(KEY_INFO_4).toString(), 40);
+				    info4 = Long.parseLong(hmArgs.get(KEY_INFO_4).toString(), 10);
                 } catch(NumberFormatException ignored) {}
 			}
 		}
