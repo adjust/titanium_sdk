@@ -57,3 +57,7 @@ Thumbs.db
 
 # vi swap files
 *.swp
+
+# ios Xcode build directories
+ios/ios/Build/
+ios/ios/Index/
