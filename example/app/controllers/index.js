@@ -115,7 +115,7 @@ function btnGetIdsTapped(e) {
 		        Ti.API.info("Adgroup = " + attribution.adgroup);
 		        Ti.API.info("Creative = " + attribution.creative);
 		        Ti.API.info("Click label = " + attribution.clickLabel);
-		        Ti.API.info("Adid = " + attribution.adid);
+		        Ti.API.info("Attribution Adid = " + attribution.adid);
 		    });
 		    
 		    Adjust.getAdid(function(adid) {
@@ -128,6 +128,10 @@ function btnGetIdsTapped(e) {
 		
 		    Adjust.getGoogleAdId(function(googleAdId) {
 		        Ti.API.info("Google Ad Id = " + googleAdId);
+            });
+
+		    Adjust.getAmazonAdId(function(amazonAdId) {
+		        Ti.API.info("Amazon Ad Id = " + amazonAdId);
 		    });
 		    
 		    Adjust.setPushToken("bunny_foo_foo1");
