@@ -70,6 +70,7 @@
     NSNumber *sendInBackground      = [params objectForKey:@"sendInBackground"];
     NSNumber *shouldLaunchDeeplink  = [params objectForKey:@"shouldLaunchDeeplink"];
     NSNumber *eventBufferingEnabled = [params objectForKey:@"eventBufferingEnabled"];
+    NSString *isDeviceKnown         = [params objectForKey:@"isDeviceKnown"];
 
     NSString *secretId_str          = [params objectForKey:@"secretId"];
     NSString *info1_str             = [params objectForKey:@"info1"];
@@ -148,6 +149,11 @@
                                  info2:info2.unsignedIntegerValue
                                  info3:info3.unsignedIntegerValue
                                  info4:info4.unsignedIntegerValue];
+        }
+
+        // is device known
+        if ([self isFieldValid:isDeviceKnown]) {
+            [adjustConfig setIsDeviceKnown:[isDeviceKnown boolValue]];
         }
 
         // User defined callbacks
