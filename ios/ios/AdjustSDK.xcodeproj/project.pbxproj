@@ -22,9 +22,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		2004ACFF1FF3BC4C004FEA6E /* TiAdjustModuleDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2004ACFD1FF3BC4C004FEA6E /* TiAdjustModuleDelegate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		2004AD001FF3BC4C004FEA6E /* TiAdjustModuleDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 2004ACFE1FF3BC4C004FEA6E /* TiAdjustModuleDelegate.h */; };
-		2004AD021FF3BC5A004FEA6E /* AdjustSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2004AD011FF3BC5A004FEA6E /* AdjustSdk.framework */; };
+		20E26B011FF6540B00B1BE5A /* TiAdjustModuleDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 20E26AFF1FF6540B00B1BE5A /* TiAdjustModuleDelegate.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		20E26B021FF6540B00B1BE5A /* TiAdjustModuleDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 20E26B001FF6540B00B1BE5A /* TiAdjustModuleDelegate.h */; };
+		20E26B041FF6542400B1BE5A /* AdjustSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20E26B031FF6542400B1BE5A /* AdjustSdk.framework */; };
 		24DD6CF91134B3F500162E58 /* TiAdjustModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DD6CF71134B3F500162E58 /* TiAdjustModule.h */; };
 		24DD6CFA1134B3F500162E58 /* TiAdjustModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 24DD6CF81134B3F500162E58 /* TiAdjustModule.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		24DE9E1111C5FE74003F90F6 /* TiAdjustModuleAssets.h in Headers */ = {isa = PBXBuildFile; fileRef = 24DE9E0F11C5FE74003F90F6 /* TiAdjustModuleAssets.h */; };
@@ -39,14 +39,14 @@
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = AdjustSDK;
+			remoteInfo = ios;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2004ACFD1FF3BC4C004FEA6E /* TiAdjustModuleDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiAdjustModuleDelegate.m; path = Classes/TiAdjustModuleDelegate.m; sourceTree = "<group>"; };
-		2004ACFE1FF3BC4C004FEA6E /* TiAdjustModuleDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiAdjustModuleDelegate.h; path = Classes/TiAdjustModuleDelegate.h; sourceTree = "<group>"; };
-		2004AD011FF3BC5A004FEA6E /* AdjustSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdjustSdk.framework; path = platform/AdjustSdk.framework; sourceTree = "<group>"; };
+		20E26AFF1FF6540B00B1BE5A /* TiAdjustModuleDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiAdjustModuleDelegate.m; path = Classes/TiAdjustModuleDelegate.m; sourceTree = "<group>"; };
+		20E26B001FF6540B00B1BE5A /* TiAdjustModuleDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiAdjustModuleDelegate.h; path = Classes/TiAdjustModuleDelegate.h; sourceTree = "<group>"; };
+		20E26B031FF6542400B1BE5A /* AdjustSdk.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdjustSdk.framework; path = platform/AdjustSdk.framework; sourceTree = "<group>"; };
 		24DD6CF71134B3F500162E58 /* TiAdjustModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TiAdjustModule.h; path = Classes/TiAdjustModule.h; sourceTree = "<group>"; };
 		24DD6CF81134B3F500162E58 /* TiAdjustModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TiAdjustModule.m; path = Classes/TiAdjustModule.m; sourceTree = "<group>"; };
 		24DD6D1B1134B66800162E58 /* titanium.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = titanium.xcconfig; sourceTree = "<group>"; };
@@ -62,7 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2004AD021FF3BC5A004FEA6E /* AdjustSdk.framework in Frameworks */,
+				20E26B041FF6542400B1BE5A /* AdjustSdk.framework in Frameworks */,
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,7 +78,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0867D691FE84028FC02AAC07 /* AdjustSDK */ = {
+		0867D691FE84028FC02AAC07 /* ios */ = {
 			isa = PBXGroup;
 			children = (
 				08FB77AEFE84172EC02AAC07 /* Classes */,
@@ -86,13 +86,13 @@
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
 			);
-			name = AdjustSDK;
+			name = ios;
 			sourceTree = "<group>";
 		};
 		0867D69AFE84028FC02AAC07 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2004AD011FF3BC5A004FEA6E /* AdjustSdk.framework */,
+				20E26B031FF6542400B1BE5A /* AdjustSdk.framework */,
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -101,10 +101,10 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				20E26B001FF6540B00B1BE5A /* TiAdjustModuleDelegate.h */,
+				20E26AFF1FF6540B00B1BE5A /* TiAdjustModuleDelegate.m */,
 				24DE9E0F11C5FE74003F90F6 /* TiAdjustModuleAssets.h */,
 				24DE9E1011C5FE74003F90F6 /* TiAdjustModuleAssets.m */,
-				2004ACFE1FF3BC4C004FEA6E /* TiAdjustModuleDelegate.h */,
-				2004ACFD1FF3BC4C004FEA6E /* TiAdjustModuleDelegate.m */,
 				24DD6CF71134B3F500162E58 /* TiAdjustModule.h */,
 				24DD6CF81134B3F500162E58 /* TiAdjustModule.m */,
 			);
@@ -130,16 +130,16 @@
 				AA747D9F0F9514B9006C5449 /* TiAdjust_Prefix.pch in Headers */,
 				24DD6CF91134B3F500162E58 /* TiAdjustModule.h in Headers */,
 				24DE9E1111C5FE74003F90F6 /* TiAdjustModuleAssets.h in Headers */,
-				2004AD001FF3BC4C004FEA6E /* TiAdjustModuleDelegate.h in Headers */,
+				20E26B021FF6540B00B1BE5A /* TiAdjustModuleDelegate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D2AAC07D0554694100DB518D /* AdjustSDK */ = {
+		D2AAC07D0554694100DB518D /* ios */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "AdjustSDK" */;
+			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "ios" */;
 			buildPhases = (
 				D2AAC07A0554694100DB518D /* Headers */,
 				D2AAC07B0554694100DB518D /* Sources */,
@@ -149,8 +149,8 @@
 			);
 			dependencies = (
 			);
-			name = AdjustSDK;
-			productName = AdjustSDK;
+			name = ios;
+			productName = ios;
 			productReference = D2AAC07E0554694100DB518D /* libti.adjust.a */;
 			productType = "com.apple.product-type.library.static";
 		};
@@ -162,7 +162,7 @@
 			attributes = {
 				LastUpgradeCheck = 0800;
 			};
-			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AdjustSDK" */;
+			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "ios" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -172,12 +172,12 @@
 				French,
 				German,
 			);
-			mainGroup = 0867D691FE84028FC02AAC07 /* AdjustSDK */;
+			mainGroup = 0867D691FE84028FC02AAC07 /* ios */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2AAC07D0554694100DB518D /* AdjustSDK */,
+				D2AAC07D0554694100DB518D /* ios */,
 				24416B8111C4CA220047AFDD /* Build & Test */,
 			);
 		};
@@ -206,7 +206,7 @@
 			files = (
 				24DD6CFA1134B3F500162E58 /* TiAdjustModule.m in Sources */,
 				24DE9E1211C5FE74003F90F6 /* TiAdjustModuleAssets.m in Sources */,
-				2004ACFF1FF3BC4C004FEA6E /* TiAdjustModuleDelegate.m in Sources */,
+				20E26B011FF6540B00B1BE5A /* TiAdjustModuleDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,7 +215,7 @@
 /* Begin PBXTargetDependency section */
 		24416B8511C4CA280047AFDD /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D2AAC07D0554694100DB518D /* AdjustSDK */;
+			target = D2AAC07D0554694100DB518D /* ios */;
 			targetProxy = 24416B8411C4CA280047AFDD /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -408,7 +408,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "AdjustSDK" */ = {
+		1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB921F08733DC00010E9CD /* Debug */,
@@ -417,7 +417,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AdjustSDK" */ = {
+		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB922308733DC00010E9CD /* Debug */,
