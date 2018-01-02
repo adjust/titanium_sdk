@@ -8,6 +8,7 @@
 - Added `getAmazonAdId` method to `Adjust` interface.
 - Added `setAppSecret` method to `adjust_config.js` file.
 - Added `setReadMobileEquipmentIdentity` method to `adjust_config.js` file.
+- Support for Titanium 7.0.0.GA
 
 #### Native SDKs
 - **[iOS]** [iOS@v4.12.1][ios_sdk_v4.12.1]
