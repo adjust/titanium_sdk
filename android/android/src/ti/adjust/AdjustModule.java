@@ -595,6 +595,11 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 		
 		callback.call(getKrollObject(), answer);
 	}
+
+	@Kroll.method
+	public void setReferrer(String referrer) {
+		Adjust.setReferrer(referrer, getActivity());
+	}
 	
 	@Kroll.method
 	public void getGoogleAdId(final V8Function callback) {

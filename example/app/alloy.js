@@ -131,4 +131,5 @@ Ti.App.addEventListener('paused', function(e) {
     Adjust.start(adjustConfig);
 
     Adjust.sendFirstPackages();
+    Adjust.setReferrer("bunny-foo-foo");
 })();
