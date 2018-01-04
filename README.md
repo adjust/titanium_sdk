@@ -10,12 +10,15 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
    * [Add the SDK to your project](#sdk-add)
    * [Integrate the SDK into your app](#sdk-integrate)
       * [Session tracking on Android](#sdk-android-session-tracking)
-   * [Adjust logging](#adjust-logging)
+   * [Adjust logging](#sdk-logging)
    * [Adjust project settings](#adjust-project-settings)
       * [Android permissions](#android-permissions)
       * [Google Play Services](#android-gps)
       * [Proguard settings](#android-proguard)
       * [Android install referrer](#android-broadcast-receiver)
+      * [Install referrer](#android-referrer)
+          * [Google Play Referrer API](#android-referrer-gpr-api)
+          * [Google Play Store intent](#android-referrer-gps-intent)
       * [iOS frameworks](#ios-frameworks)
 * [Additional features](#additional-features)
    * [Event tracking](#event-tracking)
@@ -31,14 +34,17 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
     * [Session and event callbacks](#session-event-callbacks)
     * [Disable tracking](#disable-tracking)
     * [Offline mode](#offline-mode)
+    * [SDK signature](#sdk-signature)
     * [Event buffering](#event-buffering)
     * [Background tracking](#background-tracking)
     * [Device IDs](#device-ids)
       * [iOS advertising identifier](#di-idfa)
       * [Google Play Services advertising identifier](#di-gps-adid)
+      * [Amazon advertising identifier](#di-fire-adid)
       * [Adjust device identifier](#di-adid)
     * [User attribution](#user-attribution)
     * [Push token](#push-token)
+    * [Track additional device identifiers](#track-additional-ids)
     * [Pre-installed trackers](#pre-installed-trackers)
     * [Deeplinking](#deeplinking)
         * [Standard deeplinking scenario](#deeplinking-standard)
@@ -175,6 +181,7 @@ The Adjust SDK adds two permissions to your Android manifest file: `INTERNET` an
 <manifest>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     
     <!-- ... -->
 </manifest>
@@ -235,6 +242,8 @@ If you are using Proguard, add these lines to your Proguard file:
 -keep class android.os.LocaledList {
     java.util.Locale get(int);
 }
+
++-keep public class com.android.installreferrer.** { *; }
 ```
 
 ### <a id="android-broadcast-receiver">Android install referrer
@@ -256,6 +265,16 @@ The Adjust install referrer broadcast receiver is added to your app by default. 
 ```
 
 Please bear in mind that, if you are using your own broadcast receiver which handles the `INSTALL_REFERRER` intent, you don't need the Adjust broadcast receiver to be added to your manifest file. You can remove it, but, inside your own receiver, add the call to the Adjust broadcast receiver as described in our [Android guide][broadcast-receiver-custom].
+
+### <a id="android-referrer"></a>Install referrer
+ 
+In order to correctly attribute an install of your Android app to its source, Adjust needs information about the **install referrer**. This can be obtained by using the **Google Play Referrer API** or by catching the **Google Play Store intent** with a broadcast receiver.
+ 
+**Important**: The Google Play Referrer API is newly introduced by Google with the express purpose of providing a more reliable and secure way of obtaining install referrer information and to aid attribution providers in the fight against click injection. It is **strongly advised** that you support this in your application. The Google Play Store intent is a less secure way of obtaining install referrer information. It will continue to exist in parallel with the new Google Play Referrer API temporarily, but it is set to be deprecated in future.
+ 
+#### <a id="android-referrer-gpr-api"></a>Google Play Referrer API
+ 
+TODO
 
 ### <a id="ios-frameworks">iOS frameworks
 
@@ -586,6 +605,22 @@ Conversely, you can deactivate offline mode by calling `setOfflineMode` with`fal
 
 Unlike disabling tracking, **this setting is not remembered** between sessions. This means that the SDK is in online mode whenever it is started, even if the app was terminated in offline mode.
 
+### <a id="sdk-signature"></a>SDK signature
+ 
+An account manager must activate the Adjust SDK signature. Contact Adjust support (support@adjust.com) if you are interested in using this feature.
+ 
+If the SDK signature has already been enabled on your account and you have access to App Secrets in your Adjust Dashboard, please use the method below to integrate the SDK signature into your app.
+
+An App Secret is set by passing all secret parameters (`secretId`, `info1`, `info2`, `info3`, `info4`) to `setAppSecret` method of `AdjustConfig` instance:
+
+```js
+var adjustConfig = new AdjustConfig(appToken, environment);
+
+adjustConfig.setAppSecret(secretId, info1, info2, info3, info4);
+
+Adjust.create(adjustConfig);
+```
+
 ### <a id="event-buffering">Event buffering
 
 If your app makes heavy use of event tracking, you might want to delay some HTTP requests in order to send them in one batch every minute. You can enable event buffering with your `AdjustConfig` instance by calling the `setEventBufferingEnabled` method:
@@ -639,6 +674,16 @@ Adjust.getGoogleAdId(function(googleAdId) {
 
 Inside the callback method you will have access to the Google advertising ID through the `googleAdId` variable.
 
+### <a id="di-fire-adid"></a>Amazon advertising identifier
+
+If you need to obtain the Amazon advertising ID, you can call the `getAmazonAdId` method on `Adjust` instance:
+
+```js
+Adjust.getAmazonAdId(function(amazonAdId) {
+    // Use amazonAdId value.
+});
+```
+
 ### <a id="di-adid"></a>Adjust device identifier
 
 For every device with your app installed on it, the Adjust backend generates a unique **Adjust device identifier** (**adid**). In order to obtain this identifier, call the `getAdid` method of the `Adjust` instance. You need to pass a callback to that method in order to obtain the value:
@@ -670,6 +715,26 @@ To send us the push notification token, add the following call to Adjust **whene
 ```js
 Adjust.setPushToken("YourPushNotificationToken");
 ```
+
+### <a id="track-additional-ids"></a>Track additional device identifiers
+
+If you are distributing your Android app **outside of the Google Play Store** and would like to track additional device identifiers (IMEI and MEID), you need to explicitly instruct the Adjust SDK to do so. You can do that by calling the `setReadMobileEquipmentIdentity` method of the `AdjustConfig` instance. **The Adjust SDK does not collect these identifiers by default**.
+
+```js
+var adjustConfig = new AdjustConfig(appToken, environment);
+
+adjustConfig.setReadMobileEquipmentIdentity(true);
+
+Adjust.create(adjustConfig);
+```
+
+You will also need to add the `READ_PHONE_STATE` permission to your `AndroidManifest.xml` file:
+
+```xml
+<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+```
+
+In order to use this feature, additional steps are required within your Adjust Dashboard. For more information, please contact your dedicated account manager or write an email to support@adjust.com.
 
 ### <a id="pre-installed-trackers">Pre-installed trackers
 
@@ -972,7 +1037,7 @@ If you see that the `gps_adid` parameter is being successfully sent with SDK pac
 
 The Adjust SDK is licensed under the MIT License.
 
-Copyright (c) 2012-2017 Adjust GmbH, http://www.adjust.com
+Copyright (c) 2012-2018 Adjust GmbH, http://www.adjust.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -993,7 +1058,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 [callbacks-guide]:      https://docs.adjust.com/en/callbacks
 [attribution-data]:     https://github.com/adjust/sdks/blob/master/doc/attribution-data.md
 [special-partners]:     https://docs.adjust.com/en/special-partners
-[broadcast-receiver]:   https://github.com/adjust/android_sdk#sdk-broadcast-receiver
+[broadcast-receiver]:   https://github.com/adjust/android_sdk#gps-intent
 
 [google-launch-modes]:    http://developer.android.com/guide/topics/manifest/activity-element.html#lmode
 [currency-conversion]:    https://docs.adjust.com/en/event-tracking/#tracking-purchases-in-different-currencies
