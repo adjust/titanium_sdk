@@ -60,3 +60,9 @@ Thumbs.db
 # ios Xcode build directories
 ios/ios/Build/
 ios/ios/Index/
+
+# custom
+**/libti.adjust.so 
+**/.classpath
+**/.settings/
+**/dist/*
