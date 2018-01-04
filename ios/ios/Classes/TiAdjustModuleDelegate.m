@@ -1,10 +1,10 @@
-//
-//  TiAdjustModuleDelegate.m
-//  AdjustSdk
-//
-//  Created by Uglješa Erceg on 18.05.17.
-//
-//
+/**
+ * TiAdjustModuleDelegate.m
+ * Adjust Sdk
+ *
+ * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+ * Copyright (c) 2012-2018 GmbH. All rights reserved.
+ */
 
 #import <objc/runtime.h>
 
