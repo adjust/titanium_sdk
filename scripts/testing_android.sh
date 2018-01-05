@@ -12,6 +12,9 @@ RED='\033[0;31m' # Red color
 GREEN='\033[0;32m' # Green color
 NC='\033[0m' # No Color
 
+echo -e "${GREEN}>>> Setting Titanium SDK to 7.0.0.GA ${NC}"
+appc ti sdk select 7.0.0.GA
+
 echo -e "${GREEN}>>> Removing ios module from $TITANIUM_SUPPORT_PATH ${NC}"
 rm -rf "${TITANIUM_SUPPORT_PATH}"/modules/android/ti.adjust/*
 
