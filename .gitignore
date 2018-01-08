@@ -66,3 +66,5 @@ ios/ios/Index/
 **/.classpath
 **/.settings/
 **/dist/*
+**/AdjustSdk.framework
+**/ti.adjust-*.zip
