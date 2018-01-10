@@ -310,7 +310,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
             }
         }
 
-        AdjustConfig adjustConfig = new AdjustConfig(getActivity(), appToken, environment, isLogLevelSuppress);
+        AdjustConfig adjustConfig = new AdjustConfig(getActivity().getApplication(), appToken, environment, isLogLevelSuppress);
 
         if (adjustConfig.isValid()) {
             // Log level
@@ -597,12 +597,12 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 
     @Kroll.method
     public void setReferrer(String referrer) {
-        Adjust.setReferrer(referrer, getActivity());
+        Adjust.setReferrer(referrer, getActivity().getApplication());
     }
     
     @Kroll.method
     public void getGoogleAdId(final V8Function callback) {
-        Adjust.getGoogleAdId(getActivity(), new OnDeviceIdsRead() { 
+        Adjust.getGoogleAdId(getActivity().getApplication(), new OnDeviceIdsRead() { 
             @Override
             public void onGoogleAdIdRead(String gpsAdId) {
                 Object[] answer = { gpsAdId };
@@ -614,7 +614,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 
     @Kroll.method
     public void getAmazonAdId(V8Function callback) {
-        Object[] answer = { Adjust.getAmazonAdId(getActivity()) };
+        Object[] answer = { Adjust.getAmazonAdId(getActivity().getApplication()) };
 
         callback.call(getKrollObject(), answer);
     }
