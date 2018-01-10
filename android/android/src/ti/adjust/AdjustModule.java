@@ -116,11 +116,11 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         boolean isDeviceKnown               = false;
         boolean readMobileEquipmentIdentity = false;
 
-        long secretId = 0L;
-        long info1    = 0L;
-        long info2    = 0L;
-        long info3    = 0L;
-        long info4    = 0L;
+        long secretId = -1L;
+        long info1    = -1L;
+        long info2    = -1L;
+        long info3    = -1L;
+        long info4    = -1L;
 
         double delayStart = 0.0;
 
@@ -370,12 +370,18 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 			}
 
             // App secret
-            adjustConfig.setAppSecret(
-                    secretId, 
-                    info1, 
-                    info2, 
-                    info3, 
-                    info4);
+            if (secretId != -1 
+                    && info1 != -1
+                    && info2 != -1
+                    && info3 != -1
+                    && info4 != -1) {
+                adjustConfig.setAppSecret(
+                        secretId, 
+                        info1, 
+                        info2, 
+                        info3, 
+                        info4);
+                    }
 
             // is Device Known
             if (isDeviceKnown) {
