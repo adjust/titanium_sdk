@@ -1,3 +1,11 @@
+/**
+ * adjust_config.js
+ * Adjust Sdk
+ *
+ * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+ * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
+ */
+
 function AdjustConfig(appToken, environment) {
     this.sdkPrefix = "titanium4.12.0";
 

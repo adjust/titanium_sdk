@@ -1,3 +1,11 @@
+/**
+ * adjust_event.js
+ * Adjust Sdk
+ *
+ * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+ * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
+ */
+
 function AdjustEvent(eventToken) {
     this.eventToken = eventToken;
     this.revenue = undefined;
