@@ -2,11 +2,11 @@ var Adjust = require('ti.adjust');
 var AdjustConfig = require('adjust_config');
 
 Ti.App.addEventListener('resumed', function(e) {
-	Adjust.onResume();
+    Adjust.onResume();
 });
 
 Ti.App.addEventListener('paused', function(e) {
-	Adjust.onPause();
+    Adjust.onPause();
 });
 
  if (OS_IOS) {
@@ -40,7 +40,7 @@ Ti.App.addEventListener('paused', function(e) {
  }
 
 (function() {
-	var adjustConfig = new AdjustConfig("2fm9gkqubvpc", AdjustConfig.EnvironmentSandbox);
+    var adjustConfig = new AdjustConfig("2fm9gkqubvpc", AdjustConfig.EnvironmentSandbox);
     adjustConfig.setLogLevel(AdjustConfig.LogLevelVerbose);
     adjustConfig.setDelayStart(6.0);
     adjustConfig.setSendInBackground(true);

@@ -68,7 +68,7 @@ final class AdjustUtil {
     }
 
     public static Map<String, String> eventSuccessToMap(AdjustEventSuccess eventSuccess) {
-    	HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<String, String>();
 
         if (null == eventSuccess) {
             return map;
@@ -84,7 +84,7 @@ final class AdjustUtil {
     }
 
     public static Map<String, String> eventFailureToMap(AdjustEventFailure eventFailure) {
-    	HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<String, String>();
 
         if (null == eventFailure) {
             return map;
@@ -101,7 +101,7 @@ final class AdjustUtil {
     }
 
     public static Map<String, String> sessionSuccessToMap(AdjustSessionSuccess sessionSuccess) {
-    	HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<String, String>();
 
         if (null == sessionSuccess) {
             return map;
@@ -116,7 +116,7 @@ final class AdjustUtil {
     }
 
     public static Map<String, String> sessionFailureToMap(AdjustSessionFailure sessionFailure) {
-    	HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<String, String>();
 
         if (null == sessionFailure) {
             return map;
@@ -132,7 +132,7 @@ final class AdjustUtil {
     }
 
     public static Map<String, String> deferredDeeplinkToMap(Uri uri) {
-    	HashMap<String, String> map = new HashMap<String, String>();
+        HashMap<String, String> map = new HashMap<String, String>();
 
         if (null == uri) {
             return map;

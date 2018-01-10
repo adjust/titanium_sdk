@@ -54,11 +54,11 @@ AdjustConfig.prototype.setLogLevel = function(logLevel) {
 };
 
 AdjustConfig.prototype.setUserAgent = function(userAgent) {
-	this.userAgent = userAgent;
+    this.userAgent = userAgent;
 };
 
 AdjustConfig.prototype.setDelayStart = function(delayStart) {
-	this.delayStart = delayStart;
+    this.delayStart = delayStart;
 };
 
 AdjustConfig.prototype.setProcessName = function(processName) {
@@ -70,11 +70,11 @@ AdjustConfig.prototype.setDefaultTracker = function(defaultTracker) {
 };
 
 AdjustConfig.prototype.setSendInBackground = function(shouldSend) {
-	this.sendInBackground = shouldSend;
+    this.sendInBackground = shouldSend;
 };
 
 AdjustConfig.prototype.setShouldLaunchDeeplink = function(shouldLaunch) {
-	this.shouldLaunchDeeplink = shouldLaunch;
+    this.shouldLaunchDeeplink = shouldLaunch;
 };
 
 AdjustConfig.prototype.setEventBufferingEnabled = function(isEnabled) {
@@ -102,7 +102,7 @@ AdjustConfig.prototype.setEventTrackingFailureCallback = function(callback) {
 };
 
 AdjustConfig.prototype.setDeferredDeeplinkCallback = function(callback) {
-	this.deferredDeeplinkCallback = callback;
+    this.deferredDeeplinkCallback = callback;
 };
 
 AdjustConfig.prototype.setAppSecret = function(secretId, info1, info2, info3, info4) {
