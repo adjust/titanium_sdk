@@ -182,6 +182,7 @@ The Adjust SDK adds two permissions to your Android manifest file: `INTERNET` an
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" /> 
     
     <!-- ... -->
 </manifest>
