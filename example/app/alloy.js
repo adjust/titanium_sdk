@@ -9,6 +9,21 @@ Ti.App.addEventListener('paused', function(e) {
     Adjust.onPause();
 });
 
+if (OS_ANDROID) {
+    var platformTools = require('bencoding.android.tools').createPlatform(),
+        wasInForeGround = true;
+
+    setInterval(function() {
+        var isInForeground = platformTools.isInForeground();
+
+        if (wasInForeGround !== isInForeground) {
+            Ti.App.fireEvent(isInForeground ? 'resumed' : 'paused');
+
+            wasInForeGround = isInForeground;
+        }
+    }, 1000);
+}
+
  if (OS_IOS) {
      Ti.App.iOS.addEventListener('continueactivity', function(e) {
          if (e.activityType === "NSUserActivityTypeBrowsingWeb"){
@@ -44,9 +59,11 @@ Ti.App.addEventListener('paused', function(e) {
     adjustConfig.setLogLevel(AdjustConfig.LogLevelVerbose);
     adjustConfig.setDelayStart(6.0);
     adjustConfig.setSendInBackground(true);
-    adjustConfig.setShouldLaunchDeeplink(false);
-    adjustConfig.setEventBufferingEnabled(true);
-    adjustConfig.setUserAgent("little_bunny_foo_foo");
+    adjustConfig.setShouldLaunchDeeplink(true);
+    adjustConfig.setUserAgent("Adjust Custom UA");
+    // adjustConfig.setAppSecret(1, 552143313, 465657129, 437714723, 1932667013);
+    adjustConfig.setDeviceKnown(true);
+    // adjustConfig.setEventBufferingEnabled(true);
 
     adjustConfig.setAttributionCallback(function(attribution) {
         Ti.API.info(">>> Attribution callback received");
@@ -109,27 +126,19 @@ Ti.App.addEventListener('paused', function(e) {
         Adjust.appWillOpenUrl(uri.uri);
     });
 
-    adjustConfig.setAppSecret(1, 552143313, 465657129, 437714723, 1932667013);
-    adjustConfig.setDeviceKnown(true);
-    adjustConfig.setReadMobileEquipmentIdentity(true);
+    Adjust.addSessionCallbackParameter("scp1", "scpv1");
+    Adjust.addSessionCallbackParameter("scp2", "scpv2");
 
-    Adjust.addSessionCallbackParameter("dummy_foo", "dummy_bar");
-    Adjust.addSessionCallbackParameter("dummy_foo_foo", "dummy_bar");
+    Adjust.addSessionPartnerParameter("spp1", "sppv1");
+    Adjust.addSessionPartnerParameter("spp2", "sppv2");
 
-    Adjust.addSessionPartnerParameter("dummy_foo", "dummy_bar");
-    Adjust.addSessionPartnerParameter("dummy_foo_foo", "dummy_bar");
+    Adjust.removeSessionCallbackParameter("scp1");
+    Adjust.removeSessionPartnerParameter("spp1");
 
-    Adjust.removeSessionCallbackParameter("dummy_foo");
-    Adjust.removeSessionPartnerParameter("dummy_foo");
+    // Adjust.resetSessionCallbackParameters();
+    // Adjust.resetSessionPartnerParameters();
 
-    Adjust.resetSessionCallbackParameters();
-    Adjust.resetSessionPartnerParameters();
-
-    Adjust.setPushToken("bunny_foo_foo");
-
-    Adjust.setEnabled(false);
     Adjust.start(adjustConfig);
 
     Adjust.sendFirstPackages();
-    Adjust.setReferrer("bunny-foo-foo");
 })();
