@@ -73,12 +73,12 @@
     NSNumber *eventBufferingEnabled = [params objectForKey:@"eventBufferingEnabled"];
     NSString *isDeviceKnown         = [params objectForKey:@"isDeviceKnown"];
 
-    NSString *secretId_str          = [params objectForKey:@"secretId"];
-    NSString *info1_str             = [params objectForKey:@"info1"];
-    NSString *info2_str             = [params objectForKey:@"info2"];
-    NSString *info3_str             = [params objectForKey:@"info3"];
-    NSString *info4_str             = [params objectForKey:@"info4"];
-    
+    NSString *secretId              = [params objectForKey:@"secretId"];
+    NSString *info1                 = [params objectForKey:@"info1"];
+    NSString *info2                 = [params objectForKey:@"info2"];
+    NSString *info3                 = [params objectForKey:@"info3"];
+    NSString *info4                 = [params objectForKey:@"info4"];
+
     self.jsAttributionCallback      = [[params objectForKey:@"attributionCallback"] retain];
     self.jsSessionSuccessCallback   = [[params objectForKey:@"sessionSuccessCallback"] retain];
     self.jsSessionFailureCallback   = [[params objectForKey:@"sessionFailureCallback"] retain];
@@ -133,24 +133,17 @@
         }
 
         // App Secret
-        if ([self isFieldValid:secretId_str]
-            && [self isFieldValid:info1_str]
-            && [self isFieldValid:info2_str]
-            && [self isFieldValid:info3_str]
-            && [self isFieldValid:info4_str]
-            ) {
-            NSNumber *secretId = [NSNumber numberWithLongLong: [secretId_str longLongValue]];
-            NSNumber *info1 = [NSNumber numberWithLongLong: [info1_str longLongValue]];
-            NSNumber *info2 = [NSNumber numberWithLongLong: [info2_str longLongValue]];
-            NSNumber *info3 = [NSNumber numberWithLongLong: [info3_str longLongValue]];
-            NSNumber *info4 = [NSNumber numberWithLongLong: [info4_str longLongValue]];
-
-            [adjustConfig setAppSecret:secretId.unsignedIntegerValue
-                                info1:info1.unsignedIntegerValue
-                                 info2:info2.unsignedIntegerValue
-                                 info3:info3.unsignedIntegerValue
-                                 info4:info4.unsignedIntegerValue];
-        }
+    if ([self isFieldValid:secretId]
+        && [self isFieldValid:info1]
+        && [self isFieldValid:info2]
+        && [self isFieldValid:info3]
+        && [self isFieldValid:info4]) {
+        [adjustConfig setAppSecret:[[NSNumber numberWithLongLong:[secretId longLongValue]] unsignedIntegerValue]
+                             info1:[[NSNumber numberWithLongLong:[info1 longLongValue]] unsignedIntegerValue]
+                             info2:[[NSNumber numberWithLongLong:[info2 longLongValue]] unsignedIntegerValue]
+                             info3:[[NSNumber numberWithLongLong:[info3 longLongValue]] unsignedIntegerValue]
+                             info4:[[NSNumber numberWithLongLong:[info4 longLongValue]] unsignedIntegerValue]];
+    }
 
         // is device known
         if ([self isFieldValid:isDeviceKnown]) {
