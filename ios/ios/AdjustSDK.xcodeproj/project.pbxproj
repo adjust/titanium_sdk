@@ -162,7 +162,7 @@
 			attributes = {
 				LastUpgradeCheck = 0800;
 			};
-			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AdjustSdk" */;
+			buildConfigurationList = 1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AdjustSDK" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -248,6 +248,11 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(TITANIUM_SDK)/iphone/include\"",
+					"\"$(TITANIUM_SDK)/iphone/include/TiCore\"",
+					"\"$(TITANIUM_SDK)/iphone/include/JavaScriptCore\"",
+				);
 				INSTALL_PATH = /usr/local/lib;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";
@@ -296,6 +301,11 @@
 				GCC_WARN_UNUSED_PARAMETER = NO;
 				GCC_WARN_UNUSED_VALUE = NO;
 				GCC_WARN_UNUSED_VARIABLE = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(TITANIUM_SDK)/iphone/include\"",
+					"\"$(TITANIUM_SDK)/iphone/include/TiCore\"",
+					"\"$(TITANIUM_SDK)/iphone/include/JavaScriptCore\"",
+				);
 				INSTALL_PATH = /usr/local/lib;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = "";
@@ -417,7 +427,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AdjustSdk" */ = {
+		1DEB922208733DC00010E9CD /* Build configuration list for PBXProject "AdjustSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DEB922308733DC00010E9CD /* Debug */,
