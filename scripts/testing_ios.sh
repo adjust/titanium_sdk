@@ -32,4 +32,6 @@ appc ti build --build-only
 echo -e "${GREEN}>>> Unzip module to $TITANIUM_SUPPORT_PATH ${NC}"
 unzip -oq ti.adjust*.zip -d "$TITANIUM_SUPPORT_PATH"
 
-echo -e "${GREEN}>>> Built successfully. Run from IDE ${NC}"
+echo -e "${GREEN}>>> Built successfully. Run from IDE or: ${NC}"
+echo -e "${GREEN}>>> Simulator: \`cd example; appc ti build -p ios -T simulator\` ${NC}"
+echo -e "${GREEN}>>> Device: \`cd example; appc ti build -p ios -T device\` ${NC}"

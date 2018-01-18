@@ -37,4 +37,6 @@ appc ti build --build-only
 echo -e "${GREEN}>>> Unzip module to $TITANIUM_SUPPORT_PATH ${NC}"
 unzip -oq dist/ti.adjust*.zip -d "$TITANIUM_SUPPORT_PATH"
 
-echo -e "${GREEN}>>> Built successfully. Run from IDE ${NC}"
+echo -e "${GREEN}>>> Built successfully. Run from IDE or: ${NC}"
+echo -e "${GREEN}>>> Emulator: \`cd example; appc ti build -p android -T emulator\` ${NC}"
+echo -e "${GREEN}>>> Device: \`cd example; appc ti build -p android -T device\` ${NC}"
