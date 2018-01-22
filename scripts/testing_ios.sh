@@ -16,7 +16,7 @@ echo -e "${GREEN}>>> Setting Titanium SDK to 7.0.0.GA ${NC}"
 appc ti sdk select 7.0.0.GA
 
 echo -e "${GREEN}>>> Removing ios module from $TITANIUM_SUPPORT_PATH ${NC}"
-rm -rf "${TITANIUM_SUPPORT_PATH}"/modules/iphone/ti.adjust/*
+rm -rf "${TITANIUM_SUPPORT_PATH}"/modules/iphone/ti.adjust
 
 echo -e "${GREEN}>>> Cleaning project ${NC}"
 cd ${ROOT_DIR}
