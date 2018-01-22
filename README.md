@@ -255,7 +255,10 @@ The Adjust install referrer broadcast receiver is added to your app by default. 
 <manifest>
     <!-- ... -->
     <application>
-        <receiver android:name="com.adjust.sdk.AdjustReferrerReceiver" android:exported="true">
+        <receiver
+            android:name="com.adjust.sdk.AdjustReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
