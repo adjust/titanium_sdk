@@ -13,7 +13,9 @@
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
             <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
             <application>
-                <receiver android:name="com.adjust.sdk.AdjustReferrerReceiver" android:exported="true">
+                <receiver android:name="com.adjust.sdk.AdjustReferrerReceiver" 
+                    android:permission="android.permission.INSTALL_PACKAGES"
+                    android:exported="true">
                     <intent-filter>
                         <action android:name="com.android.vending.INSTALL_REFERRER" />
                     </intent-filter>
