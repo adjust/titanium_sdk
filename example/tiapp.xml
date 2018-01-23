@@ -79,6 +79,7 @@
     </android>
     <modules>
         <module platform="android">ti.adjust</module>
+        <module platform="android">bencoding.android.tools</module>
         <module platform="iphone">ti.adjust</module>
     </modules>
     <deployment-targets>
