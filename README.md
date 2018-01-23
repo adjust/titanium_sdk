@@ -15,7 +15,6 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
       * [Android permissions](#android-permissions)
       * [Google Play Services](#android-gps)
       * [Proguard settings](#android-proguard)
-      * [Android install referrer](#android-broadcast-receiver)
       * [Install referrer](#android-referrer)
           * [Google Play Referrer API](#android-referrer-gpr-api)
           * [Google Play Store intent](#android-referrer-gps-intent)
@@ -237,7 +236,7 @@ If you are using Proguard, add these lines to your Proguard file:
     java.lang.String CPU_ABI;
 }
 -keep class android.content.res.Configuration {
-    android.os.LocaledList getLocales();
+    android.os.LocaleList getLocales();
     java.util.Locale locale;
 }
 -keep class android.os.LocaledList {
@@ -247,7 +246,19 @@ If you are using Proguard, add these lines to your Proguard file:
 +-keep public class com.android.installreferrer.** { *; }
 ```
 
-### <a id="android-broadcast-receiver">Android install referrer
+### <a id="android-referrer"></a>Install referrer
+
+In order to correctly attribute an install of your Android app to its source, Adjust needs information about the **install referrer**. This can be obtained by using the **Google Play Referrer API** or by catching the **Google Play Store intent** with a broadcast receiver.
+
+**Important**: The Google Play Referrer API is newly introduced by Google with the express purpose of providing a more reliable and secure way of obtaining install referrer information and to aid attribution providers in the fight against click injection. It is **strongly advised** that you support this in your application. The Google Play Store intent is a less secure way of obtaining install referrer information. It will continue to exist in parallel with the new Google Play Referrer API temporarily, but it is set to be deprecated in future.
+
+#### <a id="android-referrer-gpr-api"></a>Google Play Referrer API
+
+Adjust SDK adds Google's Play Referrer API and the necessary permissions to your app by default.
+
+This feature is supported if you are using the **Adjust SDK v4.12.0 or above**.
+
+#### <a id="android-referrer-gps-intent"></a>Google Play Store intent
 
 The Adjust install referrer broadcast receiver is added to your app by default. For more information, you can check our native [Android SDK README][broadcast-receiver]. You can find this setting in the `timodule.xml` file of the Adjust SDK Android module:
 
@@ -255,10 +266,10 @@ The Adjust install referrer broadcast receiver is added to your app by default. 
 <manifest>
     <!-- ... -->
     <application>
-        <receiver
-            android:name="com.adjust.sdk.AdjustReferrerReceiver"
+        <receiver 
+            android:name="com.adjust.sdk.AdjustReferrerReceiver" 
             android:permission="android.permission.INSTALL_PACKAGES"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
@@ -269,16 +280,6 @@ The Adjust install referrer broadcast receiver is added to your app by default. 
 ```
 
 Please bear in mind that, if you are using your own broadcast receiver which handles the `INSTALL_REFERRER` intent, you don't need the Adjust broadcast receiver to be added to your manifest file. You can remove it, but, inside your own receiver, add the call to the Adjust broadcast receiver as described in our [Android guide][broadcast-receiver-custom].
-
-### <a id="android-referrer"></a>Install referrer
- 
-In order to correctly attribute an install of your Android app to its source, Adjust needs information about the **install referrer**. This can be obtained by using the **Google Play Referrer API** or by catching the **Google Play Store intent** with a broadcast receiver.
- 
-**Important**: The Google Play Referrer API is newly introduced by Google with the express purpose of providing a more reliable and secure way of obtaining install referrer information and to aid attribution providers in the fight against click injection. It is **strongly advised** that you support this in your application. The Google Play Store intent is a less secure way of obtaining install referrer information. It will continue to exist in parallel with the new Google Play Referrer API temporarily, but it is set to be deprecated in future.
- 
-#### <a id="android-referrer-gpr-api"></a>Google Play Referrer API
- 
-TODO
 
 ### <a id="ios-frameworks">iOS frameworks
 
