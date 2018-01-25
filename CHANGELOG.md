@@ -5,9 +5,10 @@
 - **[AND]** https://github.com/adjust/android_sdk/blob/master/CHANGELOG.md#version-4120-13th-december-2017
 
 #### Added
-- Added `getAmazonAdId` method to `Adjust` interface.
-- Added `setAppSecret` method to `adjust_config.js` file.
-- Added `setReadMobileEquipmentIdentity` method to `adjust_config.js` file.
+- **[AND]** Added support for new Google referrer API (https://developer.android.com/google/play/installreferrer/library.html).
+- **[AND]** Added `getAmazonAdId` method to `Adjust` interface.
+- **[AND]** Added `setReadMobileEquipmentIdentity` method to `adjust_config.js` file.
+- **[AND][iOS]** Added `setAppSecret` method to `adjust_config.js` file.
 - Support for Titanium 7.0.0.GA
 
 #### Native SDKs
@@ -15,7 +16,6 @@
 - **[AND]** [Android@v4.12.0][android_sdk_v4.12.0]
 
 ---
-
 
 ### Version 4.11.2 (28th September 2017)
 #### Added
