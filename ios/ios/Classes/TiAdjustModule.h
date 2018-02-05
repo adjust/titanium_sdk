@@ -20,4 +20,3 @@
 @property (nonatomic, assign) KrollCallback *jsDeferredDeeplinkCallback;
 
 @end
-

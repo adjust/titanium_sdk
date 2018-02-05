@@ -52,7 +52,6 @@
     [super didReceiveMemoryWarning:notification];
 }
 
-
 #pragma - Public APIs
 
 - (void)start:(id)args {
@@ -132,20 +131,20 @@
             [adjustConfig setDelayStart:[delayStart doubleValue]];
         }
 
-        // App Secret
-    if ([self isFieldValid:secretId]
-        && [self isFieldValid:info1]
-        && [self isFieldValid:info2]
-        && [self isFieldValid:info3]
-        && [self isFieldValid:info4]) {
-        [adjustConfig setAppSecret:[[NSNumber numberWithLongLong:[secretId longLongValue]] unsignedIntegerValue]
-                             info1:[[NSNumber numberWithLongLong:[info1 longLongValue]] unsignedIntegerValue]
-                             info2:[[NSNumber numberWithLongLong:[info2 longLongValue]] unsignedIntegerValue]
-                             info3:[[NSNumber numberWithLongLong:[info3 longLongValue]] unsignedIntegerValue]
-                             info4:[[NSNumber numberWithLongLong:[info4 longLongValue]] unsignedIntegerValue]];
-    }
+        // App secret
+        if ([self isFieldValid:secretId]
+            && [self isFieldValid:info1]
+            && [self isFieldValid:info2]
+            && [self isFieldValid:info3]
+            && [self isFieldValid:info4]) {
+            [adjustConfig setAppSecret:[[NSNumber numberWithLongLong:[secretId longLongValue]] unsignedIntegerValue]
+                                 info1:[[NSNumber numberWithLongLong:[info1 longLongValue]] unsignedIntegerValue]
+                                 info2:[[NSNumber numberWithLongLong:[info2 longLongValue]] unsignedIntegerValue]
+                                 info3:[[NSNumber numberWithLongLong:[info3 longLongValue]] unsignedIntegerValue]
+                                 info4:[[NSNumber numberWithLongLong:[info4 longLongValue]] unsignedIntegerValue]];
+        }
 
-        // is device known
+        // Is device known
         if ([self isFieldValid:isDeviceKnown]) {
             [adjustConfig setIsDeviceKnown:[isDeviceKnown boolValue]];
         }
@@ -402,4 +401,3 @@
 }
 
 @end
-
