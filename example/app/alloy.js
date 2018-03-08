@@ -61,7 +61,6 @@ if (OS_ANDROID) {
     adjustConfig.setSendInBackground(true);
     adjustConfig.setShouldLaunchDeeplink(true);
     adjustConfig.setUserAgent("Adjust Custom UA");
-    // adjustConfig.setAppSecret(1, 552143313, 465657129, 437714723, 1932667013);
     adjustConfig.setDeviceKnown(true);
     // adjustConfig.setEventBufferingEnabled(true);
 

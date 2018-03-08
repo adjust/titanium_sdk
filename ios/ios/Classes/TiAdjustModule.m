@@ -33,7 +33,7 @@
     // This method is called when the module is first loaded
     // You *must* call the superclass
     [super startup];
-    
+
     NSLog(@"[INFO] %@ loaded",self);
 }
 
@@ -84,48 +84,48 @@
     self.jsEventSuccessCallback     = [[params objectForKey:@"eventSuccessCallback"] retain];
     self.jsEventFailureCallback     = [[params objectForKey:@"eventFailureCallback"] retain];
     self.jsDeferredDeeplinkCallback = [[params objectForKey:@"deferredDeeplinkCallback"] retain];
-    
+
     BOOL allowSuppressLogLevel = NO;
-    
+
     if ([self isFieldValid:logLevel]) {
         if ([logLevel isEqualToString:@"SUPPRESS"]) {
             allowSuppressLogLevel = YES;
         }
     }
-    
+
     ADJConfig *adjustConfig = [ADJConfig configWithAppToken:appToken environment:environment allowSuppressLogLevel:allowSuppressLogLevel];
-    
+
     if ([adjustConfig isValid]) {
         // Log level
         if ([self isFieldValid:logLevel]) {
             [adjustConfig setLogLevel:[ADJLogger logLevelFromString:[logLevel lowercaseString]]];
         }
-        
+
         // Event buffering
         if ([self isFieldValid:eventBufferingEnabled]) {
             [adjustConfig setEventBufferingEnabled:[eventBufferingEnabled boolValue]];
         }
-        
+
         // SDK prefix
         if ([self isFieldValid:sdkPrefix]) {
             [adjustConfig setSdkPrefix:sdkPrefix];
         }
-        
+
         // Default tracker
         if ([self isFieldValid:defaultTracker]) {
             [adjustConfig setDefaultTracker:defaultTracker];
         }
-        
+
         // Send in background
         if ([self isFieldValid:sendInBackground]) {
             [adjustConfig setSendInBackground:[sendInBackground boolValue]];
         }
-        
+
         // User agent
         if ([self isFieldValid:userAgent]) {
             [adjustConfig setUserAgent:userAgent];
         }
-        
+
         // Delay start
         if ([self isFieldValid:delayStart]) {
             [adjustConfig setDelayStart:[delayStart doubleValue]];
@@ -157,14 +157,14 @@
         BOOL isSessionFailureCallbackImplemented = self.jsSessionFailureCallback != nil ? YES : NO;
         BOOL isDeferredDeeplinkCallbackImplemented = self.jsDeferredDeeplinkCallback != nil ? YES : NO;
         BOOL shouldLaunchDeferredDeeplink = [self isFieldValid:shouldLaunchDeeplink] ? [shouldLaunchDeeplink boolValue] : YES;
-        
+
         // Attribution delegate & other delegates
-        if (isAttributionCallbackImplemented ||
-            isEventSuccessCallbackImplemented ||
-            isEventFailureCallbackImplemented ||
-            isSessionSuccessCallbackImplemented ||
-            isSessionFailureCallbackImplemented ||
-            isDeferredDeeplinkCallbackImplemented) {
+        if (isAttributionCallbackImplemented
+            || isEventSuccessCallbackImplemented
+            || isEventFailureCallbackImplemented
+            || isSessionSuccessCallbackImplemented
+            || isSessionFailureCallbackImplemented
+            || isDeferredDeeplinkCallbackImplemented) {
             [adjustConfig setDelegate:
              [TiAdjustModuleDelegate getInstanceWithSwizzleOfAttributionCallback:isAttributionCallbackImplemented
                                                             eventSuccessCallback:isEventSuccessCallbackImplemented
@@ -175,7 +175,7 @@
                                                     shouldLaunchDeferredDeeplink:shouldLaunchDeferredDeeplink
                                                                       withModule:self]];
         }
-        
+
         [Adjust appDidLaunch:adjustConfig];
         [Adjust trackSubsessionStart];
     }
@@ -184,75 +184,72 @@
 - (void)trackEvent:(id)args {
     NSArray *configArray = (NSArray *)args;
     NSDictionary *params = (NSDictionary *)[configArray objectAtIndex:0];
-    
+
     NSString *eventToken = [params objectForKey:@"eventToken"];
     NSString *revenue = [params objectForKey:@"revenue"];
     NSString *currency = [params objectForKey:@"currency"];
     NSString *transactionId = [params objectForKey:@"transactionId"];
-    
+
     NSDictionary *callbackParameters = [params objectForKey:@"callbackParameters"];
     NSDictionary *partnerParameters = [params objectForKey:@"partnerParameters"];
-    
+
     ADJEvent *adjustEvent = [ADJEvent eventWithEventToken:eventToken];
-    
+
     if ([adjustEvent isValid]) {
         if ([self isFieldValid:revenue]) {
             double revenueValue = [revenue doubleValue];
-            
             [adjustEvent setRevenue:revenueValue currency:currency];
         }
-        
+
         if ([self isFieldValid:callbackParameters]) {
             for (NSString *key in callbackParameters) {
                 NSString *value = [callbackParameters objectForKey:key];
-                
                 [adjustEvent addCallbackParameter:key value:value];
             }
         }
-        
+
         if ([self isFieldValid:partnerParameters]) {
             for (NSString *key in partnerParameters) {
                 NSString *value = [partnerParameters objectForKey:key];
-                
                 [adjustEvent addPartnerParameter:key value:value];
             }
         }
-        
+
         if ([self isFieldValid:transactionId]) {
             [adjustEvent setTransactionId:transactionId];
         }
-        
+
         [Adjust trackEvent:adjustEvent];
     }
 }
 
 - (void)setOfflineMode:(id)args {
     NSNumber *isOffline = args;
-    
+
     if (![self isFieldValid:isOffline]) {
         return;
     }
-    
+
     [Adjust setOfflineMode:[isOffline boolValue]];
 }
 
 - (void)setEnabled:(id)args {
     NSNumber *isEnabled = args;
-    
+
     if (![self isFieldValid:isEnabled]) {
         return;
     }
-    
+
     [Adjust setEnabled:[isEnabled boolValue]];
 }
 
 - (void)setPushToken:(id)args {
     NSString *pushToken = args;
-    
+
     if (![self isFieldValid:pushToken]) {
         return;
     }
-    
+
     [Adjust setDeviceToken:[pushToken dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
@@ -264,14 +261,14 @@
     NSArray *arrayArgs = (NSArray *)args;
     NSString *key = [args objectAtIndex:0];
     NSString *value = [args objectAtIndex:1];
-    
+
     [Adjust addSessionCallbackParameter:key value:value];
 }
 
 - (void)removeSessionCallbackParameter:(id)args {
     NSArray *arrayArgs = (NSArray *)args;
     NSString *key = [args objectAtIndex:0];
-    
+
     [Adjust removeSessionCallbackParameter:key];
 }
 
@@ -283,14 +280,14 @@
     NSArray *arrayArgs = (NSArray *)args;
     NSString *key = [args objectAtIndex:0];
     NSString *value = [args objectAtIndex:1];
-    
+
     [Adjust addSessionPartnerParameter:key value:value];
 }
 
 - (void)removeSessionPartnerParameter:(id)args {
     NSArray *arrayArgs = (NSArray *)args;
     NSString *key = [args objectAtIndex:0];
-    
+
     [Adjust removeSessionPartnerParameter:key];
 }
 
@@ -301,13 +298,12 @@
 - (void)appWillOpenUrl:(id)args {
     NSArray *arrayArgs = (NSArray *)args;
     NSString *urlString = [args objectAtIndex:0];
-    
+
     if (urlString == nil) {
         return;
     }
-    
+
     NSURL *url = [NSURL URLWithString:[urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    
     [Adjust appWillOpenUrl:url];
 }
 
@@ -315,7 +311,7 @@
     BOOL isEnabled = [Adjust isEnabled];
     KrollCallback *callback = [args objectAtIndex:0];
     NSArray *array = [NSArray arrayWithObjects:[NSNumber numberWithBool:isEnabled], nil];
-    
+
     [callback call:array thisObject:nil];
 }
 
@@ -323,7 +319,7 @@
     NSString *idfa = [Adjust idfa];
     KrollCallback *callback = [args objectAtIndex:0];
     NSArray *array = [NSArray arrayWithObjects:(nil != idfa ? idfa : @""), nil];
-    
+
     [callback call:array thisObject:nil];
 }
 
@@ -331,14 +327,14 @@
     NSString *adid = [Adjust adid];
     KrollCallback *callback = [args objectAtIndex:0];
     NSArray *array = [NSArray arrayWithObjects:(nil != adid ? adid : @""), nil];
-    
+
     [callback call:array thisObject:nil];
 }
 
 - (void)getAttribution:(id)args {
     ADJAttribution *attribution = [Adjust attribution];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    
+
     [self addValueOrEmpty:dictionary key:@"trackerToken" value:attribution.trackerToken];
     [self addValueOrEmpty:dictionary key:@"trackerName" value:attribution.trackerName];
     [self addValueOrEmpty:dictionary key:@"network" value:attribution.network];
@@ -347,37 +343,34 @@
     [self addValueOrEmpty:dictionary key:@"adgroup" value:attribution.adgroup];
     [self addValueOrEmpty:dictionary key:@"clickLabel" value:attribution.clickLabel];
     [self addValueOrEmpty:dictionary key:@"adid" value:attribution.adid];
-    
+
     KrollCallback *callback = [args objectAtIndex:0];
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
-    
+
     [callback call:array thisObject:nil];
 }
 
 - (void)getGoogleAdId:(id)args {
     KrollCallback *callback = [args objectAtIndex:0];
     NSArray *array = [NSArray arrayWithObjects:@"", nil];
-    
+
     [callback call:array thisObject:nil];
 }
 
 - (void)getAmazonAdId:(id)args {
     KrollCallback *callback = [args objectAtIndex:0];
     NSArray *array = [NSArray arrayWithObjects:@"", nil];
-    
+
     [callback call:array thisObject:nil];
 }
 
 - (void)onResume:(id)args {
-    
 }
 
 - (void)onPause:(id)args {
-    
 }
 
 - (void)setReferrer:(id)args {
-
 }
 
 - (BOOL)isFieldValid:(NSObject *)field {
@@ -386,7 +379,7 @@
             return YES;
         }
     }
-    
+
     return NO;
 }
 

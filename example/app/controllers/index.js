@@ -33,34 +33,18 @@ function btnTrackPartnerEventTapped(e) {
 
 function btnEnableOfflineModeTapped(e) {
     Adjust.setOfflineMode(true);
-    alert("Offline mode enabled!");
 }
 
 function btnDisableOfflineModeTapped(e) {
 	Adjust.setOfflineMode(false);
-    alert("Offline mode is disabled!");
 }
 
 function btnEnableSdkTapped(e) {
-	Adjust.isEnabled(function(isEnabled) {
-        if (isEnabled) {
-            alert("SDK is ALREADY enabled!");
-        } else {
-        	Adjust.setEnabled(true);
-            alert("SDK is enabled!");
-        }
-    });
+	Adjust.setEnabled(true);
 }
 
 function btnDisableSdkTapped(e) {
-	Adjust.isEnabled(function(isEnabled) {
-        if (isEnabled) {
-        	Adjust.setEnabled(false);
-            alert("SDK is disabled!");
-        } else {
-        	alert("SDK is ALREADY disabled!");
-        }
-    });
+	Adjust.setEnabled(false);
 }
 
 function btnGetIdsTapped(e) {

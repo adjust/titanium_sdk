@@ -1,6 +1,6 @@
 /**
  * AdjustModule.java
- * Adjust Sdk
+ * Adjust SDK
  *
  * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
  * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
@@ -370,25 +370,16 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
             }
 
             // App secret
-            if (secretId != -1 
-                    && info1 != -1
-                    && info2 != -1
-                    && info3 != -1
-                    && info4 != -1) {
-                adjustConfig.setAppSecret(
-                        secretId, 
-                        info1, 
-                        info2, 
-                        info3, 
-                        info4);
-                    }
+            if (secretId != -1 && info1 != -1 && info2 != -1 && info3 != -1 && info4 != -1) {
+                adjustConfig.setAppSecret(secretId, info1, info2, info3, info4);
+            }
 
-            // is Device Known
+            // Is device known
             if (isDeviceKnown) {
                 adjustConfig.setDeviceKnown(isDeviceKnown);
             }
 
-            // read mobile equipment identity
+            // Read mobile equipment identity
             if (readMobileEquipmentIdentity) {
                 adjustConfig.setReadMobileEquipmentIdentity(readMobileEquipmentIdentity);
             }
