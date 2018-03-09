@@ -16,8 +16,8 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
       * [Google Play Services](#android-gps)
       * [Proguard settings](#android-proguard)
       * [Install referrer](#android-referrer)
-          * [Google Play Referrer API](#android-referrer-gpr-api)
-          * [Google Play Store intent](#android-referrer-gps-intent)
+         * [Google Play Referrer API](#android-referrer-gpr-api)
+         * [Google Play Store intent](#android-referrer-gps-intent)
       * [iOS frameworks](#ios-frameworks)
 * [Additional features](#additional-features)
    * [Event tracking](#event-tracking)
@@ -25,35 +25,35 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
       * [Revenue deduplication](#revenue-deduplication)
       * [Callback parameters](#callback-parameters)
       * [Partner parameters](#partner-parameters)
-    * [Session parameters](#session-parameters)
+   * [Session parameters](#session-parameters)
       * [Session callback parameters](#session-callback-parameters)
       * [Session partner parameters](#session-partner-parameters)
       * [Delay start](#delay-start)
-    * [Attribution callback](#attribution-callback)
-    * [Session and event callbacks](#session-event-callbacks)
-    * [Disable tracking](#disable-tracking)
-    * [Offline mode](#offline-mode)
-    * [SDK signature](#sdk-signature)
-    * [Event buffering](#event-buffering)
-    * [Background tracking](#background-tracking)
-    * [Device IDs](#device-ids)
+   * [Attribution callback](#attribution-callback)
+   * [Session and event callbacks](#session-event-callbacks)
+   * [Disable tracking](#disable-tracking)
+   * [Offline mode](#offline-mode)
+   * [Event buffering](#event-buffering)
+   * [SDK signature](#sdk-signature)
+   * [Background tracking](#background-tracking)
+   * [Device IDs](#device-ids)
       * [iOS advertising identifier](#di-idfa)
       * [Google Play Services advertising identifier](#di-gps-adid)
       * [Amazon advertising identifier](#di-fire-adid)
       * [Adjust device identifier](#di-adid)
-    * [User attribution](#user-attribution)
-    * [Push token](#push-token)
-    * [Track additional device identifiers](#track-additional-ids)
-    * [Pre-installed trackers](#pre-installed-trackers)
-    * [Deeplinking](#deeplinking)
-        * [Standard deeplinking scenario](#deeplinking-standard)
-        * [Deeplinking on iOS 8 and earlier](#deeplinking-ios-old)
-        * [Deeplinking on iOS 9 and later](#deeplinking-ios-new)
-        * [Deeplinking on Android](#deeplinking-android)
-        * [Deferred deeplinking scenario](#deeplinking-deferred)
-        * [Reattribution via deeplinks](#deeplinking-reattribution)
+   * [User attribution](#user-attribution)
+   * [Push token](#push-token)
+   * [Track additional device identifiers](#track-additional-ids)
+   * [Pre-installed trackers](#pre-installed-trackers)
+   * [Deeplinking](#deeplinking)
+      * [Standard deeplinking scenario](#deeplinking-standard)
+      * [Deeplinking on iOS 8 and earlier](#deeplinking-ios-old)
+      * [Deeplinking on iOS 9 and later](#deeplinking-ios-new)
+      * [Deeplinking on Android](#deeplinking-android)
+      * [Deferred deeplinking scenario](#deeplinking-deferred)
+      * [Reattribution via deeplinks](#deeplinking-reattribution)
 * [Troubleshooting](#troubleshooting)
-    * [I'm seeing the "The Google Play services resources were not found" error](#ts-gps-resources-not-found)
+   * [I'm seeing the "The Google Play services resources were not found" error](#ts-gps-resources-not-found)
 * [License](#license)
 
 
@@ -61,15 +61,15 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
 
 There is example inside the [`example` directory][example]. In there you can check how to integrate the Adjust SDK into your app. The example app was built in `Appcelerator Studio` as an `Alloy Mobile App Project`.
 
-## <a id="basic-integration">Basic integration
+## <a id="basic-integration"></a>Basic integration
 
 These are the essential steps required to integrate the Adjust SDK into your Appcelerator Titanium app project.
 
-### <a id="sdk-get">Get the SDK
+### <a id="sdk-get"></a>Get the SDK
 
 You can get the latest version of the Adjust SDK modules from our [releases page][releases].
 
-### <a id="sdk-add">Add the SDK to your project
+### <a id="sdk-add"></a>Add the SDK to your project
 
 Add the Adjust SDK to the Titanium SDK installed on your machine. Then, add it to your app by opening your `tiapp.xml` file in Appcelerator Studio and adding a `ti.adjust` module in the `Modules` section.
 
@@ -98,7 +98,7 @@ var AdjustConfig = require('adjust_config');
 
 **Note**: With each SDK update, please make sure that you **update these two files as well**.
 
-### <a id="sdk-integrate">Integrate the SDK into your app
+### <a id="sdk-integrate"></a>Integrate the SDK into your app
 
 You should initialize the Adjust SDK **as soon as possible** within your application, pretty much upon app launch. Run the initialization code once per app launch: there's no need to place this code where it will be executed multiple times per app life cycle, since the Adjust SDK exists in your app as a static instance. In order to initialize the Adjust SDK in your app, please do the following:
 
@@ -121,7 +121,7 @@ AdjustConfig.EnvironmentProduction
 
 We use this environment to distinguish between real traffic and test traffic from test devices. It is imperative that you keep this value meaningful at all times.
 
-### <a id="sdk-android-session-tracking">Session tracking on Android
+### <a id="sdk-android-session-tracking"></a>Session tracking on Android
 
 When integrating the Adjust SDK into your app, you need to perform one additional and **vital step** related to enabling proper session tracking on the Android platform. After your app starts in the Android environment, you should subscribe to get notifications whenever your app moves to the background or comes to the foreground. In these moments, you need to add calls to `Adjust.onResume()` (when your app comes to foreground) and `Adjust.onPause()` (when your app moves to background).
 
@@ -154,7 +154,7 @@ if (OS_ANDROID) {
 
 For additional information about this approach, please check the `benCoding.Android.Tools` module GitHub page.
 
-### <a id="sdk-logging">Adjust logging
+### <a id="sdk-logging"></a>Adjust logging
 
 You can increase or decrease the amount of logs you see in tests by calling `setLogLevel` on your `AdjustConfig` instance with one of the following parameters:
 
@@ -168,13 +168,13 @@ adjustConfig.setLogLevel(AdjustConfig.LogLevelAssert);    // disable errors as w
 adjustConfig.setLogLevel(AdjustConfig.LogLevelSuppress);  // disable all logging
 ```
 
-### <a id="adjust-project-settings">Adjust project settings
+### <a id="adjust-project-settings"></a>Adjust project settings
 
 Once the Adjust SDK has been added to your app, certain tweaks are performed so that the Adjust SDK can work properly. Below you can find a description of every additional thing that the Adjust SDK performs after you've added it to your app.
 
-### <a id="android-permissions">Android permissions
+### <a id="android-permissions"></a>Android permissions
 
-The Adjust SDK adds two permissions to your Android manifest file: `INTERNET` and `ACCESS_WIFI_STATE`. You can find these in the `timodule.xml` file of the Adjust SDK Android module:
+The Adjust SDK adds by default certain permissions to your Android manifest file. You can find these in the `timodule.xml` file of the Adjust SDK Android module:
 
 ```xml
 <manifest>
@@ -187,9 +187,12 @@ The Adjust SDK adds two permissions to your Android manifest file: `INTERNET` an
 </manifest>
 ```
 
-The `INTERNET` permission is what our SDK might need at any point in time. The Adjust SDK needs the `ACCESS_WIFI_STATE` permission in case your app is not targeting the Google Play Store and doesn't use Google Play Services. If you are targeting the Google Play Store and you are using Google Play Services, the Adjust SDK doesn't need the `ACCESS_WIFI_STATE` permission and, if you don't need it anywhere else in your app, you can remove it.
+- `INTERNET` permission is what our SDK might need at any point of time.
+- `ACCESS_WIFI_STATE` permission is what our SDK needs in case your app is `not targeting` the Google Play Store and `doesn't use` Google Play Services. If you are targeting the Google Play Store and you are using Google Play Services, the Adjust SDK doesn't need this permission and, if you don't need it anywhere else in your app, you can remove it.
+- `ACCESS_NETWORK_STATE` permission is what our SDK needs to read `MMC` and `MNC` information.
+- `BIND_GET_INSTALL_REFERRER_SERVICE` permission is needed so that new Google referrer API can be utilized.
 
-### <a id="android-gps">Google Play Services
+### <a id="android-gps"></a>Google Play Services
 
 Since August 1, 2014, apps in the Google Play Store must use the [Google advertising ID][google-ad-id] to uniquely identify each device. To allow the Adjust SDK to use the Google advertising ID, you must integrate [Google Play Services][google-play-services].
 
@@ -212,7 +215,7 @@ To check whether the analytics part of the Google Play Services library has been
 
 An important thing to mention is that the Adjust SDK doesn't include the full version of the Google Play Services library, as this is more likely to make your app hit the `65K DEX Reference Limit`. Rather, we add just the part needed for successful reading of the Google Play advertising identifier (named `basement` in latest Android SDK versions).
 
-### <a id="android-proguard">Proguard settings
+### <a id="android-proguard"></a>Proguard settings
 
 If you are using Proguard, add these lines to your Proguard file:
 
@@ -242,8 +245,7 @@ If you are using Proguard, add these lines to your Proguard file:
 -keep class android.os.LocaledList {
     java.util.Locale get(int);
 }
-
-+-keep public class com.android.installreferrer.** { *; }
+-keep public class com.android.installreferrer.** { *; }
 ```
 
 ### <a id="android-referrer"></a>Install referrer
@@ -281,32 +283,33 @@ The Adjust install referrer broadcast receiver is added to your app by default. 
 
 Please bear in mind that, if you are using your own broadcast receiver which handles the `INSTALL_REFERRER` intent, you don't need the Adjust broadcast receiver to be added to your manifest file. You can remove it, but, inside your own receiver, add the call to the Adjust broadcast receiver as described in our [Android guide][broadcast-receiver-custom].
 
-### <a id="ios-frameworks">iOS frameworks
+### <a id="ios-frameworks"></a>iOS frameworks
 
 The Adjust SDK iOS module adds three iOS frameworks to your generated Xcode project:
 
-* `iAd.framework` - in case you are running iAd campaigns
-* `AdSupport.framework` - for reading the iOS advertising ID (IDFA)
-* `AdjustSdk.framework` - our native iOS SDK framework.
+* `iAd.framework` - In case you are running iAd campaigns.
+* `AdSupport.framework` - For reading the iOS advertising ID (IDFA).
+* `CoreTelephony.framework` - For reading MMC and MNC information.
+* `AdjustSdk.framework` - Our native iOS SDK framework.
 
 In order to support some features from the `AdjustSdk.framework`, our iOS module will also add an `-ObjC` flag to the `Other Linker Flags` setting in your Xcode project.
 
-Another setting we add is for the `Framework Search Paths` value of the iOS Xcode project, which says where to look for `AdjustSdk.framework` when building your app, since it's not a default iOS framework like `iAd.framework` or `AdSupport.framework`.
+Another setting we add is for the `Framework Search Paths` value of the iOS Xcode project, which says where to look for `AdjustSdk.framework` when building your app, since it's not a default iOS framework.
 
 Settings for this can also be found in the `module.xcconfig` file of the Adjust SDK iOS module:
 
 ```
 FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.12.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.12.0/platform"
-OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework AdjustSdk -ObjC
+OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework -framework CoreTelephony AdjustSdk -ObjC
 ```
 
 If you are not running any iAd campaigns, you can feel free to remove the `iAd.framework` dependency.
 
-## <a id="additional-features">Additional features
+## <a id="additional-features"></a>Additional features
 
 You can take advantage of the following features once you have integrated the Adjust SDK into your project.
 
-### <a id="event-tracking">Event tracking
+### <a id="event-tracking"></a>Event tracking
 
 You can use Adjust to track all kinds of events. Let's say you want to track every tap on a button. If you create a new event token in your [dashboard] - let's say that event token is `abc123` - you can add the following line in your button’s click handler method to track the click:
 
@@ -315,7 +318,7 @@ var adjustEvent = new AdjustEvent("abc123");
 Adjust.trackEvent(adjustEvent);
 ```
 
-### <a id="revenue-tracking">Revenue tracking
+### <a id="revenue-tracking"></a>Revenue tracking
 
 If your users can generate revenue by tapping on advertisements or making in-app purchases, then you can track that revenue with events. Let's say a tap is worth €0.01. You could track the revenue event like this:
 
@@ -347,7 +350,7 @@ Adjust.trackEvent(adjustEvent);
 
 **Note**: Transaction ID is the iOS term. The unique identifier for completed Android in-app purchases is **Order ID**.
 
-### <a id="callback-parameters">Callback parameters
+### <a id="callback-parameters"></a>Callback parameters
 
 You can register a callback URL for an event in your [dashboard][dashboard], and we will send a GET request to that URL whenever the event is tracked. You can also put some key-value pairs in an object and pass them to the `trackEvent` method. We will then append these named parameters to your callback URL.
 
@@ -372,7 +375,7 @@ It should be mentioned that we support a variety of placeholders, like `{idfa}` 
 
 You can read more about using URL callbacks, including a full list of available values, in our [callbacks guide][callbacks-guide].
 
-### <a id="partner-parameters">Partner parameters
+### <a id="partner-parameters"></a>Partner parameters
 
 Similarly to the callback parameters mentioned above, you can also add parameters that Adjust will transmit to network partners of your choice. You can activate these networks in your Adjust Dashboard.
 
@@ -389,13 +392,13 @@ Adjust.trackEvent(adjustEvent);
 
 You can read more about special partners and networks in our [guide to special partners][special-partners].
 
-### <a id="session-parameters">Session parameters
+### <a id="session-parameters"></a>Session parameters
 
 Some parameters are saved to be sent with every event and session of the Adjust SDK. Once you have added any of these parameters, you don't need to add them every time, since they will be saved locally. If you add the same parameter twice, there will be no effect.
 
 These session parameters can be called before the Adjust SDK is launched to make sure they are sent even on install. If you need to send them with an install but can only obtain the needed values after launch, it's possible to [delay](#delay-start) the first launch of the Adjust SDK to allow for this behavior.
 
-### <a id="session-callback-parameters"> Session callback parameters
+### <a id="session-callback-parameters"></a>Session callback parameters
 
 The same callback parameters that are registered for [events](#callback-parameters) can also be saved to be sent with every event or session of the Adjust SDK.
 
@@ -419,7 +422,7 @@ If you wish to remove all keys and values from the session callback parameters, 
 Adjust.resetSessionCallbackParameters();
 ```
 
-### <a id="session-partner-parameters">Session partner parameters
+### <a id="session-partner-parameters"></a>Session partner parameters
 
 In the same way that there are [session callback parameters](#session-callback-parameters) that are sent with every event or session of the Adjust SDK, there are also session partner parameters.
 
@@ -445,7 +448,7 @@ If you wish to remove all keys and values from the session partner parameters, y
 Adjust.resetSessionPartnerParameters();
 ```
 
-### <a id="delay-start">Delay start
+### <a id="delay-start"></a>Delay start
 
 Delaying the start of the Adjust SDK allows your app some time to obtain session parameters, such as unique identifiers, to be sent on install.
 
@@ -459,7 +462,7 @@ In this case, the Adjust SDK not send the initial install session and any events
 
 **The maximum start time delay of the Adjust SDK is 10 seconds**.
 
-### <a id="attribution-callback">Attribution callback
+### <a id="attribution-callback"></a>Attribution callback
 
 You can register a listener to be notified of tracker attribution changes. Due to the different sources considered for attribution, this information cannot be provided synchronously. The simplest way to achieve this is to create a single anonymous listener which is going to be called **each time a user's attribution value changes**. Use the `AdjustConfig` instance, before starting the SDK, attribution callback method:
 
@@ -495,7 +498,7 @@ Within the listener function you have access to the `attribution` parameters. He
 
 Please make sure to consider our [applicable attribution data policies][attribution-data].
 
-### <a id="session-event-callbacks">Session and event callbacks
+### <a id="session-event-callbacks"></a>Session and event callbacks
 
 You can register a callback to be notified of successfully tracked and failed events and/or sessions.
 
@@ -586,7 +589,7 @@ And both event and session failed objects also contain:
 
 - `var willRetry` indicates there will be an attempt to resend the package at a later time
 
-### <a id="disable-tracking">Disable tracking
+### <a id="disable-tracking"></a>Disable tracking
 
 You can disable the Adjust SDK from tracking by invoking the `setEnabled` method of the `Adjust` instance with the enabled parameter set to `false`. This setting is **remembered between sessions**, but it can only be activated after the first session.
 
@@ -596,7 +599,7 @@ Adjust.setEnabled(false);
 
 You can verify if the Adjust SDK is currently active with the `isEnabled` method of the `Adjust` instance. It is always possible to activate the Adjust SDK by invoking the `setEnabled` with the parameter set to `true`.
 
-### <a id="offline-mode">Offline mode
+### <a id="offline-mode"></a>Offline mode
 
 You can put the Adjust SDK in offline mode to suspend transmissions to our servers while retaining tracked data to be sent later. When in offline mode, all information is saved in a file, so it is best not to trigger too many events.
 
@@ -609,6 +612,18 @@ Adjust.setOfflineMode(true);
 Conversely, you can deactivate offline mode by calling `setOfflineMode` with`false`. When the Adjust SDK is put back in online mode, all saved information is sent to our servers with the correct time information.
 
 Unlike disabling tracking, **this setting is not remembered** between sessions. This means that the SDK is in online mode whenever it is started, even if the app was terminated in offline mode.
+
+### <a id="event-buffering"></a>Event buffering
+
+If your app makes heavy use of event tracking, you might want to delay some HTTP requests in order to send them in one batch every minute. You can enable event buffering with your `AdjustConfig` instance by calling the `setEventBufferingEnabled` method:
+
+```js
+var adjustConfig = new AdjustConfig(appToken, environment);
+
+adjustConfig.setEventBufferingEnabled(true);
+
+Adjust.start(adjustConfig);
+```
 
 ### <a id="sdk-signature"></a>SDK signature
  
@@ -626,19 +641,7 @@ adjustConfig.setAppSecret(secretId, info1, info2, info3, info4);
 Adjust.create(adjustConfig);
 ```
 
-### <a id="event-buffering">Event buffering
-
-If your app makes heavy use of event tracking, you might want to delay some HTTP requests in order to send them in one batch every minute. You can enable event buffering with your `AdjustConfig` instance by calling the `setEventBufferingEnabled` method:
-
-```js
-var adjustConfig = new AdjustConfig(appToken, environment);
-
-adjustConfig.setEventBufferingEnabled(true);
-
-Adjust.start(adjustConfig);
-```
-
-### <a id="background-tracking">Background tracking
+### <a id="background-tracking"></a>Background tracking
 
 The default behavior of the Adjust SDK is to **pause sending HTTP requests while the app is in the background**. You can change this in your `AdjustConfig` instance by calling the `setSendInBackground` method:
 
@@ -652,11 +655,11 @@ Adjust.start(adjustConfig);
 
 If nothing is set here, sending in background is **disabled by default**.
 
-### <a id="device-ids">Device IDs
+### <a id="device-ids"></a>Device IDs
 
 Certain services (such as Google Analytics) require you to coordinate device and client IDs in order to prevent duplicate reporting.
 
-### <a id="di-idfa">iOS Advertising Identifier
+### <a id="di-idfa"></a>iOS Advertising Identifier
 
 To obtain the IDFA, call the `getIdfa` method of the `Adjust` instance. You need to pass a callback to that method in order to obtain the value:
 
@@ -667,7 +670,7 @@ Adjust.getIdfa(function(idfa) {
 ```
 
 
-### <a id="di-gps-adid">Google Play Services advertising identifier
+### <a id="di-gps-adid"></a>Google Play Services advertising identifier
 
 If you need to obtain the Google advertising ID, you can call the `getGoogleAdId` method of the `Adjust` instance. You need to pass a callback to that method in order to obtain the value:
 
@@ -713,13 +716,15 @@ Adjust.getAttribution(function(attribution) {
 
 **Note**: Information about current attribution is only available after an app installation has been tracked by the Adjust backend and the attribution callback has been triggered. From that moment on, the Adjust SDK has information about a user's attribution and you can access it with this method. So, **it is not possible** to access a user's attribution value before the SDK has been initialized and an attribution callback has been triggered.
 
-### <a id="push-token">Push token
+### <a id="push-token"></a>Push token
 
 To send us the push notification token, add the following call to Adjust **whenever you get your token in the app or when it gets updated**:
 
 ```js
 Adjust.setPushToken("YourPushNotificationToken");
 ```
+
+Push tokens are used for Audience Builder and client callbacks, and they are required for the upcoming uninstall tracking feature.
 
 ### <a id="track-additional-ids"></a>Track additional device identifiers
 
@@ -741,7 +746,7 @@ You will also need to add the `READ_PHONE_STATE` permission to your `AndroidMani
 
 In order to use this feature, additional steps are required within your Adjust Dashboard. For more information, please contact your dedicated account manager or write an email to support@adjust.com.
 
-### <a id="pre-installed-trackers">Pre-installed trackers
+### <a id="pre-installed-trackers"></a>Pre-installed trackers
 
 If you want to use the Adjust SDK to recognize users whose devices came with your app pre-installed, follow these steps.
 
@@ -764,20 +769,20 @@ If you want to use the Adjust SDK to recognize users whose devices came with you
     Default tracker: 'abc123'
     ```
 
-### <a id="deeplinking">Deeplinking
+### <a id="deeplinking"></a>Deeplinking
 
 If you are using the Adjust tracker URL with an option to deep link into your app from the URL, there is the possibility to get information about the deeplink URL and its content. There are two scenarios when it comes to deeplinking: standard and deferred:
 
 - Standard deeplinking is when a user already has your app installed.
 - Deferred deeplinking is when a user does not have your app installed.
 
-### <a id="deeplinking-standard">Standard deeplinking
+### <a id="deeplinking-standard"></a>Standard deeplinking
 
 Standard deeplinking is a platform-specific feature and in order to support it you need to add some additional settings to your app. If your user already has the app installed and hits the tracker URL with deeplink information in it, your application will be opened and the content of the deep link will be sent to your app so that you can parse it and decide what to do next. 
 
 **Note for iOS**: With the introduction of iOS 9, Apple has changed the way deeplinking is handled in the app. Depending on which deeplinking scenario you want to use for your app (or if you want to use them both to support a wide range of devices), you need to set up your app to handle one or both of the following scenarios.
 
-### <a id="deeplinking-ios-old"> Deeplinking on iOS 8 and earlier
+### <a id="deeplinking-ios-old"></a>Deeplinking on iOS 8 and earlier
 
 To support deeplink handling in your app for iOS 8 and earlier versions, you need to set a `Custom URL Scheme` setting for your iOS app.
 
@@ -822,7 +827,7 @@ The value of `args.url` represents an actual link that opened your iOS app.
 
 By completing this, you should be able to handle direct deeplinking on **iOS 8 and earlier**.
 
-### <a id="deeplinking-ios-new"> Deeplinking on iOS 9 and later
+### <a id="deeplinking-ios-new"></a>Deeplinking on iOS 9 and later
 
 Starting from **iOS 9**, Apple has introduced suppressed support for the old style deeplinking with custom URL schemes, as described above, in favor of `universal links`. If you want to support deeplinking in your app for iOS 9 and higher, you need to add support for universal link handling.
 
@@ -882,7 +887,7 @@ The value of the `deeplink` variable in the example above represents the actual 
 By completing this, you should be able to handle direct deeplinking on **iOS 9 and later**.
 
 
-### <a id="deeplinking-android"> Deeplinking on Android
+### <a id="deeplinking-android"></a>Deeplinking on Android
 
 In order to support deeplinking on your Android app, you need to add support for handling the custom URL scheme that you want to use to open your Android app.
 
@@ -939,7 +944,7 @@ The value of the `url` variable in the above example (if not `null`) represents 
 
 By completing this, you should be able to handle direct deeplinking on **Android**.
 
-### <a id="deeplinking-deferred">Deferred deeplinking
+### <a id="deeplinking-deferred"></a>Deferred deeplinking
 
 While deferred deeplinking is not supported out of the box on Android or iOS, the Adjust SDK makes it possible.
  
@@ -973,7 +978,7 @@ Adjust.start(adjustConfig);
 
 If nothing is set here, **the Adjust SDK will always try to launch the URL by default**.
 
-### <a id="deeplinking-reattribution">Reattribution via deeplinks
+### <a id="deeplinking-reattribution"></a>Reattribution via deeplinks
 
 Adjust enables you to run re-engagement campaigns by using deeplinks. For more information on this, please check our [official docs][reattribution-with-deeplinks].
 
@@ -986,12 +991,12 @@ In the code examples described above, a call to the `appWillOpenUrl` method shou
 ```js
 if (OS_IOS) {
     Ti.App.addEventListener('resumed', function() {
-		    var args = Ti.App.getArguments();
+        var args = Ti.App.getArguments();
 
-		    if (args.url) {
-			      Adjust.appWillOpenUrl(args.url);
-		    }
-	  });
+        if (args.url) {
+            Adjust.appWillOpenUrl(args.url);
+        }
+    });
 }
 ```
 
@@ -1000,7 +1005,7 @@ if (OS_IOS) {
     Ti.App.iOS.addEventListener('continueactivity', function(e) {
         if (e.activityType === "NSUserActivityTypeBrowsingWeb"){
             var deeplink = e.webpageURL;
-	
+
             if (deeplink) {
                 Adjust.appWillOpenUrl(deeplink);
             }
@@ -1022,9 +1027,9 @@ if (OS_ANDROID) {
 
 Having added these calls, if the deeplink that opened your app contains any reattribution parameters, our SDK will pass that information to the backend, which will decide whether the user is going to be reattributed or not. As already mentioned, if a user gets reattributed, an attribution callback (if implemented) will be triggered with the new attribution value, and you will have this information in your app as well.
 
-## <a id="troubleshooting">Troubleshooting
+## <a id="troubleshooting"></a>Troubleshooting
 
-### <a id="ts-gps-resources-not-found">I'm seeing the "The Google Play services resources were not found" error
+### <a id="ts-gps-resources-not-found"></a>I'm seeing the "The Google Play services resources were not found" error
 
 You might notice an error message in your Appcelerator Studio Console output originating from the Google Play Services library saying the following:
 
@@ -1038,17 +1043,29 @@ For reference: [Stackoverflow discussion](https://stackoverflow.com/questions/18
 
 If you see that the `gps_adid` parameter is being successfully sent with SDK packages from your Android app, it is completely safe to ignore this error message.
 
-## <a id="license">License
+## <a id="license"></a>License
 
 The Adjust SDK is licensed under the MIT License.
 
 Copyright (c) 2012-2018 Adjust GmbH, http://www.adjust.com
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 [dashboard]:    http://adjust.com
