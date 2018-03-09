@@ -15,3 +15,55 @@ local.properties
 **/*.xcbkptlist
 
 **/xcuserdata/
+
+# Git files
+*.orig
+
+# built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+gen-external-apklibs/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Eclipse project files
+.classpath
+.project
+.metadata
+.settings
+
+# IntelliJ files
+.idea
+*.iml
+
+# OSX files
+.DS_Store
+
+# Windows files
+Thumbs.db
+
+# vi swap files
+*.swp
+
+# ios Xcode build directories
+ios/ios/Build/
+ios/ios/Index/
+
+# custom
+**/libti.adjust.so 
+**/.classpath
+**/.settings/
+**/dist/*
+**/AdjustSdk.framework
+**/ti.adjust-*.zip

@@ -1,27 +1,27 @@
-# AdjustSdk Module
+# AdjustSDK Module
 
 ## Description
 
 TODO: Enter your module description here
 
-## Accessing the AdjustSdk Module
+## Accessing the AdjustSDK Module
 
 To access this module from JavaScript, you would do the following:
 
-    var adjustsdk = require("ti.adjust");
+    var AdjustSDK = require("ti.adjust");
 
-The adjustsdk variable is a reference to the Module object.
+The AdjustSDK variable is a reference to the Module object.
 
 ## Reference
 
 TODO: If your module has an API, you should document
 the reference here.
 
-### adjustsdk.function
+### AdjustSDK.function
 
 TODO: This is an example of a module function.
 
-### adjustsdk.property
+### AdjustSDK.property
 
 TODO: This is an example of a module property.
 

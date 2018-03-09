@@ -2,11 +2,11 @@ var Adjust = require('ti.adjust');
 var AdjustConfig = require('adjust_config');
 
 Ti.App.addEventListener('resumed', function(e) {
-	Adjust.onResume();
+    Adjust.onResume();
 });
 
 Ti.App.addEventListener('paused', function(e) {
-	Adjust.onPause();
+    Adjust.onPause();
 });
 
 if (OS_ANDROID) {
@@ -24,43 +24,45 @@ if (OS_ANDROID) {
     }, 1000);
 }
 
-if (OS_IOS) {
-	Ti.App.iOS.addEventListener('continueactivity', function(e) {
-		if (e.activityType === "NSUserActivityTypeBrowsingWeb"){
-	    	var deeplink = e.webpageURL;
-	
-			if (deeplink) {
-				Ti.API.info("URL = " + deeplink);
-				Adjust.appWillOpenUrl(deeplink);
-			}
-	  	}
-	});
-
-	Ti.App.addEventListener('resumed', function() {
-		var args = Ti.App.getArguments();
-
-		if (args.url) {
-			Ti.API.info("URL = " + args.url);
-			Adjust.appWillOpenUrl(args.url);
-		}
-	});
-} else if (OS_ANDROID) {
-	var activity = Ti.Android.currentActivity;
-	var url = activity.getIntent().getData();
-
-	if (url) {
-		Adjust.appWillOpenUrl(url);
-	}
-}
+ if (OS_IOS) {
+     Ti.App.iOS.addEventListener('continueactivity', function(e) {
+         if (e.activityType === "NSUserActivityTypeBrowsingWeb"){
+             var deeplink = e.webpageURL;
+     
+             if (deeplink) {
+                 Ti.API.info("URL = " + deeplink);
+                 Adjust.appWillOpenUrl(deeplink);
+             }
+           }
+     });
+ 
+     Ti.App.addEventListener('resumed', function() {
+         var args = Ti.App.getArguments();
+ 
+         if (args.url) {
+             Ti.API.info("URL = " + args.url);
+             Adjust.appWillOpenUrl(args.url);
+         }
+     });
+ } else if (OS_ANDROID) {
+     var activity = Ti.Android.currentActivity;
+     var url = activity.getIntent().getData();
+ 
+     if (url) {
+         Ti.API.info("URL = " + url);
+         Adjust.appWillOpenUrl(url);
+     }
+ }
 
 (function() {
-	var adjustConfig = new AdjustConfig("2fm9gkqubvpc", AdjustConfig.EnvironmentSandbox);
+    var adjustConfig = new AdjustConfig("2fm9gkqubvpc", AdjustConfig.EnvironmentSandbox);
     adjustConfig.setLogLevel(AdjustConfig.LogLevelVerbose);
     adjustConfig.setDelayStart(6.0);
     adjustConfig.setSendInBackground(true);
-    adjustConfig.setShouldLaunchDeeplink(false);
+    adjustConfig.setShouldLaunchDeeplink(true);
+    adjustConfig.setUserAgent("Adjust Custom UA");
+    adjustConfig.setDeviceKnown(true);
     // adjustConfig.setEventBufferingEnabled(true);
-    // adjustConfig.setUserAgent("little_bunny_foo_foo");
 
     adjustConfig.setAttributionCallback(function(attribution) {
         Ti.API.info(">>> Attribution callback received");
@@ -123,19 +125,17 @@ if (OS_IOS) {
         Adjust.appWillOpenUrl(uri.uri);
     });
 
-    Adjust.addSessionCallbackParameter("dummy_foo", "dummy_bar");
-    Adjust.addSessionCallbackParameter("dummy_foo_foo", "dummy_bar");
+    Adjust.addSessionCallbackParameter("scp1", "scpv1");
+    Adjust.addSessionCallbackParameter("scp2", "scpv2");
 
-    Adjust.addSessionPartnerParameter("dummy_foo", "dummy_bar");
-    Adjust.addSessionPartnerParameter("dummy_foo_foo", "dummy_bar");
+    Adjust.addSessionPartnerParameter("spp1", "sppv1");
+    Adjust.addSessionPartnerParameter("spp2", "sppv2");
 
-    Adjust.removeSessionCallbackParameter("dummy_foo");
-    Adjust.removeSessionPartnerParameter("dummy_foo");
+    Adjust.removeSessionCallbackParameter("scp1");
+    Adjust.removeSessionPartnerParameter("spp1");
 
-    Adjust.resetSessionCallbackParameters();
-    Adjust.resetSessionPartnerParameters();
-
-    Adjust.setPushToken("bunny_foo_foo");
+    // Adjust.resetSessionCallbackParameters();
+    // Adjust.resetSessionPartnerParameters();
 
     Adjust.start(adjustConfig);
 

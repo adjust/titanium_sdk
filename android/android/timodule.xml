@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ti:module xmlns:ti="http://ti.appcelerator.org" xmlns:android="http://schemas.android.com/apk/res/android">
-	<!--
-		Similar to tiapp.xml, but contains module/platform specific
-		configuration in <iphone>, <android>, and <mobileweb> sections
-	-->
-	<iphone>
-	</iphone>
-	<android xmlns:android="http://schemas.android.com/apk/res/android">
-		<manifest>
+    <!--
+        Similar to tiapp.xml, but contains module/platform specific
+        configuration in <iphone> and <android> sections
+    -->
+    <iphone>
+    </iphone>
+    <android xmlns:android="http://schemas.android.com/apk/res/android">
+        <manifest>
             <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
             <application>
-                <receiver android:name="com.adjust.sdk.AdjustReferrerReceiver" android:exported="true">
+                <receiver android:name="com.adjust.sdk.AdjustReferrerReceiver" 
+                    android:permission="android.permission.INSTALL_PACKAGES"
+                    android:exported="true">
                     <intent-filter>
                         <action android:name="com.android.vending.INSTALL_REFERRER" />
                     </intent-filter>
@@ -20,7 +24,5 @@
                            android:value="@integer/google_play_services_version" />
             </application>
         </manifest>
-	</android>
-	<mobileweb>
-	</mobileweb>
+    </android>
 </ti:module>

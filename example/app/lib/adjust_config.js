@@ -1,5 +1,13 @@
+/**
+ * adjust_config.js
+ * Adjust Sdk
+ *
+ * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+ * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
+ */
+
 function AdjustConfig(appToken, environment) {
-    this.sdkPrefix = "titanium4.11.2";
+    this.sdkPrefix = "titanium4.12.0";
 
     this.appToken = appToken;
     this.environment = environment;
@@ -20,6 +28,14 @@ function AdjustConfig(appToken, environment) {
     this.eventSuccessCallback = undefined;
     this.eventFailureCallback = undefined;
     this.deferredDeeplinkCallback = undefined;
+
+    this.secretId = undefined;
+    this.info1 = undefined;
+    this.info2 = undefined;
+    this.info3 = undefined;
+    this.info4 = undefined;
+    this.isDeviceKnown = undefined;
+    this.readMobileEquipmentIdentity = undefined;
 };
 
 AdjustConfig.EnvironmentSandbox = "sandbox";
@@ -38,11 +54,11 @@ AdjustConfig.prototype.setLogLevel = function(logLevel) {
 };
 
 AdjustConfig.prototype.setUserAgent = function(userAgent) {
-	this.userAgent = userAgent;
+    this.userAgent = userAgent;
 };
 
 AdjustConfig.prototype.setDelayStart = function(delayStart) {
-	this.delayStart = delayStart;
+    this.delayStart = delayStart;
 };
 
 AdjustConfig.prototype.setProcessName = function(processName) {
@@ -54,11 +70,11 @@ AdjustConfig.prototype.setDefaultTracker = function(defaultTracker) {
 };
 
 AdjustConfig.prototype.setSendInBackground = function(shouldSend) {
-	this.sendInBackground = shouldSend;
+    this.sendInBackground = shouldSend;
 };
 
 AdjustConfig.prototype.setShouldLaunchDeeplink = function(shouldLaunch) {
-	this.shouldLaunchDeeplink = shouldLaunch;
+    this.shouldLaunchDeeplink = shouldLaunch;
 };
 
 AdjustConfig.prototype.setEventBufferingEnabled = function(isEnabled) {
@@ -86,7 +102,37 @@ AdjustConfig.prototype.setEventTrackingFailureCallback = function(callback) {
 };
 
 AdjustConfig.prototype.setDeferredDeeplinkCallback = function(callback) {
-	this.deferredDeeplinkCallback = callback;
+    this.deferredDeeplinkCallback = callback;
+};
+
+AdjustConfig.prototype.setAppSecret = function(secretId, info1, info2, info3, info4) {
+    if (secretId != null) {
+        this.secretId = secretId.toString();
+    }
+
+    if (info1 != null) {
+        this.info1 = info1.toString();
+    }
+
+    if (info2 != null) {
+        this.info2 = info2.toString();
+    }
+
+    if (info3 != null) {
+        this.info3 = info3.toString();
+    }
+
+    if (info4 != null) {
+        this.info4 = info4.toString();
+    }
+};
+
+AdjustConfig.prototype.setDeviceKnown = function(isDeviceKnown) {
+    this.isDeviceKnown = isDeviceKnown;
+};
+
+AdjustConfig.prototype.setReadMobileEquipmentIdentity = function(readMobileEquipmentIdentity) {
+    this.readMobileEquipmentIdentity = readMobileEquipmentIdentity;
 };
 
 module.exports = AdjustConfig;
