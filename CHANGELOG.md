@@ -1,3 +1,13 @@
+### Version 4.12.1 (12th March 2018)
+#### Native changes
+- Updated Android SDK to `v4.12.4`.
+
+#### Native SDKs
+- [iOS@v4.12.3][ios_sdk_v4.12.3]
+- [Android@v4.12.4][android_sdk_v4.12.4]
+
+---
+
 ### Version 4.12.0 (9th March 2018)
 #### Added
 - Added support for `Titanium 7.0.0.GA`.
@@ -55,3 +65,4 @@
 [android_sdk_v4.11.4]: https://github.com/adjust/android_sdk/tree/v4.11.4
 [android_sdk_v4.12.0]: https://github.com/adjust/android_sdk/tree/v4.12.0
 [android_sdk_v4.12.3]: https://github.com/adjust/android_sdk/tree/v4.12.3
+[android_sdk_v4.12.4]: https://github.com/adjust/android_sdk/tree/v4.12.4
