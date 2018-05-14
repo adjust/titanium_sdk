@@ -551,7 +551,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 
     @Kroll.method
     public void gdprForgetMe() {
-        Adjust.gdprForgetMe();
+        Adjust.gdprForgetMe(getActivity().getApplication());
     }
     
     @Kroll.method
