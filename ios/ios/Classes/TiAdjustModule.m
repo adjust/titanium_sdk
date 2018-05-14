@@ -257,6 +257,10 @@
     [Adjust sendFirstPackages];
 }
 
+- (void)gdprForgetMe:(id)args {
+    [Adjust gdprForgetMe];
+}
+
 - (void)addSessionCallbackParameter:(id)args {
     NSArray *arrayArgs = (NSArray *)args;
     NSString *key = [args objectAtIndex:0];

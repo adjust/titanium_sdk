@@ -548,6 +548,11 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     public void sendFirstPackages() {
         Adjust.sendFirstPackages();
     }
+
+    @Kroll.method
+    public void gdprForgetMe() {
+        Adjust.gdprForgetMe();
+    }
     
     @Kroll.method
     public void addSessionCallbackParameter(String key, String value) {
