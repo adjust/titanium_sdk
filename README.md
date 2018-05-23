@@ -299,7 +299,7 @@ Another setting we add is for the `Framework Search Paths` value of the iOS Xcod
 Settings for this can also be found in the `module.xcconfig` file of the Adjust SDK iOS module:
 
 ```
-FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.12.1/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.12.1/platform"
+FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.13.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.13.0/platform"
 OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework -framework CoreTelephony AdjustSdk -ObjC
 ```
 
