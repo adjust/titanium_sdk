@@ -534,7 +534,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     
     @Kroll.method
     public void setPushToken(String pushToken) {
-        Adjust.setPushToken(pushToken);
+        Adjust.setPushToken(pushToken, getActivity().getApplication());
     }
 
     @Kroll.method
@@ -547,6 +547,11 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     @Kroll.method
     public void sendFirstPackages() {
         Adjust.sendFirstPackages();
+    }
+
+    @Kroll.method
+    public void gdprForgetMe() {
+        Adjust.gdprForgetMe(getActivity().getApplication());
     }
     
     @Kroll.method

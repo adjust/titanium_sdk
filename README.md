@@ -34,6 +34,7 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
    * [Disable tracking](#disable-tracking)
    * [Offline mode](#offline-mode)
    * [Event buffering](#event-buffering)
+   * [GDPR right to be forgotten](#gdpr-forget-me)
    * [SDK signature](#sdk-signature)
    * [Background tracking](#background-tracking)
    * [Device IDs](#device-ids)
@@ -299,7 +300,7 @@ Another setting we add is for the `Framework Search Paths` value of the iOS Xcod
 Settings for this can also be found in the `module.xcconfig` file of the Adjust SDK iOS module:
 
 ```
-FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.12.1/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.12.1/platform"
+FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.13.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.13.0/platform"
 OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework -framework CoreTelephony AdjustSdk -ObjC
 ```
 
@@ -624,6 +625,16 @@ adjustConfig.setEventBufferingEnabled(true);
 
 Adjust.start(adjustConfig);
 ```
+
+### <a id="gdpr-forget-me"></a>GDPR right to be forgotten
+
+In accordance with article 17 of the EU's General Data Protection Regulation (GDPR), you can notify Adjust when a user has exercised their right to be forgotten. Calling the following method will instruct the Adjust SDK to communicate the user's choice to be forgotten to the Adjust backend:
+
+```js
+Adjust.gdprForgetMe();
+```
+
+Upon receiving this information, Adjust will erase the user's data and the Adjust SDK will stop tracking the user. No requests from this device will be sent to Adjust in the future.
 
 ### <a id="sdk-signature"></a>SDK signature
  
