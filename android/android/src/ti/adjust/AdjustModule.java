@@ -534,7 +534,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     
     @Kroll.method
     public void setPushToken(String pushToken) {
-        Adjust.setPushToken(pushToken);
+        Adjust.setPushToken(pushToken, getActivity().getApplication());
     }
 
     @Kroll.method
