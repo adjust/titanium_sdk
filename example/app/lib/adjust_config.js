@@ -7,7 +7,7 @@
  */
 
 function AdjustConfig(appToken, environment) {
-    this.sdkPrefix = "titanium4.13.0";
+    this.sdkPrefix = "titanium4.14.0";
 
     this.appToken = appToken;
     this.environment = environment;
