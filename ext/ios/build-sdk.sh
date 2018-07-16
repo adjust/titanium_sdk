@@ -24,6 +24,7 @@ LIB_OUT_DIR=ios/ios/platform
 echo -e "${CYAN}[ADJUST][IOS][BUILD-SDK]:${GREEN} Deleting old AdjustSdk.framework file ... ${NC}"
 cd ${ROOT_DIR}
 rm -rfv ${LIB_OUT_DIR}/AdjustSdk.framework
+rm -rfv ${SRC_DIR}/Frameworks/Static/AdjustSdk.framework
 echo -e "${CYAN}[ADJUST][IOS][BUILD-SDK]:${GREEN} Done! ${NC}"
 
 # ======================================== #
@@ -38,6 +39,23 @@ echo -e "${CYAN}[ADJUST][IOS][BUILD-SDK]:${GREEN} Done! ${NC}"
 echo -e "${CYAN}[ADJUST][IOS][BUILD-SDK]:${GREEN} Build successful. Copying AdjustSdk.framework to ${LIB_OUT_DIR} ... ${NC}"
 cd ${ROOT_DIR}
 cp -Rv ${SRC_DIR}/Frameworks/Static/AdjustSdk.framework ${LIB_OUT_DIR}
+echo -e "${CYAN}[ADJUST][IOS][BUILD-SDK]:${GREEN} Done! ${NC}"
+
+# ======================================== #
+
+echo -e "${CYAN}[ADJUST][IOS][BUILD-SDK]:${GREEN} Remove symlinks from AdjustSdk.framework ... ${NC}"
+cd ${LIB_OUT_DIR}/AdjustSdk.framework
+
+# Remove any existing symlinks
+rm -rfv AdjustSdk
+rm -rfv Headers
+
+# Move library and headers
+mv -v Versions/A/AdjustSdk .
+mv -v Versions/A/Headers .
+
+# Remove Versions folder
+rm -rfv Versions
 echo -e "${CYAN}[ADJUST][IOS][BUILD-SDK]:${GREEN} Done! ${NC}"
 
 # ======================================== #
