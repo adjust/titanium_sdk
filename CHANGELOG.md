@@ -1,3 +1,18 @@
+### Version 4.14.0 (16th July 2018)
+#### Added
+- Added deep link caching in case `appWillOpenUrl` method is called before SDK is initialised.
+
+#### Changed
+- Updated the way how iOS plugin handles push tokens from Titanium interface - they are now being passed directly as strings to native iOS SDK.
+- Removed `google-play.services.jar` dependency from Android plugin.
+- Updated `Google Play Services` section of `README` with new instructions on how dependency can be added to your app.
+
+#### Native SDKs
+- [iOS@v4.14.1][ios_sdk_v4.14.1]
+- [Android@v4.14.0][android_sdk_v4.14.0]
+
+---
+
 ### Version 4.13.0 (23rd May 2018)
 #### Added
 - Added `gdprForgetMe` method to `Adjust` interface enable possibility for user to be forgotten in accordance with GDPR law.
@@ -72,9 +87,11 @@
 [ios_sdk_v4.12.1]: https://github.com/adjust/ios_sdk/tree/v4.12.1
 [ios_sdk_v4.12.3]: https://github.com/adjust/ios_sdk/tree/v4.12.3
 [ios_sdk_v4.13.0]: https://github.com/adjust/ios_sdk/tree/v4.13.0
+[ios_sdk_v4.14.1]: https://github.com/adjust/ios_sdk/tree/v4.14.1
 
 [android_sdk_v4.11.4]: https://github.com/adjust/android_sdk/tree/v4.11.4
 [android_sdk_v4.12.0]: https://github.com/adjust/android_sdk/tree/v4.12.0
 [android_sdk_v4.12.3]: https://github.com/adjust/android_sdk/tree/v4.12.3
 [android_sdk_v4.12.4]: https://github.com/adjust/android_sdk/tree/v4.12.4
 [android_sdk_v4.13.0]: https://github.com/adjust/android_sdk/tree/v4.13.0
+[android_sdk_v4.14.0]: https://github.com/adjust/android_sdk/tree/v4.14.0

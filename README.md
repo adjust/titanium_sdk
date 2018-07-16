@@ -197,24 +197,17 @@ The Adjust SDK adds by default certain permissions to your Android manifest file
 
 Since August 1, 2014, apps in the Google Play Store must use the [Google advertising ID][google-ad-id] to uniquely identify each device. To allow the Adjust SDK to use the Google advertising ID, you must integrate [Google Play Services][google-play-services].
 
-The Adjust SDK adds Google Play Services by default to your app. This is done with this line in the `timodule.xml` file of the Adjust SDK Android module:
+Google Play Services can be added to your app as part of official Titanium Google Play Services module. You can add it to your ap by adding following dependency to your `tiapp.xml` modules section:
 
 ```xml
-<manifest>
-    <!-- ... -->
-    <application>
-        <!-- ... -->
-        <meta-data android:name="com.google.android.gms.version"
-                   android:value="@integer/google_play_services_version" />
-    </application>
-</manifest>
+  <modules>
+    <!- ... ->
+    <module platform="android">ti.playservices</module>
+    <!- ... ->
+</modules>
 ```
 
-If you are using other Titanium modules, they might also be importing Google Play Services by default into your app. If this is the case, the various versions of Google Play Services from our SDK and other modules can conflict and cause build time errors. Google Play Services does not have to be present in your app as part of our SDK exclusively. As long as you have the part of the Google Play Services library needed to read the Google Play advertising identifier added to your app, our SDK will be able to read all the necessary information. In case you choose to add Google Play Services into your app as part of another Titanium module, you can simply remove the `android/android/lib/google-play-services.jar` file, `android/android/platform/android/res` folder and `<meta-data>` entry from the `timodule.xml` file from our Android module.
-
 To check whether the analytics part of the Google Play Services library has been successfully added to your app, you should start your app by configuring the SDK to run in `sandbox` mode and set the log level to `verbose`. After that, track a session or some events in your app and observe the list of parameters in the verbose logs which are being read once the session or event has been tracked. If you see a parameter called `gps_adid` in there, you have successfully added the analytics part of the Google Play Services library to your app and our SDK is reading the necessary information from it.
-
-An important thing to mention is that the Adjust SDK doesn't include the full version of the Google Play Services library, as this is more likely to make your app hit the `65K DEX Reference Limit`. Rather, we add just the part needed for successful reading of the Google Play advertising identifier (named `basement` in latest Android SDK versions).
 
 ### <a id="android-proguard"></a>Proguard settings
 
@@ -300,7 +293,7 @@ Another setting we add is for the `Framework Search Paths` value of the iOS Xcod
 Settings for this can also be found in the `module.xcconfig` file of the Adjust SDK iOS module:
 
 ```
-FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.13.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.13.0/platform"
+FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.14.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.14.0/platform"
 OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework -framework CoreTelephony AdjustSdk -ObjC
 ```
 

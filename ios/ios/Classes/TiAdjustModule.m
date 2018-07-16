@@ -250,7 +250,7 @@
         return;
     }
 
-    [Adjust setDeviceToken:[pushToken dataUsingEncoding:NSUTF8StringEncoding]];
+    [Adjust setPushToken:pushToken];
 }
 
 - (void)sendFirstPackages:(id)args {

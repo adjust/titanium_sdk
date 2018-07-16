@@ -541,7 +541,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     public void appWillOpenUrl(String url) {
         Uri uri = Uri.parse(url);
 
-        Adjust.appWillOpenUrl(uri);
+        Adjust.appWillOpenUrl(uri, getActivity().getApplication());
     }
     
     @Kroll.method
