@@ -18,13 +18,13 @@ ROOT_DIR="$(dirname "$SCRIPTS_DIR")"
 
 # ======================================== #
 
-echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Setting Titanium SDK to 7.0.0.GA ... ${NC}"
-appc ti sdk select 7.0.0.GA
+echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Setting Titanium SDK to 7.2.0.GA ... ${NC}"
+appc ti sdk select 7.2.0.GA
 echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Done! ${NC}"
 
 # ======================================== #
 
-echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Removing ios module from ${TITANIUM_SUPPORT_PATH} ... ${NC}"
+echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Removing android module from ${TITANIUM_SUPPORT_PATH} ... ${NC}"
 rm -rf "${TITANIUM_SUPPORT_PATH}"/modules/android/ti.adjust/*
 echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Done! ${NC}"
 
@@ -66,7 +66,7 @@ echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Done! ${NC}"
 
 echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Success. Run from IDE or: ${NC}"
 echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Emulator: cd example; appc ti build -p android -T emulator ${NC}"
-echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Success. Device: cd example; appc ti build -p android -T device ${NC}"
+echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${GREEN} Device: cd example; appc ti build -p android -T device ${NC}"
 
 # ======================================== #
 
