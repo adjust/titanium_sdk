@@ -4,6 +4,8 @@
 
 #### Changed
 - Updated the way how iOS plugin handles push tokens from Titanium interface - they are now being passed directly as strings to native iOS SDK.
+- Removed `google-play.services.jar` dependency from Android plugin.
+- Updated `Google Play Services` section of `README` with new instructions on how dependency can be added to your app.
 
 #### Native SDKs
 - [iOS@v4.14.1][ios_sdk_v4.14.1]
