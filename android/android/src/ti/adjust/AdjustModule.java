@@ -626,6 +626,127 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         
         callback.call(getKrollObject(), answer);
     }
+
+    @Kroll.method
+    public void teardown() {
+        this.jsAttributionCallback = null;
+        this.jsEventSuccessCallback = null;
+        this.jsEventFailureCallback = null;
+        this.jsSessionSuccessCallback = null;
+        this.jsSessionFailureCallback = null;
+        this.jsDeferredDeeplinkCallback = null;
+    }
+
+    @Kroll.method
+    public void setTestOptions(Object args) {
+        if (args == null) {
+            return;
+        }
+
+        final AdjustTestOptions testOptions = new AdjustTestOptions();
+        HashMap<Object, Object> hmArgs = (HashMap<Object, Object>)args;
+        
+        if (hmArgs.containsKey("hasContext")) {
+            if (null != hmArgs.get("hasContext")) {
+                boolean value = Boolean.parseBoolean(hmArgs.get("hasContext").toString());
+                if (value) {
+                    testOptions.context = getActivity().getApplication();
+                }
+            }
+        }
+        if (hmArgs.containsKey("baseUrl")) {
+            if (null != hmArgs.get("baseUrl")) {
+                String value = hmArgs.get("baseUrl").toString();
+                testOptions.baseUrl = value;
+            }
+        }
+        if (hmArgs.containsKey("gdprUrl")) {
+            if (null != hmArgs.get("gdprUrl")) {
+                String value = hmArgs.get("gdprUrl").toString();
+                testOptions.gdprUrl = value;
+            }
+        }
+        if (hmArgs.containsKey("basePath")) {
+            if (null != hmArgs.get("basePath")) {
+                String value = hmArgs.get("basePath").toString();
+                testOptions.basePath = value;
+            }
+        }
+        if (hmArgs.containsKey("gdprPath")) {
+            if (null != hmArgs.get("gdprPath")) {
+                String value = hmArgs.get("gdprPath").toString();
+                testOptions.gdprPath = value;
+            }
+        }
+        if (hmArgs.containsKey("useTestConnectionOptions")) {
+            if (null != hmArgs.get("useTestConnectionOptions")) {
+                boolean value = Boolean.parseBoolean(hmArgs.get("useTestConnectionOptions").toString());
+                testOptions.useTestConnectionOptions = value;
+            }
+        }
+        if (hmArgs.containsKey("timerIntervalInMilliseconds")) {
+            if (null != hmArgs.get("timerIntervalInMilliseconds")) {
+                try {
+                    Long value = Long.parseLong(hmArgs.get("timerIntervalInMilliseconds").toString());
+                    testOptions.timerIntervalInMilliseconds = value;
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        if (hmArgs.containsKey("timerStartInMilliseconds")) {
+            if (null != hmArgs.get("timerStartInMilliseconds")) {
+                try {
+                    Long value = Long.parseLong(hmArgs.get("timerStartInMilliseconds").toString());
+                    testOptions.timerStartInMilliseconds = value;
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        if (hmArgs.containsKey("sessionIntervalInMilliseconds")) {
+            if (null != hmArgs.get("sessionIntervalInMilliseconds")) {
+                try {
+                    Long value = Long.parseLong(hmArgs.get("sessionIntervalInMilliseconds").toString());
+                    testOptions.sessionIntervalInMilliseconds = value;
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        if (hmArgs.containsKey("subsessionIntervalInMilliseconds")) {
+            if (null != hmArgs.get("subsessionIntervalInMilliseconds")) {
+                try {
+                    Long value = Long.parseLong(hmArgs.get("subsessionIntervalInMilliseconds").toString());
+                    testOptions.subsessionIntervalInMilliseconds = value;
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        if (hmArgs.containsKey("noBackoffWait")) {
+            if (null != hmArgs.get("noBackoffWait")) {
+                boolean value = Boolean.parseBoolean(hmArgs.get("noBackoffWait").toString());
+                testOptions.noBackoffWait = value;
+            }
+        }
+        if (hmArgs.containsKey("tryInstallReferrer")) {
+            if (null != hmArgs.get("tryInstallReferrer")) {
+                boolean value = Boolean.parseBoolean(hmArgs.get("tryInstallReferrer").toString());
+                testOptions.tryInstallReferrer = value;
+            } else {
+                testOptions.tryInstallReferrer = false;
+            }
+        }
+        if (hmArgs.containsKey("teardown")) {
+            if (null != hmArgs.get("teardown")) {
+                boolean value = Boolean.parseBoolean(hmArgs.get("teardown").toString());
+                testOptions.teardown = value;
+            }
+        }
+
+        Adjust.setTestOptions(testOptions);
+    }
     
     @Override
     public void onAttributionChanged(AdjustAttribution attribution) {
