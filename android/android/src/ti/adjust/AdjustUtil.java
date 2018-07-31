@@ -3,7 +3,7 @@
  * Adjust SDK
  *
  * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
- * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
+ * Copyright (c) 2017-2018 Adjust GmbH. All rights reserved.
  */
 
 package ti.adjust;
@@ -50,7 +50,6 @@ final class AdjustUtil {
 
     public static Map<String, String> attributionToMap(AdjustAttribution attribution) {
         HashMap<String, String> map = new HashMap<String, String>();
-
         if (null == attribution) {
             return map;
         }
@@ -63,13 +62,11 @@ final class AdjustUtil {
         map.put(ATTRIBUTION_CREATIVE, null != attribution.creative ? attribution.creative : "");
         map.put(ATTRIBUTION_CLICK_LABEL, null != attribution.clickLabel ? attribution.clickLabel : "");
         map.put(ATTRIBUTION_ADID, null != attribution.adid ? attribution.adid : "");
-
         return map;
     }
 
     public static Map<String, String> eventSuccessToMap(AdjustEventSuccess eventSuccess) {
         HashMap<String, String> map = new HashMap<String, String>();
-
         if (null == eventSuccess) {
             return map;
         }
@@ -79,13 +76,11 @@ final class AdjustUtil {
         map.put(EVENT_SUCCESS_ADID, null != eventSuccess.adid ? eventSuccess.adid : "");
         map.put(EVENT_SUCCESS_EVENT_TOKEN, null != eventSuccess.eventToken ? eventSuccess.eventToken : "");
         map.put(EVENT_SUCCESS_JSON_RESPONSE, null != eventSuccess.jsonResponse ? eventSuccess.jsonResponse.toString() : "");
-
         return map;
     }
 
     public static Map<String, String> eventFailureToMap(AdjustEventFailure eventFailure) {
         HashMap<String, String> map = new HashMap<String, String>();
-
         if (null == eventFailure) {
             return map;
         }
@@ -96,13 +91,11 @@ final class AdjustUtil {
         map.put(EVENT_FAILED_EVENT_TOKEN, null != eventFailure.eventToken ? eventFailure.eventToken : "");
         map.put(EVENT_FAILED_WILL_RETRY, eventFailure.willRetry ? "true" : "false");
         map.put(EVENT_FAILED_JSON_RESPONSE, null != eventFailure.jsonResponse ? eventFailure.jsonResponse.toString() : "");
-
         return map;
     }
 
     public static Map<String, String> sessionSuccessToMap(AdjustSessionSuccess sessionSuccess) {
         HashMap<String, String> map = new HashMap<String, String>();
-
         if (null == sessionSuccess) {
             return map;
         }
@@ -111,13 +104,11 @@ final class AdjustUtil {
         map.put(SESSION_SUCCESS_TIMESTAMP, null != sessionSuccess.timestamp ? sessionSuccess.timestamp : "");
         map.put(SESSION_SUCCESS_ADID, null != sessionSuccess.adid ? sessionSuccess.adid : "");
         map.put(SESSION_SUCCESS_JSON_RESPONSE, null != sessionSuccess.jsonResponse ? sessionSuccess.jsonResponse.toString() : "");
-
         return map;
     }
 
     public static Map<String, String> sessionFailureToMap(AdjustSessionFailure sessionFailure) {
         HashMap<String, String> map = new HashMap<String, String>();
-
         if (null == sessionFailure) {
             return map;
         }
@@ -127,19 +118,16 @@ final class AdjustUtil {
         map.put(SESSION_FAILED_ADID, null != sessionFailure.adid ? sessionFailure.adid : "");
         map.put(SESSION_FAILED_WILL_RETRY, sessionFailure.willRetry ? "true" : "false");
         map.put(SESSION_FAILED_JSON_RESPONSE, null != sessionFailure.jsonResponse ? sessionFailure.jsonResponse.toString() : "");
-
         return map;
     }
 
     public static Map<String, String> deferredDeeplinkToMap(Uri uri) {
         HashMap<String, String> map = new HashMap<String, String>();
-
         if (null == uri) {
             return map;
         }
 
         map.put("uri", uri.toString());
-
         return map;
     }
 }
