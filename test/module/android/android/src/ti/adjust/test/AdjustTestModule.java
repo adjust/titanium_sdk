@@ -25,6 +25,7 @@ public class AdjustTestModule extends KrollModule implements ICommandRawJsonList
 	// Standard Debugging variables
 	private static final String LCAT = "AdjustTestModule";
 
+    private int order;
 	private TestLibrary testLibrary;
     private List<String> selectedTests = new ArrayList<String>();
     private List<String> selectedTestDirs = new ArrayList<String>();
@@ -44,12 +45,14 @@ public class AdjustTestModule extends KrollModule implements ICommandRawJsonList
 
 	@Override
 	public void executeCommand(String json) {
-		Object[] answer = { json };
+		Object[] answer = { json, this.order };
 		this.jsCommandExecutorCallback.call(getKrollObject(), answer);
+        this.order += 1;
 	}
 
 	@Kroll.method
     public void initialize(String baseUrl, final V8Function callback) {
+        order = 0;
     	testLibrary = new TestLibrary(baseUrl, this);
 
         for (int i = 0; i < selectedTests.size(); i++) {

@@ -12,14 +12,6 @@ var AdjustTest = require('ti.adjust.test');
 var AdjustConfig = require('adjust_config');
 var CommandExecutor = require('command_executor');
 
-
-
-
-
-
-
-
-
 if (true) {
     var platformTools = require('bencoding.android.tools').createPlatform(),
     wasInForeGround = true;
@@ -80,16 +72,16 @@ if (false) {
         gdprUrl = "http://127.0.0.1:8080";
     }
 
-    const commandExecutor = new CommandExecutor(baseUrl, gdprUrl);
+    var commandExecutor = new CommandExecutor(baseUrl, gdprUrl);
 
 
 
-    AdjustTest.initialize(baseUrl, function (json) {
-        Ti.API.info("[AdjustTest] JSON command received in JS world: " + json);
-        const className = json["className"];
-        const functionName = json["functionName"];
-        const params = json["params"];
-        const order = json["order"];
+
+    AdjustTest.initialize(baseUrl, function (json, order) {
+        var jsonObject = JSON.parse(json);
+        const className = jsonObject["className"];
+        const functionName = jsonObject["functionName"];
+        const params = jsonObject["params"];
         commandExecutor.scheduleCommand(className, functionName, params, order);
     });
     AdjustTest.startTestSession("titanium4.14.0@android4.14.0");
