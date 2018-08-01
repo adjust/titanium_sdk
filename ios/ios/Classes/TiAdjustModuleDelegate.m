@@ -3,11 +3,10 @@
  * Adjust SDK
  *
  * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
- * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
+ * Copyright (c) 2017-2018 Adjust GmbH. All rights reserved.
  */
 
 #import <objc/runtime.h>
-
 #import "TiAdjustModuleDelegate.h"
 
 @implementation TiAdjustModuleDelegate
@@ -66,11 +65,9 @@
 
 - (id)init {
     self = [super init];
-
     if (nil == self) {
         return nil;
     }
-
     return self;
 }
 
@@ -78,7 +75,6 @@
     if (nil == attribution) {
         return;
     }
-
     if (nil == self.adjustModule.jsAttributionCallback) {
         return;
     }
@@ -178,14 +174,12 @@
     NSString *path = [deeplink absoluteString];
     NSArray *array = [NSArray arrayWithObjects:@{@"uri": path}, nil];
     [self.adjustModule.jsDeferredDeeplinkCallback call:array thisObject:nil];
-
     return _shouldLaunchDeferredDeeplink;
 }
 
 - (void)swizzleCallbackMethod:(SEL)originalSelector
              swizzledSelector:(SEL)swizzledSelector {
     Class class = [self class];
-
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
 
@@ -193,7 +187,6 @@
                                         originalSelector,
                                         method_getImplementation(swizzledMethod),
                                         method_getTypeEncoding(swizzledMethod));
-
     if (didAddMethod) {
         class_replaceMethod(class,
                             swizzledSelector,
