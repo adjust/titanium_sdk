@@ -9,12 +9,13 @@ NC='\033[0m'
 RED='\033[0;31m'
 CYAN='\033[1;36m'
 GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
 
 # ======================================== #
 
 # Usage hint in case of wrong invocation.
 if [ $# -ne 2 ] && [ $# -ne 3 ]; then
-    echo -e "${CYAN}[ADJUST][ANDROID][BUILD]:${GREEN} Usage: ./build.sh [debug || release] [private || public] [optional: --with-test-lib] ${NC}"
+    echo -e "${CYAN}[ADJUST][ANDROID][BUILD]:${YELLOW} Usage: ./build.sh [debug || release] [private || public] [optional: --with-test-lib] ${NC}"
     exit 1
 fi
 
@@ -51,42 +52,42 @@ cd ${ROOT_DIR}/${BUILD_DIR}
 
 # ======================================== #
 
-echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Running clean and makeDebugJar Gradle tasks for Adjust SDK project ... ${NC}"
+echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Running clean and makeDebugJar Gradle tasks for Adjust SDK project ... ${NC}"
 if [ "$BUILD_TYPE" == "debug" ]; then
     JAR_IN_DIR_SDK=adjust/build/intermediates/bundles/debug
     ./gradlew clean makeDebugJar
-    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Done! ${NC}"
+    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 elif [ "$BUILD_TYPE" == "release" ]; then
     JAR_IN_DIR_SDK=adjust/build/intermediates/bundles/release
     ./gradlew clean makeReleaseJar
-    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Done! ${NC}"
+    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 fi
 
 # ======================================== #
 
-echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Copying Android SDK JAR from ${JAR_IN_DIR_SDK} to ${JAR_OUT_DIR_SDK} ... ${NC}"
+echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Copying Android SDK JAR from ${JAR_IN_DIR_SDK} to ${JAR_OUT_DIR_SDK} ... ${NC}"
 cp -v ${JAR_IN_DIR_SDK}/*.jar ${ROOT_DIR}/${JAR_OUT_DIR_SDK}/adjust-android.jar
-echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Done! ${NC}"
+echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 
 # ======================================== #
 
 if [ $# -eq 3 ] && [ $3 == --with-test-lib ]; then
-    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Running clean and makeJar Gradle tasks for Adjust test library project ... ${NC}"
+    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Running clean and makeJar Gradle tasks for Adjust test library project ... ${NC}"
     ./gradlew clean makeJar
     if [ "$BUILD_TYPE" == "debug" ]; then
         JAR_IN_DIR_TEST=testlibrary/build/intermediates/bundles/debug
     else
         JAR_IN_DIR_TEST=testlibrary/build/intermediates/bundles/release
     fi
-    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Done! ${NC}"
+    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 
     # ======================================== #
 
-    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Copying Testing JAR from ${JAR_IN_DIR_TEST} to ${PROXY_DIR} ... ${NC}"
+    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Copying Testing JAR from ${JAR_IN_DIR_TEST} to ${PROXY_DIR} ... ${NC}"
     cp -v ${JAR_IN_DIR_TEST}/*.jar ${ROOT_DIR}/${JAR_OUT_DIR_TEST}/adjust-testing.jar
-    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Done! ${NC}"
+    echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 fi
 
 # ======================================== #
 
-echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${GREEN} Script completed! ${NC}"
+echo -e "${CYAN}[ADJUST][ANDROID][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Script completed! ${NC}"
