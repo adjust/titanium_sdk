@@ -95,7 +95,7 @@
     }
 
     ADJConfig *adjustConfig = [ADJConfig configWithAppToken:appToken environment:environment allowSuppressLogLevel:allowSuppressLogLevel];
-    if (![adjust isValid]) {
+    if (![adjustConfig isValid]) {
         return;
     }
 
