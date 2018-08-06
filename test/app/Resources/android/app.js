@@ -65,8 +65,8 @@ if (false) {
 
 
 
-        baseUrl = "https://192.168.8.226:8443";
-        gdprUrl = "https://192.168.8.226:8443";
+        baseUrl = "https://192.168.8.190:8443";
+        gdprUrl = "https://192.168.8.190:8443";
     } else if (false) {
         baseUrl = "http://127.0.0.1:8080";
         gdprUrl = "http://127.0.0.1:8080";

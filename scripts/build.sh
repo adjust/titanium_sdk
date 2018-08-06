@@ -59,7 +59,7 @@ if [ "$PLATFORM" == "android" ]; then
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 	elif [ "$APP_TYPE" == "test" ]; then
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Removing test app from test device/emulator ... ${NC}"
-		adb uninstall com.adjust.testapp || true
+		adb uninstall com.adjust.examples || true
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 	fi
 fi

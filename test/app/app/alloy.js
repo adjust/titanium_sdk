@@ -56,8 +56,8 @@ if (OS_ANDROID) {
         // Emulator
         // baseUrl = "https://10.0.2.2:8443";
         // gdprUrl = "https://10.0.2.2:8443";
-        baseUrl = "https://192.168.8.226:8443";
-        gdprUrl = "https://192.168.8.226:8443";
+        baseUrl = "https://192.168.8.190:8443";
+        gdprUrl = "https://192.168.8.190:8443";
     } else if (OS_IOS) {
         baseUrl = "http://127.0.0.1:8080";
         gdprUrl = "http://127.0.0.1:8080";
