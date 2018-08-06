@@ -56,11 +56,18 @@ if (OS_ANDROID) {
         // Emulator
         // baseUrl = "https://10.0.2.2:8443";
         // gdprUrl = "https://10.0.2.2:8443";
+
+        // Device
         baseUrl = "https://192.168.8.190:8443";
         gdprUrl = "https://192.168.8.190:8443";
     } else if (OS_IOS) {
-        baseUrl = "http://127.0.0.1:8080";
-        gdprUrl = "http://127.0.0.1:8080";
+        // Emulator
+        // baseUrl = "http://127.0.0.1:8080";
+        // gdprUrl = "http://127.0.0.1:8080";
+
+        // Device
+        baseUrl = "http://192.168.8.190:8080";
+        gdprUrl = "http://192.168.8.190:8080";
     }
 
     var commandExecutor = new CommandExecutor(baseUrl, gdprUrl);
@@ -75,5 +82,10 @@ if (OS_ANDROID) {
         const params       = jsonObject["params"];
         commandExecutor.scheduleCommand(className, functionName, params, order);
     });
-    AdjustTest.startTestSession("titanium4.14.0@android4.14.0");
+
+    if (OS_ANDROID) {
+        AdjustTest.startTestSession("titanium4.14.0@android4.14.0");
+    } else if (OS_IOS) {
+        AdjustTest.startTestSession("titanium4.14.0@ios4.14.2");
+    }
 })();

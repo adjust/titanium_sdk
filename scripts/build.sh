@@ -47,21 +47,16 @@ TEST_APP_DIR=${ROOT_DIR}/test/app
 # ======================================== #
 
 echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Setting Titanium SDK to 7.2.0.GA ... ${NC}"
-appc ti sdk select 7.2.0.GA
+appc ti sdk select 7.2.0.GA -l trace
 echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 
 # ======================================== #
 
 if [ "$PLATFORM" == "android" ]; then
-	if [ "$APP_TYPE" == "example" ]; then
-		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Removing example app from test device/emulator ... ${NC}"
-		adb uninstall com.adjust.examples || true
-		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
-	elif [ "$APP_TYPE" == "test" ]; then
-		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Removing test app from test device/emulator ... ${NC}"
-		adb uninstall com.adjust.examples || true
-		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
-	fi
+	# Titanium test and example app share same package name.
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Removing example/test app from test device/emulator ... ${NC}"
+	adb uninstall com.adjust.examples || true
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 fi
 
 # ======================================== #
@@ -77,14 +72,21 @@ if [ "$PLATFORM" == "android" ]; then
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 	fi
 elif [ "$PLATFORM" == "ios" ]; then
-	# iOS to come.
-	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} iOS to come! ${NC}"
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Removing SDK ios module from ${TITANIUM_SUPPORT_PATH} ... ${NC}"
+	rm -rf "${TITANIUM_SUPPORT_PATH}"/modules/iphone/ti.adjust/*
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+
+	if [ "$APP_TYPE" == "test" ]; then
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Removing test library ios module from ${TITANIUM_SUPPORT_PATH} ... ${NC}"
+		rm -rf "${TITANIUM_SUPPORT_PATH}"/modules/iphone/ti.adjust.test/*
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+	fi
 fi
 
 # ======================================== #
 
 if [ "$PLATFORM" == "android" ]; then
-	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Cleaning SDK module project ... ${NC}"
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Cleaning SDK android module project ... ${NC}"
 	cd ${ROOT_DIR}
 	rm -rf android/android/build/*
 	rm -rf android/android/libs/armeabi-v7a/libti.*
@@ -92,7 +94,7 @@ if [ "$PLATFORM" == "android" ]; then
 	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 
 	if [ "$APP_TYPE" == "test" ]; then
-		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Cleaning test library module project ... ${NC}"
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Cleaning test library android module project ... ${NC}"
 		cd ${TEST_MODULE_DIR}
 		rm -rf android/android/build/*
 		rm -rf android/android/libs/armeabi-v7a/libti.*
@@ -100,8 +102,17 @@ if [ "$PLATFORM" == "android" ]; then
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 	fi
 elif [ "$PLATFORM" == "ios" ]; then
-	# iOS to come.
-	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} iOS to come! ${NC}"
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Cleaning SDK ios module project ... ${NC}"
+	cd ${ROOT_DIR}
+	rm -rf ios/ios/build/*
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+
+	if [ "$APP_TYPE" == "test" ]; then
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Cleaning test library ios module project ... ${NC}"
+		cd ${TEST_MODULE_DIR}
+		rm -rf ios/ios/build/*
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+	fi
 fi
 
 # ======================================== #
@@ -124,7 +135,7 @@ if [ "$PLATFORM" == "android" ]; then
 		fi
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 	elif [ "$APP_TYPE" == "test" ]; then
-		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Building Adjust SDK and test library JAR file ... ${NC}"
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Building Adjust SDK and test library JAR files ... ${NC}"
 		if [ "$BUILD_TYPE" == "debug" ]; then
 			if [ "$REPO_TYPE" == "private" ]; then
 				${ROOT_DIR}/ext/android/build.sh debug private --with-test-lib
@@ -141,8 +152,39 @@ if [ "$PLATFORM" == "android" ]; then
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 	fi
 elif [ "$PLATFORM" == "ios" ]; then
-	# iOS to come.
-	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} iOS to come! ${NC}"
+	if [ "$APP_TYPE" == "example" ]; then
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Building AdjustSdk.framework file ... ${NC}"
+		if [ "$BUILD_TYPE" == "debug" ]; then
+			if [ "$REPO_TYPE" == "private" ]; then
+				${ROOT_DIR}/ext/ios/build.sh debug private
+			elif [ "$REPO_TYPE" == "public" ]; then
+				${ROOT_DIR}/ext/ios/build.sh debug public
+			fi
+		elif [ "$BUILD_TYPE" == "release" ]; then
+			if [ "$REPO_TYPE" == "private" ]; then
+				${ROOT_DIR}/ext/ios/build.sh release private
+			elif [ "$REPO_TYPE" == "public" ]; then
+				${ROOT_DIR}/ext/ios/build.sh release public
+			fi
+		fi
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+	elif [ "$APP_TYPE" == "test" ]; then
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Building AdjustSdk.framework and AdjustTestLibrary.framework files ... ${NC}"
+		if [ "$BUILD_TYPE" == "debug" ]; then
+			if [ "$REPO_TYPE" == "private" ]; then
+				${ROOT_DIR}/ext/ios/build.sh debug private --with-test-lib
+			elif [ "$REPO_TYPE" == "public" ]; then
+				${ROOT_DIR}/ext/ios/build.sh debug public --with-test-lib
+			fi
+		elif [ "$BUILD_TYPE" == "release" ]; then
+			if [ "$REPO_TYPE" == "private" ]; then
+				${ROOT_DIR}/ext/ios/build.sh release private --with-test-lib
+			elif [ "$REPO_TYPE" == "public" ]; then
+				${ROOT_DIR}/ext/ios/build.sh release public --with-test-lib
+			fi
+		fi
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+	fi
 fi
 
 # ======================================== #
@@ -150,7 +192,7 @@ fi
 if [ "$PLATFORM" == "android" ]; then
 	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Building SDK android module ... ${NC}"
 	cd ${ROOT_DIR}/android/android
-	appc ti build --build-only
+	appc ti build --build-only -l trace
 	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 
 	echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${YELLOW} Extracting SDK module to ${TITANIUM_SUPPORT_PATH} ... ${NC}"
@@ -160,7 +202,7 @@ if [ "$PLATFORM" == "android" ]; then
 	if [ "$APP_TYPE" == "test" ]; then
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Building test library android module ... ${NC}"
 		cd ${TEST_MODULE_DIR}/android/android
-		appc ti build --build-only
+		appc ti build --build-only -l trace
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Extracting module to ${TITANIUM_SUPPORT_PATH} ... ${NC}"
@@ -168,8 +210,25 @@ if [ "$PLATFORM" == "android" ]; then
 		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
 	fi
 elif [ "$PLATFORM" == "ios" ]; then
-	# iOS to come.
-	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} iOS to come! ${NC}"
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Building SDK ios module ... ${NC}"
+	cd ${ROOT_DIR}/ios/ios
+	appc ti build --build-only -l trace
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+
+	echo -e "${CYAN}[ADJUST][ANDROID][EXAMPLE]:${YELLOW} Extracting SDK module to ${TITANIUM_SUPPORT_PATH} ... ${NC}"
+	unzip -oq ti.adjust*.zip -d "${TITANIUM_SUPPORT_PATH}"
+	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+
+	if [ "$APP_TYPE" == "test" ]; then
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Building test library ios module ... ${NC}"
+		cd ${TEST_MODULE_DIR}/ios/ios
+		appc ti build --build-only -l trace
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Extracting module to ${TITANIUM_SUPPORT_PATH} ... ${NC}"
+		unzip -oq ti.adjust.test*.zip -d "${TITANIUM_SUPPORT_PATH}"
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Done! ${NC}"
+	fi
 fi
 
 if [ "$PLATFORM" == "android" ]; then
@@ -183,8 +242,15 @@ if [ "$PLATFORM" == "android" ]; then
 		echo -e "${CYAN}[ADJUST][ANDROID][TEST]:${YELLOW} Device: cd ${ROOT_DIR}/test/app; appc ti build -p android -T device ${NC}"
 	fi
 elif [ "$PLATFORM" == "ios" ]; then
-	# iOS to come.
-	echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} iOS to come! ${NC}"
+	if [ "$APP_TYPE" == "example" ]; then
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Run from IDE or: ${NC}"
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Emulator: cd ${ROOT_DIR}/example; appc ti build -p ios -T emulator ${NC}"
+		echo -e "${CYAN}[ADJUST][BUILD][$REPO_TYPE_UC][$BUILD_TYPE_UC]:${YELLOW} Device: cd ${ROOT_DIR}/example; appc ti build -p ios -T device ${NC}"
+	elif [ "$APP_TYPE" == "test" ]; then
+		echo -e "${CYAN}[ADJUST][ANDROID][TEST]:${YELLOW} Run from IDE or: ${NC}"
+		echo -e "${CYAN}[ADJUST][ANDROID][TEST]:${YELLOW} Emulator: cd ${ROOT_DIR}/test/app; appc ti build -p ios -T emulator ${NC}"
+		echo -e "${CYAN}[ADJUST][ANDROID][TEST]:${YELLOW} Device: cd ${ROOT_DIR}/test/app; appc ti build -p ios -T device ${NC}"
+	fi
 fi
 
 # ======================================== #
