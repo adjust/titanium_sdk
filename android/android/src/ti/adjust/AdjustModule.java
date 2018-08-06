@@ -63,10 +63,10 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private static final String KEY_DEFERRED_DEEPLINK_CALLBACK = "deferredDeeplinkCallback";
 
     private static final String KEY_TEST_HAS_CONTEXT = "hasContext";
-    private static final String KEY_TEST_BASE_PATH = "baseUrl";
-    private static final String KEY_TEST_GDPR_PATH = "gdprUrl";
     private static final String KEY_TEST_BASE_URL = "baseUrl";
     private static final String KEY_TEST_GDPR_URL = "gdprUrl";
+    private static final String KEY_TEST_BASE_PATH = "basePath";
+    private static final String KEY_TEST_GDPR_PATH = "gdprPath";
     private static final String KEY_TEST_TEST_CONNECTION_OPTIONS = "useTestConnectionOptions";
     private static final String KEY_TEST_TIMER_INTERVAL = "timerIntervalInMilliseconds";
     private static final String KEY_TEST_TIMER_START = "timerStartInMilliseconds";
