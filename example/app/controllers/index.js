@@ -1,89 +1,66 @@
 var Adjust = require('ti.adjust');
 var AdjustEvent = require('adjust_event');
 
- function btnTrackSimpleEventTapped(e) {
+ function btnTrackEventTapped(e) {
     var adjustEvent = new AdjustEvent("g3mfiw");
-    Adjust.trackEvent(adjustEvent);
- }
-
-function btnTrackRevenueEventTapped(e) {
-    var adjustEvent = new AdjustEvent("a4fd35");
     adjustEvent.setRevenue(10.0, "USD");
     adjustEvent.setTransactionId("DUMMY_TRANSACTION_ID");
-    Adjust.trackEvent(adjustEvent);
-}
-
-function btnTrackCallbackEventTapped(e) {
-    var adjustEvent = new AdjustEvent("34vgg9");
-
     adjustEvent.addCallbackParameter("DUMMY_KEY_1", "DUMMY_VALUE_1");
     adjustEvent.addCallbackParameter("DUMMY_KEY_2", "DUMMY_VALUE_2");
-
-    Adjust.trackEvent(adjustEvent);
-}
-
-function btnTrackPartnerEventTapped(e) {
-    var adjustEvent = new AdjustEvent("w788qs");
-
     adjustEvent.addPartnerParameter("DUMMY_KEY_1", "DUMMY_VALUE_1");
     adjustEvent.addPartnerParameter("DUMMY_KEY_2", "DUMMY_VALUE_2");
-
     Adjust.trackEvent(adjustEvent);
-}
+ }
 
 function btnEnableOfflineModeTapped(e) {
     Adjust.setOfflineMode(true);
 }
 
 function btnDisableOfflineModeTapped(e) {
-	Adjust.setOfflineMode(false);
+    Adjust.setOfflineMode(false);
 }
 
 function btnEnableSdkTapped(e) {
-	Adjust.setEnabled(true);
+    Adjust.setEnabled(true);
 }
 
 function btnDisableSdkTapped(e) {
-	Adjust.setEnabled(false);
+    Adjust.setEnabled(false);
 }
 
 function btnGetIdsTapped(e) {
-	Adjust.getAttribution(function(attribution) {
-        Ti.API.info("Tracker token = " + attribution.trackerToken);
-        Ti.API.info("Tracker name = " + attribution.trackerName);
-        Ti.API.info("Network = " + attribution.network);
-        Ti.API.info("Campaign = " + attribution.campaign);
-        Ti.API.info("Adgroup = " + attribution.adgroup);
-        Ti.API.info("Creative = " + attribution.creative);
-        Ti.API.info("Click label = " + attribution.clickLabel);
-        Ti.API.info("Attribution Adid = " + attribution.adid);
+    Adjust.getAttribution(function(attribution) {
+        Ti.API.info("[AdjustExample]: Tracker token = " + attribution.trackerToken);
+        Ti.API.info("[AdjustExample]: Tracker name = " + attribution.trackerName);
+        Ti.API.info("[AdjustExample]: Network = " + attribution.network);
+        Ti.API.info("[AdjustExample]: Campaign = " + attribution.campaign);
+        Ti.API.info("[AdjustExample]: Adgroup = " + attribution.adgroup);
+        Ti.API.info("[AdjustExample]: Creative = " + attribution.creative);
+        Ti.API.info("[AdjustExample]: Click label = " + attribution.clickLabel);
+        Ti.API.info("[AdjustExample]: Adid = " + attribution.adid);
     });
-    
     Adjust.getAdid(function(adid) {
-        Ti.API.info("Adid = " + adid);
+        Ti.API.info("[AdjustExample]: Adid = " + adid);
     });
-
     Adjust.getIdfa(function(idfa) {
-        Ti.API.info("IDFA = " + idfa);
+        Ti.API.info("[AdjustExample]: IDFA = " + idfa);
     });
-
     Adjust.getGoogleAdId(function(googleAdId) {
-        Ti.API.info("Google Ad Id = " + googleAdId);
+        Ti.API.info("[AdjustExample]: Google Ad Id = " + googleAdId);
     });
-
     Adjust.getAmazonAdId(function(amazonAdId) {
-        Ti.API.info("Amazon Ad Id = " + amazonAdId);
+        Ti.API.info("[AdjustExample]: Amazon Ad Id = " + amazonAdId);
     });
 }
 
 function btnIsSdkEnabledTapped(e) {
-	Adjust.isEnabled(function(isEnabled) {
-		if (isEnabled) {
-			alert("SDK is enabled!");
-		} else {
-			alert("SDK is disabled!");
-		}
- 	});
+    Adjust.isEnabled(function(isEnabled) {
+        if (isEnabled) {
+            alert("SDK is enabled!");
+        } else {
+            alert("SDK is disabled!");
+        }
+     });
 }
 
 $.index.open();

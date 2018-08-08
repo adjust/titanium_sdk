@@ -1,10 +1,10 @@
-/**
- * TiAdjustModule.m
- * Adjust SDK
- *
- * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
- * Copyright (c) 2017-2018 Adjust GmbH. All rights reserved.
- */
+//
+//  TiAdjustModule.m
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+//  Copyright © 2017-2018 Adjust GmbH. All rights reserved.
+//
 
 #import "TiBase.h"
 #import "TiHost.h"
@@ -60,7 +60,7 @@
 - (void)start:(id)args {
     NSArray *configArray = (NSArray *)args;
     NSDictionary *params = (NSDictionary *)[configArray objectAtIndex:0];
-    
+
     NSString *appToken = [params objectForKey:@"appToken"];
     NSString *environment = [params objectForKey:@"environment"];
     NSString *logLevel = [params objectForKey:@"logLevel"];
@@ -72,7 +72,6 @@
     NSString *info2 = [params objectForKey:@"info2"];
     NSString *info3 = [params objectForKey:@"info3"];
     NSString *info4 = [params objectForKey:@"info4"];
-
     NSNumber *delayStart = [params objectForKey:@"delayStart"];
     NSNumber *sendInBackground = [params objectForKey:@"sendInBackground"];
     NSNumber *shouldLaunchDeeplink = [params objectForKey:@"shouldLaunchDeeplink"];
@@ -179,6 +178,7 @@
                                                                   withModule:self]];
     }
 
+    // Start SDK
     [Adjust appDidLaunch:adjustConfig];
     [Adjust trackSubsessionStart];
 }
@@ -191,7 +191,6 @@
     NSString *revenue = [params objectForKey:@"revenue"];
     NSString *currency = [params objectForKey:@"currency"];
     NSString *transactionId = [params objectForKey:@"transactionId"];
-
     NSDictionary *callbackParameters = [params objectForKey:@"callbackParameters"];
     NSDictionary *partnerParameters = [params objectForKey:@"partnerParameters"];
 
@@ -227,6 +226,7 @@
         [adjustEvent setTransactionId:transactionId];
     }
 
+    // Track event
     [Adjust trackEvent:adjustEvent];
 }
 
@@ -360,21 +360,23 @@
 
 - (void)onResume:(id)args {
     NSArray *arrayArgs = (NSArray *)args;
-    NSString *testString = [args objectAtIndex:0];
-    if (testString == nil) {
+    NSString *parameter = [args objectAtIndex:0];
+    if (parameter == nil) {
         return;
     }
 
+    // For test purposes only.
     [Adjust trackSubsessionStart];
 }
 
 - (void)onPause:(id)args {
     NSArray *arrayArgs = (NSArray *)args;
-    NSString *testString = [args objectAtIndex:0];
-    if (testString == nil) {
+    NSString *parameter = [args objectAtIndex:0];
+    if (parameter == nil) {
         return;
     }
 
+    // For test purposes only.
     [Adjust trackSubsessionEnd];
 }
 

@@ -1,14 +1,11 @@
 <Alloy>
 	<Window class="container">
-		<Button top="10%" left="15%" width="70%" id="btnTrackSimpleEvent" onClick="btnTrackSimpleEventTapped">Track Simple Event</Button>
-		<Button top="18%" left="15%" width="70%" id="btnTrackRevenueEvent" onClick="btnTrackRevenueEventTapped">Track Revenue Event</Button>
-		<Button top="26%" left="15%" width="70%" id="btnTrackCallbackEvent" onClick="btnTrackCallbackEventTapped">Track Callback Event</Button>
-		<Button top="34%" left="15%" width="70%" id="btnTrackPartnerEvent" onClick="btnTrackPartnerEventTapped">Track Partner Event</Button>
-		<Button top="42%" left="15%" width="70%" id="btnEnableOfflineMode" onClick="btnEnableOfflineModeTapped">Enable Offline Mode</Button>
-		<Button top="50%" left="15%" width="70%" id="btnDisableOfflineMode" onClick="btnDisableOfflineModeTapped">Disable Offline Mode</Button>
-		<Button top="58%" left="15%" width="70%" id="btnEnableSdk" onClick="btnEnableSdkTapped">Enable SDK</Button>
-		<Button top="66%" left="15%" width="70%" id="btnDisableSdk" onClick="btnDisableSdkTapped">Disable SDK</Button>
-		<Button top="74%" left="15%" width="70%" id="btnGetIds" onClick="btnGetIdsTapped">Get IDs</Button>
+		<Button top="10%" left="15%" width="70%" id="btnTrackSimpleEvent" onClick="btnTrackEventTapped">Track Event</Button>
+		<Button top="22%" left="15%" width="70%" id="btnEnableOfflineMode" onClick="btnEnableOfflineModeTapped">Enable Offline Mode</Button>
+		<Button top="34%" left="15%" width="70%" id="btnDisableOfflineMode" onClick="btnDisableOfflineModeTapped">Disable Offline Mode</Button>
+		<Button top="46%" left="15%" width="70%" id="btnEnableSdk" onClick="btnEnableSdkTapped">Enable SDK</Button>
+		<Button top="58%" left="15%" width="70%" id="btnDisableSdk" onClick="btnDisableSdkTapped">Disable SDK</Button>
+		<Button top="70%" left="15%" width="70%" id="btnGetIds" onClick="btnGetIdsTapped">Get IDs</Button>
 		<Button top="82%" left="15%" width="70%" id="btnIsSdkEnabled" onClick="btnIsSdkEnabledTapped">Is SDK Enabled?</Button>
 	</Window>
 </Alloy>

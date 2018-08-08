@@ -1,10 +1,10 @@
-/**
- * AdjustUtil.java
- * Adjust SDK
- *
- * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
- * Copyright (c) 2017-2018 Adjust GmbH. All rights reserved.
- */
+//
+//  AdjustUtil.java
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+//  Copyright © 2017-2018 Adjust GmbH. All rights reserved.
+//
 
 package ti.adjust;
 
@@ -99,7 +99,7 @@ final class AdjustUtil {
         if (null == sessionSuccess) {
             return map;
         }
-        
+
         map.put(SESSION_SUCCESS_MESSAGE, null != sessionSuccess.message ? sessionSuccess.message : "");
         map.put(SESSION_SUCCESS_TIMESTAMP, null != sessionSuccess.timestamp ? sessionSuccess.timestamp : "");
         map.put(SESSION_SUCCESS_ADID, null != sessionSuccess.adid ? sessionSuccess.adid : "");
@@ -112,7 +112,7 @@ final class AdjustUtil {
         if (null == sessionFailure) {
             return map;
         }
-        
+
         map.put(SESSION_FAILED_MESSAGE, null != sessionFailure.message ? sessionFailure.message : "");
         map.put(SESSION_FAILED_TIMESTAMP, null != sessionFailure.timestamp ? sessionFailure.timestamp : "");
         map.put(SESSION_FAILED_ADID, null != sessionFailure.adid ? sessionFailure.adid : "");

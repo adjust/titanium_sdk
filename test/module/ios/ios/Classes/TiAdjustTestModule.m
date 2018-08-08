@@ -1,10 +1,10 @@
-/**
- * TiAdjustTestModule.m
- * Adjust SDK
- *
- * Created by Uglješa Erceg (@uerceg) on 6th August 2018.
- * Copyright (c) 2018 Adjust GmbH. All rights reserved.
- */
+//
+//  TiAdjustTestModule.m
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 6th August 2018.
+//  Copyright © 2018 Adjust GmbH. All rights reserved.
+//
 
 #import "TiAdjustTestModule.h"
 #import "TiBase.h"
@@ -103,7 +103,6 @@
     NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:objectData
                                                                 options:NSJSONReadingMutableContainers
                                                                   error:&jsonError];
-
     NSError *err;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
     NSString *myString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -111,9 +110,8 @@
     NSNumber *num = [NSNumber numberWithInt:self.order];
     NSArray *array = [NSArray arrayWithObjects:myString, num, nil];
     self.order++;
-    
+
     [self.jsCommandCallback call:array thisObject:nil];
 }
-
 
 @end

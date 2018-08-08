@@ -1,10 +1,10 @@
-/**
- * AdjustModule.java
- * Adjust SDK
- *
- * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
- * Copyright (c) 2017-2018 Adjust GmbH. All rights reserved.
- */
+//
+//  AdjustModule.java
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+//  Copyright © 2017-2018 Adjust GmbH. All rights reserved.
+//
 
 package ti.adjust;
 
@@ -29,7 +29,6 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
                                                          OnSessionTrackingFailedListener,
                                                          OnDeeplinkResponseListener {
     private static final String LCAT = "AdjustModule";
-
     private static final String KEY_REVENUE = "revenue";
     private static final String KEY_CURRENCY = "currency";
     private static final String KEY_APP_TOKEN = "appToken";
@@ -54,14 +53,12 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private static final String KEY_INFO_4 = "info4";
     private static final String KEY_SET_DEVICE_KNOWN = "isDeviceKnown";
     private static final String KEY_READ_MOBILE_EQUIPMENT_IDENTITY = "readMobileEquipmentIdentity";
-
     private static final String KEY_ATTRIBUTION_CALLBACK = "attributionCallback";
     private static final String KEY_SESSION_SUCCESS_CALLBACK = "sessionSuccessCallback";
     private static final String KEY_SESSION_FAILURE_CALLBACK = "sessionFailureCallback";
     private static final String KEY_EVENT_SUCCESS_CALLBACK = "eventSuccessCallback";
     private static final String KEY_EVENT_FAILURE_CALLBACK = "eventFailureCallback";
     private static final String KEY_DEFERRED_DEEPLINK_CALLBACK = "deferredDeeplinkCallback";
-
     private static final String KEY_TEST_HAS_CONTEXT = "hasContext";
     private static final String KEY_TEST_BASE_URL = "baseUrl";
     private static final String KEY_TEST_GDPR_URL = "gdprUrl";
@@ -82,7 +79,6 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private V8Function jsEventSuccessCallback = null;
     private V8Function jsEventFailureCallback = null;
     private V8Function jsDeferredDeeplinkCallback = null;
-
     private boolean shouldLaunchDeeplink = true;
 
     public AdjustModule() {
@@ -91,7 +87,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 
     @Kroll.onAppCreate
     public static void onAppCreate(TiApplication app) {}
-    
+
     @Kroll.method
     public void start(Object args) {
         String appToken = null;
@@ -101,24 +97,20 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         String userAgent = null;
         String processName = null;
         String defaultTracker = null;
-
         boolean sendInBackground = false;
         boolean isLogLevelSuppress = false;
         boolean eventBufferingEnabled = false;
         boolean isDeviceKnown = false;
         boolean readMobileEquipmentIdentity = false;
-
         long secretId = -1L;
         long info1 = -1L;
         long info2 = -1L;
         long info3 = -1L;
         long info4 = -1L;
-
         double delayStart = 0.0;
 
         @SuppressWarnings("unchecked")
         HashMap<Object, Object> hmArgs = (HashMap<Object, Object>)args;
-
         if (hmArgs.containsKey(KEY_APP_TOKEN)) {
             if (null != hmArgs.get(KEY_APP_TOKEN)) {
                 appToken = hmArgs.get(KEY_APP_TOKEN).toString();
@@ -383,26 +375,24 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
             adjustConfig.setOnDeeplinkResponseListener(this);
         }
 
+        // Start SDK
         Adjust.onCreate(adjustConfig);
         // Needed because Titanium doesn't launch 'resumed' event on app start.
         // It initializes it only when app comes back from the background.
         Adjust.onResume();
     }
-    
-    @SuppressWarnings("unchecked")
+
     @Kroll.method
     public void trackEvent(Object args) {
         String eventToken = null;
         String revenue = null;
         String currency = null;
         String transactionId = null;
-
         Map<String, String> callbackParameters = null;
         Map<String, String> partnerParameters = null;
 
         @SuppressWarnings("unchecked")
         HashMap<Object, Object> hmArgs = (HashMap<Object, Object>)args;
-
         if (hmArgs.containsKey(KEY_EVENT_TOKEN)) {
             if (null != hmArgs.get(KEY_EVENT_TOKEN)) {
                 eventToken = hmArgs.get(KEY_EVENT_TOKEN).toString();
@@ -470,9 +460,10 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
             adjustEvent.setOrderId(transactionId);
         }
 
+        // Track event
         Adjust.trackEvent(adjustEvent);
     }
-    
+
     @Kroll.method
     public void onResume() {
         Adjust.onResume();
@@ -589,6 +580,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         callback.call(getKrollObject(), answer);
     }
 
+    // For testing purposes only.
     @Kroll.method
     public void teardown() {
         this.jsAttributionCallback = null;
@@ -599,6 +591,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         this.jsDeferredDeeplinkCallback = null;
     }
 
+    // For testing purposes only.
     @Kroll.method
     public void setTestOptions(Object args) {
         if (args == null) {
@@ -606,9 +599,9 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         }
 
         final AdjustTestOptions testOptions = new AdjustTestOptions();
+
         @SuppressWarnings("unchecked")
         HashMap<Object, Object> hmArgs = (HashMap<Object, Object>)args;
-
         if (hmArgs.containsKey(KEY_TEST_HAS_CONTEXT)) {
             if (null != hmArgs.get(KEY_TEST_HAS_CONTEXT)) {
                 boolean value = Boolean.parseBoolean(hmArgs.get(KEY_TEST_HAS_CONTEXT).toString());
@@ -741,10 +734,10 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         jsDeferredDeeplinkCallback.call(getKrollObject(), (HashMap<String, String>)AdjustUtil.deferredDeeplinkToMap(uri));
         return this.shouldLaunchDeeplink;
     }
-    
-    boolean isFieldValid(String field) {
+
+    private boolean isFieldValid(String field) {
         if (null != field) {
-            if (!field.equals("") && !field.equals("null")) {
+            if (!field.equals("")) {
                 return true;
             }
         }

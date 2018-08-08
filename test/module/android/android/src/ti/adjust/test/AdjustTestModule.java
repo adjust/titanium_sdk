@@ -1,10 +1,11 @@
-/**
- * AdjustModule.java
- * Adjust SDK
- *
- * Created by Uglješa Erceg (@uerceg) on 30th July 2018.
- * Copyright (c) 2018 Adjust GmbH. All rights reserved.
- */
+//
+//  AdjustModule.java
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 30th July 2018.
+//  Copyright © 2018 Adjust GmbH. All rights reserved.
+//
+
 package ti.adjust.test;
 
 import org.appcelerator.kroll.KrollModule;
@@ -22,7 +23,6 @@ import com.adjust.testlibrary.*;
 
 @Kroll.module(name="AdjustTest", id="ti.adjust.test")
 public class AdjustTestModule extends KrollModule implements ICommandRawJsonListener {
-	// Standard Debugging variables
 	private static final String LCAT = "AdjustTestModule";
 
     private int order;
@@ -30,9 +30,6 @@ public class AdjustTestModule extends KrollModule implements ICommandRawJsonList
     private List<String> selectedTests = new ArrayList<String>();
     private List<String> selectedTestDirs = new ArrayList<String>();
     private V8Function jsCommandExecutorCallback;
-
-	// You can define constants with @Kroll.constant, for example:
-	// @Kroll.constant public static final String EXTERNAL_NAME = value;
 
 	public AdjustTestModule() {
 		super();
