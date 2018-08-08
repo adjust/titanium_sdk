@@ -462,11 +462,11 @@ AdjustCommandExecutor.prototype.setReferrer = function(params) {
 };
 
 AdjustCommandExecutor.prototype.pause = function(params) {
-    Adjust.onPause();
+    Adjust.onPause("test");
 };
 
 AdjustCommandExecutor.prototype.resume = function(params) {
-    Adjust.onResume();
+    Adjust.onResume("test");
 };
 
 AdjustCommandExecutor.prototype.setEnabled = function(params) {

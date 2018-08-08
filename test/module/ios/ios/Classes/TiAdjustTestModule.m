@@ -98,22 +98,20 @@
 }
 
 - (void)executeCommandRawJson:(NSString *)json {
-    NSLog(@"executeCommandRawJson: %@", json);
-
     NSError *jsonError;
     NSData *objectData = [json dataUsingEncoding:NSUTF8StringEncoding];
     NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:objectData
                                                                 options:NSJSONReadingMutableContainers
                                                                   error:&jsonError];
-    NSNumber *num = [NSNumber numberWithInt:self.order];
-    [dict setObject:num forKey:@"order"];
-    self.order++;
 
     NSError *err;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&err];
     NSString *myString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 
-    NSArray *array = [NSArray arrayWithObjects:myString, nil];
+    NSNumber *num = [NSNumber numberWithInt:self.order];
+    NSArray *array = [NSArray arrayWithObjects:myString, num, nil];
+    self.order++;
+    
     [self.jsCommandCallback call:array thisObject:nil];
 }
 

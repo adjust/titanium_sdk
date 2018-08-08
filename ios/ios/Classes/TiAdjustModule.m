@@ -358,19 +358,131 @@
     [callback call:array thisObject:nil];
 }
 
-- (void)onResume:(id)args {}
+- (void)onResume:(id)args {
+    NSArray *arrayArgs = (NSArray *)args;
+    NSString *testString = [args objectAtIndex:0];
+    if (testString == nil) {
+        return;
+    }
 
-- (void)onPause:(id)args {}
+    [Adjust trackSubsessionStart];
+}
+
+- (void)onPause:(id)args {
+    NSArray *arrayArgs = (NSArray *)args;
+    NSString *testString = [args objectAtIndex:0];
+    if (testString == nil) {
+        return;
+    }
+
+    [Adjust trackSubsessionEnd];
+}
 
 - (void)setReferrer:(id)args {}
 
-- (BOOL)isFieldValid:(NSObject *)field {
-    if (![field isKindOfClass:[NSNull class]]) {
-        if (nil != field) {
-            return YES;
+- (void)setTestOptions:(id)args {
+    NSDictionary *params = (NSDictionary *)args;
+    AdjustTestOptions *testOptions = [[AdjustTestOptions alloc] init];
+
+    if ([params objectForKey:@"hasContext"]) {
+        NSString *value = params[@"hasContext"];
+        if ([self isFieldValid:value]) {
+            testOptions.deleteState = [value boolValue];
         }
     }
-    return NO;
+    if ([params objectForKey:@"baseUrl"]) {
+        NSString *value = params[@"baseUrl"];
+        if ([self isFieldValid:value]) {
+            testOptions.baseUrl = value;
+        }
+    }
+    if ([params objectForKey:@"gdprUrl"]) {
+        NSString *value = params[@"gdprUrl"];
+        if ([self isFieldValid:value]) {
+            testOptions.gdprUrl = value;
+        }
+    }
+    if ([params objectForKey:@"basePath"]) {
+        NSString *value = params[@"basePath"];
+        if ([self isFieldValid:value]) {
+            testOptions.basePath = value;
+        }
+    }
+    if ([params objectForKey:@"gdprPath"]) {
+        NSString *value = params[@"gdprPath"];
+        if ([self isFieldValid:value]) {
+            testOptions.gdprPath = value;
+        }
+    }
+    if ([params objectForKey:@"timerIntervalInMilliseconds"]) {
+        NSString *value = params[@"timerIntervalInMilliseconds"];
+        if ([self isFieldValid:value]) {
+            testOptions.timerIntervalInMilliseconds = [self convertMilliStringToNumber:value];
+        }
+    }
+    if ([params objectForKey:@"timerStartInMilliseconds"]) {
+        NSString *value = params[@"timerStartInMilliseconds"];
+        if ([self isFieldValid:value]) {
+            testOptions.timerStartInMilliseconds = [self convertMilliStringToNumber:value];
+        }
+    }
+    if ([params objectForKey:@"sessionIntervalInMilliseconds"]) {
+        NSString *value = params[@"sessionIntervalInMilliseconds"];
+        if ([self isFieldValid:value]) {
+            testOptions.sessionIntervalInMilliseconds = [self convertMilliStringToNumber:value];
+        }
+    }
+    if ([params objectForKey:@"subsessionIntervalInMilliseconds"]) {
+        NSString *value = params[@"subsessionIntervalInMilliseconds"];
+        if ([self isFieldValid:value]) {
+            testOptions.subsessionIntervalInMilliseconds = [self convertMilliStringToNumber:value];
+        }
+    }
+    if ([params objectForKey:@"teardown"]) {
+        NSString *value = params[@"teardown"];
+        if ([self isFieldValid:value]) {
+            testOptions.teardown = [value boolValue];
+        }
+    }
+    if ([params objectForKey:@"noBackoffWait"]) {
+        NSString *value = params[@"noBackoffWait"];
+        if ([self isFieldValid:value]) {
+            testOptions.noBackoffWait = [value boolValue];
+        }
+    }
+
+    [Adjust setTestOptions:testOptions];
+}
+
+- (void)teardown:(id)args {
+    self.jsAttributionCallback = nil;
+    self.jsSessionSuccessCallback = nil;
+    self.jsSessionFailureCallback = nil;
+    self.jsEventSuccessCallback = nil;
+    self.jsEventFailureCallback = nil;
+    self.jsDeferredDeeplinkCallback = nil;
+    [TiAdjustModuleDelegate teardown];
+}
+
+- (BOOL)isFieldValid:(NSObject *)field {
+    if (field == nil) {
+        return NO;
+    }
+
+    // Check if its an instance of the singleton NSNull
+    if ([field isKindOfClass:[NSNull class]]) {
+        return NO;
+    }
+
+    // If field can be converted to a string, check if it has any content.
+    NSString *str = [NSString stringWithFormat:@"%@", field];
+    if (str != nil) {
+        if ([str length] == 0) {
+            return NO;
+        }
+    }
+
+    return YES;
 }
 
 - (void)addValueOrEmpty:(NSMutableDictionary *)dictionary
@@ -381,6 +493,11 @@
     } else {
         [dictionary setObject:@"" forKey:key];
     }
+}
+
+- (NSNumber *)convertMilliStringToNumber:(NSString *)value {
+    NSNumber *number = [NSNumber numberWithInt:[value intValue]];
+    return number;
 }
 
 @end

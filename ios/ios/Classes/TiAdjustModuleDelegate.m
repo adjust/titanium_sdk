@@ -9,6 +9,9 @@
 #import <objc/runtime.h>
 #import "TiAdjustModuleDelegate.h"
 
+static dispatch_once_t onceToken;
+static TiAdjustModuleDelegate *defaultInstance = nil;
+
 @implementation TiAdjustModuleDelegate
 
 + (id)getInstanceWithSwizzleOfAttributionCallback:(BOOL)swizzleAttributionCallback
@@ -19,9 +22,6 @@
                          deferredDeeplinkCallback:(BOOL)swizzleDeferredDeeplinkCallback
                      shouldLaunchDeferredDeeplink:(BOOL)shouldLaunchDeferredDeeplink
                                        withModule:(TiAdjustModule *)module {
-    static dispatch_once_t onceToken;
-    static TiAdjustModuleDelegate *defaultInstance = nil;
-
     dispatch_once(&onceToken, ^{
         defaultInstance = [[TiAdjustModuleDelegate alloc] init];
 
@@ -61,6 +61,11 @@
     });
 
     return defaultInstance;
+}
+
++ (void)teardown {
+    defaultInstance = nil;
+    onceToken = 0;
 }
 
 - (id)init {

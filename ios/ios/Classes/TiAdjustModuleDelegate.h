@@ -22,4 +22,6 @@
                      shouldLaunchDeferredDeeplink:(BOOL)shouldLaunchDeferredDeeplink
                                        withModule:(TiAdjustModule *)module;
 
++ (void)teardown;
+
 @end
