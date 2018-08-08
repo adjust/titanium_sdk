@@ -4,7 +4,7 @@ var AdjustEvent = require('adjust_event');
  function btnTrackEventTapped(e) {
     var adjustEvent = new AdjustEvent("g3mfiw");
     adjustEvent.setRevenue(10.0, "USD");
-    adjustEvent.setTransactionId("DUMMY_TRANSACTION_ID");
+    // adjustEvent.setTransactionId("DUMMY_TRANSACTION_ID");
     adjustEvent.addCallbackParameter("DUMMY_KEY_1", "DUMMY_VALUE_1");
     adjustEvent.addCallbackParameter("DUMMY_KEY_2", "DUMMY_VALUE_2");
     adjustEvent.addPartnerParameter("DUMMY_KEY_1", "DUMMY_VALUE_1");
