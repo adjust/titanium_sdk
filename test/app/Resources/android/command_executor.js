@@ -1,3 +1,5 @@
+
+
 var Adjust = require('ti.adjust');
 var AdjustTest = require('ti.adjust.test');
 var AdjustEvent = require('adjust_event');
@@ -14,7 +16,6 @@ function AdjustTestOptions() {
     this.timerStartInMilliseconds = null;
     this.sessionIntervalInMilliseconds = null;
     this.subsessionIntervalInMilliseconds = null;
-    this.teardown = null;
     this.teardown = null;
     this.tryInstallReferrer = null;
     this.noBackoffWait = null;
@@ -51,7 +52,7 @@ function AdjustCommandExecutor(baseUrl, gdprUrl) {
 };
 
 AdjustCommandExecutor.prototype.scheduleCommand = function (command) {
-    console.log('[CommandExecutor]: nextToSendCounter: ' + this.nextToSendCounter + ', command: ' + JSON.stringify(command));
+    console.log('[command_executor.js]: nextToSendCounter = ' + this.nextToSendCounter + ', command = ' + JSON.stringify(command));
 
     if (command['order'] === this.nextToSendCounter) {
         this.executeCommand(command, -1);
@@ -64,7 +65,7 @@ AdjustCommandExecutor.prototype.scheduleCommand = function (command) {
 };
 
 AdjustCommandExecutor.prototype.checkList = function () {
-    for (var i = 0; i < this.savedCommands.length; i++) {
+    for (var i = 0; i < this.savedCommands.length; i += 1) {
         var command = this.savedCommands[i];
         if (command['order'] === this.nextToSendCounter) {
             this.executeCommand(command, i);
@@ -74,8 +75,7 @@ AdjustCommandExecutor.prototype.checkList = function () {
 };
 
 AdjustCommandExecutor.prototype.executeCommand = function (command, idx) {
-    console.log('[CommandExecutor]: executeCommand():' + JSON.stringify(command));
-
+    console.log('[command_executor.js]: executeCommand method invoked! Command = ' + JSON.stringify(command));
     switch (command['functionName']) {
         case "testOptions":
             this.testOptions(command['params']);break;
@@ -121,7 +121,7 @@ AdjustCommandExecutor.prototype.executeCommand = function (command, idx) {
             this.gdprForgetMe(command['params']);break;
     }
 
-    this.nextToSendCounter++;
+    this.nextToSendCounter += 1;
 
     if (idx != -1) {
         this.savedCommands.splice(idx, 1);
@@ -131,7 +131,7 @@ AdjustCommandExecutor.prototype.executeCommand = function (command, idx) {
 };
 
 AdjustCommandExecutor.prototype.testOptions = function (params) {
-    console.log('[CommandExecutor]: testOptions params = ' + JSON.stringify(params));
+    console.log('[command_executor.js]: testOptions method invoked! params = ' + JSON.stringify(params));
     var testOptions = new AdjustTestOptions();
     testOptions.baseUrl = this.baseUrl;
     testOptions.gdprUrl = this.gdprUrl;
@@ -159,9 +159,8 @@ AdjustCommandExecutor.prototype.testOptions = function (params) {
     }
     if (params['teardown']) {
         var teardownOptions = getValueFromKey(params, 'teardown');
-        for (var i = 0; i < teardownOptions.length; i++) {
+        for (var i = 0; i < teardownOptions.length; i += 1) {
             var option = teardownOptions[i];
-
             if ('resetSdk' === option) {
                 testOptions.teardown = true;
                 testOptions.basePath = this.basePath;
@@ -169,11 +168,9 @@ AdjustCommandExecutor.prototype.testOptions = function (params) {
                 testOptions.useTestConnectionOptions = true;
                 Adjust.teardown();
             }
-
             if ('deleteState' === option) {
                 testOptions.hasContext = true;
             }
-
             if ('resetTest' === option) {
                 this.savedEvents = {};
                 this.savedConfigs = {};
@@ -200,7 +197,7 @@ AdjustCommandExecutor.prototype.testOptions = function (params) {
         }
     }
 
-    console.log('[CommandExecutor]: testOptions = ' + JSON.stringify(testOptions));
+    console.log('[command_executor.js]: testOptions object created! testOptions = ' + JSON.stringify(testOptions));
     Adjust.setTestOptions(testOptions);
 };
 
@@ -217,10 +214,8 @@ AdjustCommandExecutor.prototype.config = function (params) {
     } else {
         var environment = getFirstParameterValue(params, "environment");
         var appToken = getFirstParameterValue(params, "appToken");
-
         adjustConfig = new AdjustConfig(appToken, environment);
         adjustConfig.setLogLevel(AdjustConfig.LogLevelVerbose);
-
         this.savedConfigs[configNumber] = adjustConfig;
     }
 
@@ -271,31 +266,30 @@ AdjustCommandExecutor.prototype.config = function (params) {
         var info2 = appSecretArray[2].toString();
         var info3 = appSecretArray[3].toString();
         var info4 = appSecretArray[4].toString();
-
         adjustConfig.setAppSecret(secretId, info1, info2, info3, info4);
     }
 
     if (params['delayStart']) {
-        var delayStartS = getFirstParameterValue(params, 'delayStart');
-        var delayStart = parseFloat(delayStartS);
+        var strDelayStart = getFirstParameterValue(params, 'delayStart');
+        var delayStart = parseFloat(strDelayStart);
         adjustConfig.setDelayStart(delayStart);
     }
 
     if (params['deviceKnown']) {
-        var deviceKnownS = getFirstParameterValue(params, 'deviceKnown');
-        var deviceKnown = deviceKnownS == 'true';
+        var strDeviceKnown = getFirstParameterValue(params, 'deviceKnown');
+        var deviceKnown = strDeviceKnown == 'true';
         adjustConfig.setDeviceKnown(deviceKnown);
     }
 
     if (params['eventBufferingEnabled']) {
-        var eventBufferingEnabledS = getFirstParameterValue(params, 'eventBufferingEnabled');
-        var eventBufferingEnabled = eventBufferingEnabledS == 'true';
+        var strEventBuffering = getFirstParameterValue(params, 'eventBufferingEnabled');
+        var eventBufferingEnabled = strEventBuffering == 'true';
         adjustConfig.setEventBufferingEnabled(eventBufferingEnabled);
     }
 
     if (params['sendInBackground']) {
-        var sendInBackgroundS = getFirstParameterValue(params, 'sendInBackground');
-        var sendInBackground = sendInBackgroundS == 'true';
+        var strSendInBackground = getFirstParameterValue(params, 'sendInBackground');
+        var sendInBackground = strSendInBackground == 'true';
         adjustConfig.setSendInBackground(sendInBackground);
     }
 
@@ -398,7 +392,6 @@ AdjustCommandExecutor.prototype.start = function (params) {
 
     var adjustConfig = this.savedConfigs[configNumber];
     Adjust.start(adjustConfig);
-
     delete this.savedConfigs[0];
 };
 
@@ -459,7 +452,6 @@ AdjustCommandExecutor.prototype.trackEvent = function (params) {
 
     var adjustEvent = this.savedEvents[eventNumber];
     Adjust.trackEvent(adjustEvent);
-
     delete this.savedEvents[0];
 };
 
@@ -496,22 +488,18 @@ AdjustCommandExecutor.prototype.gdprForgetMe = function (params) {
 
 AdjustCommandExecutor.prototype.addSessionCallbackParameter = function (params) {
     var list = getValueFromKey(params, "KeyValue");
-
-    for (var i = 0; i < list.length; i = i + 2) {
+    for (var i = 0; i < list.length; i += 2) {
         var key = list[i];
         var value = list[i + 1];
-
         Adjust.addSessionCallbackParameter(key, value);
     }
 };
 
 AdjustCommandExecutor.prototype.addSessionPartnerParameter = function (params) {
     var list = getValueFromKey(params, "KeyValue");
-
-    for (var i = 0; i < list.length; i = i + 2) {
+    for (var i = 0; i < list.length; i += 2) {
         var key = list[i];
         var value = list[i + 1];
-
         Adjust.addSessionPartnerParameter(key, value);
     }
 };
@@ -519,8 +507,7 @@ AdjustCommandExecutor.prototype.addSessionPartnerParameter = function (params) {
 AdjustCommandExecutor.prototype.removeSessionCallbackParameter = function (params) {
     if ('key' in params) {
         var list = getValueFromKey(params, 'key');
-
-        for (var i = 0; i < list.length; i++) {
+        for (var i = 0; i < list.length; i += 1) {
             Adjust.removeSessionCallbackParameter(list[i]);
         }
     }
@@ -529,8 +516,7 @@ AdjustCommandExecutor.prototype.removeSessionCallbackParameter = function (param
 AdjustCommandExecutor.prototype.removeSessionPartnerParameter = function (params) {
     if ('key' in params) {
         var list = getValueFromKey(params, 'key');
-
-        for (var i = 0; i < list.length; i++) {
+        for (var i = 0; i < list.length; i += 1) {
             Adjust.removeSessionPartnerParameter(list[i]);
         }
     }
@@ -563,22 +549,16 @@ function getValueFromKey(params, key) {
     if (key in params) {
         return params[key];
     }
-
     return null;
 }
 
 function getFirstParameterValue(params, key) {
     if (key in params) {
         var param = params[key];
-        console.log('[CommandExecutor]: getFirstParameterValue');
-        console.log('[CommandExecutor]: param = ' + JSON.stringify(param));
-
         if (param != null && param.length >= 1) {
-            console.log('[CommandExecutor]: param[0] = ' + param[0]);
             return param[0];
         }
     }
-
     return null;
 }
 

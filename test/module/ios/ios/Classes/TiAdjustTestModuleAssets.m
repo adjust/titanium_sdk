@@ -1,23 +1,24 @@
-//
-//  TiAdjustTestModuleAssets.h
-//  Adjust SDK
-//
-//  Created by Uglješa Erceg (@uerceg) on 6th August 2018.
-//  Copyright © 2018 Adjust GmbH. All rights reserved.
-//
-
+/**
+ * This is a generated file. Do not edit or your changes will be lost
+ */
 #import "TiAdjustTestModuleAssets.h"
 
-extern NSData* filterDataInRange(NSData *thedata, NSRange range);
+extern NSData* filterDataInRange(NSData* thedata, NSRange range);
 
 @implementation TiAdjustTestModuleAssets
 
-- (NSData *)moduleAsset {
-    return nil;
+- (NSData *)moduleAsset
+{
+  
+
+  return nil;
 }
 
-- (NSData *)resolveModuleAsset:(NSString *)path {
-    return nil;
+- (NSData *)resolveModuleAsset:(NSString *)path
+{
+  
+
+  return nil;
 }
 
 @end
