@@ -1,8 +1,0 @@
-"/Users/uerceg/Github/titanium_sdk_dev/test/module/android/android/src/ti/adjust/test/AdjustTestModule.java"
-"/Users/uerceg/Github/titanium_sdk_dev/test/module/android/android/build/generated/java/ti/adjust/test/AdjustTestBootstrap.java"
-"/Users/uerceg/Github/titanium_sdk_dev/test/module/android/android/build/generated/r/android/support/compat/R.java"
-"/Users/uerceg/Github/titanium_sdk_dev/test/module/android/android/build/generated/r/android/support/design/R.java"
-"/Users/uerceg/Github/titanium_sdk_dev/test/module/android/android/build/generated/r/android/support/v7/appcompat/R.java"
-"/Users/uerceg/Github/titanium_sdk_dev/test/module/android/android/build/generated/r/android/support/v7/cardview/R.java"
-"/Users/uerceg/Github/titanium_sdk_dev/test/module/android/android/build/generated/r/ti/adjust/test/R.java"
-"/Users/uerceg/Github/titanium_sdk_dev/test/module/android/android/build/generated/r/ti/modules/titanium/ui/R.java"
