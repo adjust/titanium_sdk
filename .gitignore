@@ -61,9 +61,12 @@ ios/ios/Build/
 ios/ios/Index/
 
 # custom
-**/libti.adjust.so 
 **/.classpath
 **/.settings/
 **/dist/*
 **/AdjustSdk.framework
 **/ti.adjust-*.zip
+android/android/libs
+test/module/android/android/libs
+android/android/java-sources.txt
+test/module/android/android/java-sources.txt
