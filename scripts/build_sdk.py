@@ -47,13 +47,16 @@ finally:
     # remove autocreated python compiled files
     remove_files('*.pyc', script_dir, log=False)
 
+emulated_device_str = 'emulator';
+if args.platform == 'ios':
+    emulated_device_str = 'simulator'
 debug_green('Run from IDE or:')
 if args.apptype == 'example':
-    debug_green('Emulator: cd root_dir/example; appc ti build -p android -T emulator')
-    debug_green('Device: cd root_dir/example; appc ti build -p android -T device')
+    debug_green('Emulator: cd root_dir/example; appc ti build -p {0} -T {1}'.format(args.platform, emulated_device_str))
+    debug_green('Device: cd root_dir/example; appc ti build -p {0} -T device'.format(args.platform))
 else:
-    debug_green('Emulator: cd root_dir/test/app; appc ti build -p android -T emulator')
-    debug_green('Device: cd root_dir/test/app; appc ti build -p android -T device')
+    debug_green('Emulator: cd root_dir/test/app; appc ti build -p {0} -T {1}'.format(args.platform, emulated_device_str))
+    debug_green('Device: cd root_dir/test/app; appc ti build -p {0} -T device'.format(args.platform))
 
 # ------------------------------------------------------------------
 # Script completed
