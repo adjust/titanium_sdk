@@ -31,12 +31,12 @@ def build(root_dir, apptype, configuration):
     change_dir('{0}/ios/ios'.format(root_dir))
     appc_ti_build()
     # Extracting SDK module to ${TITANIUM_SUPPORT_PATH}
-    ti_unzip('dist/ti.adjust*.zip')
+    ti_unzip('ti.adjust*.zip')
     if apptype == 'test':
         change_dir('{0}/ios/ios'.format(test_module_dir))
         appc_ti_build()
         # Extracting SDK module to ${TITANIUM_SUPPORT_PATH}
-        ti_unzip('dist/ti.adjust.test*.zip')
+        ti_unzip('ti.adjust.test*.zip')
     
 def _build_sdk(root_dir, configuration, apptype):
     # ------------------------------------------------------------------
