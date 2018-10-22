@@ -53,8 +53,8 @@ def _build_sdk(root_dir, configuration, apptype):
     build_dir        = '{0}/ext/android/sdk/Adjust'.format(root_dir)
     jar_out_dir_sdk  = '{0}/android/android/lib'.format(root_dir)
     jar_out_dir_test = '{0}/test/module/android/android/lib'.format(root_dir)
-    jar_in_dir_sdk   = '{0}/adjust/build/intermediates/bundles/{1}'.format(build_dir, configuration)
-    jar_in_dir_test  = '{0}/testlibrary/build/intermediates/bundles/{1}'.format(build_dir, configuration)
+    jar_in_dir_sdk   = '{0}/adjust/build/intermediates/intermediate-jars/{1}'.format(build_dir, configuration)
+    jar_in_dir_test  = '{0}/testlibrary/build/intermediates/intermediate-jars/{1}'.format(build_dir, configuration)
 
     change_dir(build_dir)
 
