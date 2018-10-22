@@ -107,7 +107,13 @@ static TiAdjustModuleDelegate *defaultInstance = nil;
     [self addValueOrEmpty:eventSuccessResponseData.adid forKey:@"adid" toDictionary:dictionary];
     [self addValueOrEmpty:eventSuccessResponseData.eventToken forKey:@"eventToken" toDictionary:dictionary];
     [self addValueOrEmpty:eventSuccessResponseData.callbackId forKey:@"callbackId" toDictionary:dictionary];
-    [self addValueOrEmpty:eventSuccessResponseData.jsonResponse forKey:@"jsonResponse" toDictionary:dictionary];
+    if (eventSuccessResponseData.jsonResponse != nil) {
+        NSData *dataJsonResponse = [NSJSONSerialization dataWithJSONObject:eventSuccessResponseData.jsonResponse options:0 error:nil];
+        NSString *stringJsonResponse = [[NSString alloc] initWithBytes:[dataJsonResponse bytes]
+                                                                length:[dataJsonResponse length]
+                                                              encoding:NSUTF8StringEncoding];
+        [dictionary setObject:stringJsonResponse forKey:@"jsonResponse"];
+    }
 
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
     [self.adjustModule.jsEventSuccessCallback call:array thisObject:nil];
@@ -128,7 +134,13 @@ static TiAdjustModuleDelegate *defaultInstance = nil;
     [self addValueOrEmpty:eventFailureResponseData.eventToken forKey:@"eventToken" toDictionary:dictionary];
     [self addValueOrEmpty:eventFailureResponseData.callbackId forKey:@"callbackId" toDictionary:dictionary];
     [self addValueOrEmpty:(eventFailureResponseData.willRetry ? @"true" : @"false") forKey:@"willRetry" toDictionary:dictionary];
-    [self addValueOrEmpty:eventFailureResponseData.jsonResponse forKey:@"jsonResponse" toDictionary:dictionary];
+    if (eventFailureResponseData.jsonResponse != nil) {
+        NSData *dataJsonResponse = [NSJSONSerialization dataWithJSONObject:eventFailureResponseData.jsonResponse options:0 error:nil];
+        NSString *stringJsonResponse = [[NSString alloc] initWithBytes:[dataJsonResponse bytes]
+                                                                length:[dataJsonResponse length]
+                                                              encoding:NSUTF8StringEncoding];
+        [dictionary setObject:stringJsonResponse forKey:@"jsonResponse"];
+    }
 
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
     [self.adjustModule.jsEventFailureCallback call:array thisObject:nil];
@@ -147,7 +159,13 @@ static TiAdjustModuleDelegate *defaultInstance = nil;
     [self addValueOrEmpty:sessionSuccessResponseData.message forKey:@"message" toDictionary:dictionary];
     [self addValueOrEmpty:sessionSuccessResponseData.timeStamp forKey:@"timestamp" toDictionary:dictionary];
     [self addValueOrEmpty:sessionSuccessResponseData.adid forKey:@"adid" toDictionary:dictionary];
-    [self addValueOrEmpty:sessionSuccessResponseData.jsonResponse forKey:@"jsonResponse" toDictionary:dictionary];
+    if (sessionSuccessResponseData.jsonResponse != nil) {
+        NSData *dataJsonResponse = [NSJSONSerialization dataWithJSONObject:sessionSuccessResponseData.jsonResponse options:0 error:nil];
+        NSString *stringJsonResponse = [[NSString alloc] initWithBytes:[dataJsonResponse bytes]
+                                                                length:[dataJsonResponse length]
+                                                              encoding:NSUTF8StringEncoding];
+        [dictionary setObject:stringJsonResponse forKey:@"jsonResponse"];
+    }
 
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
     [self.adjustModule.jsSessionSuccessCallback call:array thisObject:nil];
@@ -166,7 +184,13 @@ static TiAdjustModuleDelegate *defaultInstance = nil;
     [self addValueOrEmpty:sessionFailureResponseData.timeStamp forKey:@"timestamp" toDictionary:dictionary];
     [self addValueOrEmpty:sessionFailureResponseData.adid forKey:@"adid" toDictionary:dictionary];
     [self addValueOrEmpty:(sessionFailureResponseData.willRetry ? @"true" : @"false") forKey:@"willRetry" toDictionary:dictionary];
-    [self addValueOrEmpty:sessionFailureResponseData.jsonResponse forKey:@"jsonResponse" toDictionary:dictionary];
+    if (sessionFailureResponseData.jsonResponse != nil) {
+        NSData *dataJsonResponse = [NSJSONSerialization dataWithJSONObject:sessionFailureResponseData.jsonResponse options:0 error:nil];
+        NSString *stringJsonResponse = [[NSString alloc] initWithBytes:[dataJsonResponse bytes]
+                                                                length:[dataJsonResponse length]
+                                                              encoding:NSUTF8StringEncoding];
+        [dictionary setObject:stringJsonResponse forKey:@"jsonResponse"];
+    }
 
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
     [self.adjustModule.jsSessionFailureCallback call:array thisObject:nil];
