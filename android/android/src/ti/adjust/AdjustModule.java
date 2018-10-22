@@ -53,7 +53,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private static final String KEY_INFO_3 = "info3";
     private static final String KEY_INFO_4 = "info4";
     private static final String KEY_SET_DEVICE_KNOWN = "isDeviceKnown";
-    private static final String KEY_READ_MOBILE_EQUIPMENT_IDENTITY = "readMobileEquipmentIdentity";
+    // private static final String KEY_READ_MOBILE_EQUIPMENT_IDENTITY = "readMobileEquipmentIdentity";
     private static final String KEY_ATTRIBUTION_CALLBACK = "attributionCallback";
     private static final String KEY_SESSION_SUCCESS_CALLBACK = "sessionSuccessCallback";
     private static final String KEY_SESSION_FAILURE_CALLBACK = "sessionFailureCallback";
@@ -102,7 +102,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         boolean isLogLevelSuppress = false;
         boolean eventBufferingEnabled = false;
         boolean isDeviceKnown = false;
-        boolean readMobileEquipmentIdentity = false;
+        // boolean readMobileEquipmentIdentity = false;
         long secretId = -1L;
         long info1 = -1L;
         long info2 = -1L;
@@ -218,14 +218,14 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
                 isDeviceKnown = false;
             }
         }
-        if (hmArgs.containsKey(KEY_READ_MOBILE_EQUIPMENT_IDENTITY)) {
-            if (null != hmArgs.get(KEY_READ_MOBILE_EQUIPMENT_IDENTITY)) {
-                String value = hmArgs.get(KEY_READ_MOBILE_EQUIPMENT_IDENTITY).toString();
-                readMobileEquipmentIdentity = Boolean.parseBoolean(value);
-            } else {
-                readMobileEquipmentIdentity = false;
-            }
-        }
+        // if (hmArgs.containsKey(KEY_READ_MOBILE_EQUIPMENT_IDENTITY)) {
+        //     if (null != hmArgs.get(KEY_READ_MOBILE_EQUIPMENT_IDENTITY)) {
+        //         String value = hmArgs.get(KEY_READ_MOBILE_EQUIPMENT_IDENTITY).toString();
+        //         readMobileEquipmentIdentity = Boolean.parseBoolean(value);
+        //     } else {
+        //         readMobileEquipmentIdentity = false;
+        //     }
+        // }
         if (hmArgs.containsKey(KEY_SHOULD_LAUNCH_DEEPLINK)) {
             if (null != hmArgs.get(KEY_SHOULD_LAUNCH_DEEPLINK)) {
                 String value = hmArgs.get(KEY_SHOULD_LAUNCH_DEEPLINK).toString();
@@ -342,9 +342,9 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         }
 
         // Read mobile equipment identity
-        if (readMobileEquipmentIdentity) {
-            adjustConfig.setReadMobileEquipmentIdentity(readMobileEquipmentIdentity);
-        }
+        // if (readMobileEquipmentIdentity) {
+        //     adjustConfig.setReadMobileEquipmentIdentity(readMobileEquipmentIdentity);
+        // }
 
         // Attribution callback
         if (null != jsAttributionCallback) {
