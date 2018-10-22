@@ -25,7 +25,7 @@ script_dir              = os.path.dirname(os.path.realpath(__file__))
 root_dir                = os.path.dirname(os.path.normpath(script_dir))
 android_submodule_dir   = '{0}/ext/android'.format(root_dir)
 ios_submodule_dir       = '{0}/ext/ios'.format(root_dir)
-titanium_sdk_version    = '7.2.0.GA'
+titanium_sdk_version    = '7.4.0.GA'
 
 # ------------------------------------------------------------------
 # Setting Titanium SDK version
