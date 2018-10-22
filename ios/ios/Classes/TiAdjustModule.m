@@ -191,6 +191,7 @@
     NSString *revenue = [params objectForKey:@"revenue"];
     NSString *currency = [params objectForKey:@"currency"];
     NSString *transactionId = [params objectForKey:@"transactionId"];
+    NSString *callbackId = [params objectForKey:@"callbackId"];
     NSDictionary *callbackParameters = [params objectForKey:@"callbackParameters"];
     NSDictionary *partnerParameters = [params objectForKey:@"partnerParameters"];
 
@@ -224,6 +225,11 @@
     // Transaction ID
     if ([self isFieldValid:transactionId]) {
         [adjustEvent setTransactionId:transactionId];
+    }
+
+    // Callback ID
+    if ([self isFieldValid:callbackId]) {
+        [adjustEvent setCallbackId:callbackId];    
     }
 
     // Track event

@@ -30,6 +30,8 @@ final class AdjustUtil {
     private static final String EVENT_SUCCESS_EVENT_TOKEN = "eventToken";
     private static final String EVENT_SUCCESS_JSON_RESPONSE = "jsonResponse";
 
+    private static final String EVENT_CALLBACK_ID = "callbackId";    
+
     private static final String EVENT_FAILED_MESSAGE = "message";
     private static final String EVENT_FAILED_TIMESTAMP = "timestamp";
     private static final String EVENT_FAILED_ADID = "adid";
@@ -75,6 +77,7 @@ final class AdjustUtil {
         map.put(EVENT_SUCCESS_TIMESTAMP, null != eventSuccess.timestamp ? eventSuccess.timestamp : "");
         map.put(EVENT_SUCCESS_ADID, null != eventSuccess.adid ? eventSuccess.adid : "");
         map.put(EVENT_SUCCESS_EVENT_TOKEN, null != eventSuccess.eventToken ? eventSuccess.eventToken : "");
+        map.put(EVENT_CALLBACK_ID, null != eventSuccess.callbackId ? eventSuccess.callbackId : "");
         map.put(EVENT_SUCCESS_JSON_RESPONSE, null != eventSuccess.jsonResponse ? eventSuccess.jsonResponse.toString() : "");
         return map;
     }
@@ -90,6 +93,7 @@ final class AdjustUtil {
         map.put(EVENT_FAILED_ADID, null != eventFailure.adid ? eventFailure.adid : "");
         map.put(EVENT_FAILED_EVENT_TOKEN, null != eventFailure.eventToken ? eventFailure.eventToken : "");
         map.put(EVENT_FAILED_WILL_RETRY, eventFailure.willRetry ? "true" : "false");
+        map.put(EVENT_CALLBACK_ID, null != eventFailure.callbackId ? eventFailure.callbackId : "");
         map.put(EVENT_FAILED_JSON_RESPONSE, null != eventFailure.jsonResponse ? eventFailure.jsonResponse.toString() : "");
         return map;
     }

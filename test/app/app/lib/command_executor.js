@@ -345,6 +345,7 @@ AdjustCommandExecutor.prototype.config = function(params) {
             AdjustTest.addInfoToSend("timestamp", eventSuccess.timestamp);
             AdjustTest.addInfoToSend("adid", eventSuccess.adid);
             AdjustTest.addInfoToSend("eventToken", eventSuccess.eventToken);
+            AdjustTest.addInfoToSend("callbackId", eventSuccess.callbackId);
             if (eventSuccess.jsonResponse != null) {
                 AdjustTest.addInfoToSend("jsonResponse", eventSuccess.jsonResponse.toString());
             }
@@ -359,6 +360,7 @@ AdjustCommandExecutor.prototype.config = function(params) {
             AdjustTest.addInfoToSend("timestamp", eventFailed.timestamp);
             AdjustTest.addInfoToSend("adid", eventFailed.adid);
             AdjustTest.addInfoToSend("eventToken", eventFailed.eventToken);
+            AdjustTest.addInfoToSend("callbackId", eventFailed.callbackId);
             AdjustTest.addInfoToSend("willRetry", eventFailed.willRetry);
             if (eventFailed.jsonResponse != null) {
                 AdjustTest.addInfoToSend("jsonResponse", eventFailed.jsonResponse.toString());
@@ -437,6 +439,11 @@ AdjustCommandExecutor.prototype.event = function(params) {
     if (params['orderId']) {
         var orderId = getFirstParameterValue(params, 'orderId');
         adjustEvent.setTransactionId(orderId);
+    }
+
+    if (params['callbackId']) {
+        var callbackId = getFirstParameterValue(params, 'callbackId');
+        adjustEvent.setCallbackId(callbackId);
     }
 };
 

@@ -36,6 +36,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private static final String KEY_SDK_PREFIX = "sdkPrefix";
     private static final String KEY_USER_AGENT = "userAgent";
     private static final String KEY_EVENT_TOKEN = "eventToken";
+    private static final String KEY_CALLBACK_ID = "callbackId";
     private static final String KEY_DELAY_START = "delayStart";
     private static final String KEY_ENVIRONMENT = "environment";
     private static final String KEY_PROCESS_NAME = "processName";
@@ -388,6 +389,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         String revenue = null;
         String currency = null;
         String transactionId = null;
+        String callbackId = null;
         Map<String, String> callbackParameters = null;
         Map<String, String> partnerParameters = null;
 
@@ -411,6 +413,11 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         if (hmArgs.containsKey(KEY_TRANSACTION_ID)) {
             if (null != hmArgs.get(KEY_TRANSACTION_ID)) {
                 transactionId = hmArgs.get(KEY_TRANSACTION_ID).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_CALLBACK_ID)) {
+            if (null != hmArgs.get(KEY_CALLBACK_ID)) {
+                callbackId = hmArgs.get(KEY_CALLBACK_ID).toString();
             }
         }
         if (hmArgs.containsKey(KEY_CALLBACK_PARAMETERS)) {
@@ -458,6 +465,11 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         // Transaction ID
         if (isFieldValid(transactionId)) {
             adjustEvent.setOrderId(transactionId);
+        }
+
+        // Callback ID
+        if (isFieldValid(callbackId)) {
+            adjustEvent.setCallbackId(callbackId);
         }
 
         // Track event
