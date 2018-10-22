@@ -458,6 +458,13 @@
             testOptions.noBackoffWait = [value boolValue];
         }
     }
+    testOptions.iAdFrameworkEnabled = NO;
+    if ([params objectForKey:@"iAdFrameworkEnabled"]) {
+        NSString *value = params[@"iAdFrameworkEnabled"];
+        if ([self isFieldValid:value]) {
+            testOptions.iAdFrameworkEnabled = [value boolValue];
+        }
+    }
 
     [Adjust setTestOptions:testOptions];
 }

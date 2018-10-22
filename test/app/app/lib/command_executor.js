@@ -25,6 +25,7 @@ function AdjustTestOptions() {
     this.teardown = null;
     this.tryInstallReferrer = null;
     this.noBackoffWait = null;
+    this.iAdFrameworkEnabled = false;
 };
 
 // A wrapper for a command received from test server.
@@ -155,6 +156,9 @@ AdjustCommandExecutor.prototype.testOptions = function(params) {
     }
     if (params['noBackoffWait']) {
         testOptions.noBackoffWait = getFirstParameterValue(params, 'noBackoffWait').toString();
+    }
+    if (params['iAdFrameworkEnabled']) {
+        testOptions.iAdFrameworkEnabled = getFirstParameterValue(params, 'iAdFrameworkEnabled').toString();
     }
     if (params['teardown']) {
         var teardownOptions = getValueFromKey(params, 'teardown');
