@@ -249,8 +249,7 @@ AdjustCommandExecutor.prototype.config = function(params) {
     }
 
     if (params['sdkPrefix']) {
-        var sdkPrefix = getFirstParameterValue(params, 'sdkPrefix');
-        adjustConfig.setSdkPrefix(sdkPrefix);
+        // SDK prefix not tested for non natives.
     }
 
     if (params['defaultTracker']) {
