@@ -17,8 +17,6 @@
 @property (nonatomic, assign) int order;
 @property (nonatomic, strong) ATLTestLibrary *testLibrary;
 @property (nonatomic, strong) KrollCallback *jsCommandCallback;
-@property (nonatomic, strong) NSMutableArray *selectedTests;
-@property (nonatomic, strong) NSMutableArray *selectedTestDirs;
 
 @end
 
@@ -52,30 +50,22 @@
 
 - (void)initialize:(id)args {
     self.order = 0;
-    self.selectedTests = [NSMutableArray array];
-    self.selectedTestDirs = [NSMutableArray array];
-
     NSArray *configArray = (NSArray *)args;
     NSString *baseUrl = [configArray objectAtIndex:0];
     self.jsCommandCallback = [configArray objectAtIndex:1];
     self.testLibrary = [[ATLTestLibrary alloc] initWithBaseUrl:baseUrl andCommandDelegate:self];
-
-    for (int i = 0; i < [self.selectedTests count]; i += 1) {
-        [self.testLibrary addTest:[self.selectedTests objectAtIndex:i]];
-    }
-    for (int i = 0; i < [self.selectedTestDirs count]; i += 1) {
-        [self.testLibrary addTestDirectory:[self.selectedTestDirs objectAtIndex:i]];
-    }
 }
 
 - (void)addTestDirectory:(id)args {
     NSArray *configArray = (NSArray *)args;
-    [self.selectedTestDirs addObject:[configArray objectAtIndex:0]];
+    NSString *testDirName = [configArray objectAtIndex:0];
+    [self.testLibrary addTestDirectory:testDirName];
 }
 
 - (void)addTest:(id)args {
     NSArray *configArray = (NSArray *)args;
-    [self.selectedTests addObject:[configArray objectAtIndex:0]];
+    NSString *testName = [configArray objectAtIndex:0];
+    [self.testLibrary addTest:testName];
 }
 
 - (void)startTestSession:(id)args {

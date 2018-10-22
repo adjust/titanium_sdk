@@ -56,11 +56,10 @@ if (OS_IOS) {
         gdprUrl = "http://" + baseAddress + ":8080";
     }
 
+    Ti.API.info('[AdjustTest]: connecting to: ' + baseUrl);
     var commandExecutor = new CommandExecutor(baseUrl, gdprUrl);
 
-    // AdjustTest.addTestDirectory("current/deeplink-deferred/");
-    // AdjustTest.addTest("current/deeplink-deferred/Test_DeferredDeeplink");
-
+    Ti.API.info('[AdjustTest]: initialize Adjust Test Lib ... ');
     AdjustTest.initialize(baseUrl, function(json, order) {
         var jsonObject = JSON.parse(json);
         const className = jsonObject["className"];
@@ -68,6 +67,11 @@ if (OS_IOS) {
         const params = jsonObject["params"];
         commandExecutor.scheduleCommand(className, functionName, params, order);
     });
+
+    // AdjustTest.addTestDirectory("current/deeplink-deferred/");
+    // AdjustTest.addTestDirectory("current/event-callbacks");
+    // AdjustTest.addTest("current/deeplink-deferred/Test_DeferredDeeplink");
+    // AdjustTest.addTest("current/event-callbacks/Test_EventCallback_success_callbackId_persistence");
 
     if (OS_ANDROID) {
         AdjustTest.startTestSession(sdkPrefix + "@android4.15.0");
