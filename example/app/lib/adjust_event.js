@@ -11,6 +11,7 @@ function AdjustEvent(eventToken) {
     this.revenue = undefined;
     this.currency = undefined;
     this.transactionId = undefined;
+    this.callbackId = undefined;
     this.callbackParameters = {};
     this.partnerParameters = {};
 }
@@ -30,6 +31,10 @@ AdjustEvent.prototype.addPartnerParameter = function(key, value) {
 
 AdjustEvent.prototype.setTransactionId = function(transactionId) {
     this.transactionId = transactionId;
+};
+
+AdjustEvent.prototype.setCallbackId = function(callbackId) {
+    this.callbackId = callbackId;
 };
 
 module.exports = AdjustEvent;

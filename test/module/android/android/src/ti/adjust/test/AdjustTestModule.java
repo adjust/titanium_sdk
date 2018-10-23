@@ -8,17 +8,14 @@
 
 package ti.adjust.test;
 
+import java.util.List;
+import java.util.ArrayList;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
-
-import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
 import org.appcelerator.kroll.runtime.v8.V8Function;
-
-import java.util.List;
-import java.util.ArrayList;
-
+import org.appcelerator.titanium.TiApplication;
 import com.adjust.testlibrary.*;
 
 @Kroll.module(name="AdjustTest", id="ti.adjust.test")

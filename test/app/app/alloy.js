@@ -44,9 +44,9 @@ if (OS_IOS) {
     var gdprUrl = "";
     var sdkPrefix = "titanium4.15.0";
 
-    // var baseAddress = "10.0.2.2"; // Emulator iOS
-    // var baseAddress = "127.0.0.1"; // Emulator Andriod
-    var baseAddress = "192.168.8.189"; // Device
+    // var baseAddress = "10.0.2.2"; // Emulator Android
+    var baseAddress = "127.0.0.1"; // Emulator iOS
+    // var baseAddress = "192.168.8.189"; // Device
 
     if (OS_ANDROID) {
         baseUrl = "https://" + baseAddress + ":8443";
@@ -56,10 +56,10 @@ if (OS_IOS) {
         gdprUrl = "http://" + baseAddress + ":8080";
     }
 
-    Ti.API.info('[AdjustTest]: connecting to: ' + baseUrl);
+    Ti.API.info('[AdjustTest]: Connecting to: ' + baseUrl);
     var commandExecutor = new CommandExecutor(baseUrl, gdprUrl);
 
-    Ti.API.info('[AdjustTest]: initialize Adjust Test Lib ... ');
+    Ti.API.info('[AdjustTest]: Initializing Adjust Test Library ...');
     AdjustTest.initialize(baseUrl, function(json, order) {
         var jsonObject = JSON.parse(json);
         const className = jsonObject["className"];

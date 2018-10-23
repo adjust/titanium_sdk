@@ -75,6 +75,7 @@ if (OS_ANDROID) {
         Ti.API.info("[AdjustExample]: Timestamp: " + eventSuccess.timestamp);
         Ti.API.info("[AdjustExample]: Adid: " + eventSuccess.adid);
         Ti.API.info("[AdjustExample]: Event token: " + eventSuccess.eventToken);
+        Ti.API.info("[AdjustExample]: Callback ID: " + eventSuccess.callbackId);
         Ti.API.info("[AdjustExample]: JSON response: " + eventSuccess.jsonResponse);
     });
 
@@ -84,6 +85,7 @@ if (OS_ANDROID) {
         Ti.API.info("[AdjustExample]: Timestamp: " + eventFailure.timestamp);
         Ti.API.info("[AdjustExample]: Adid: " + eventFailure.adid);
         Ti.API.info("[AdjustExample]: Event token: " + eventFailure.eventToken);
+        Ti.API.info("[AdjustExample]: Callback ID: " + eventFailure.callbackId);
         Ti.API.info("[AdjustExample]: Will retry: " + eventFailure.willRetry);
         Ti.API.info("[AdjustExample]: JSON response: " + eventFailure.jsonResponse);
     });

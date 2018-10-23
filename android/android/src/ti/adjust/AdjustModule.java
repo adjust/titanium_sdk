@@ -8,17 +8,15 @@
 
 package ti.adjust;
 
+import android.net.Uri;
+import java.util.Map;
+import java.util.HashMap;
+import javax.lang.model.type.NullType;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.runtime.v8.V8Function;
-
-import android.net.Uri;
-import java.util.Map;
-import java.util.HashMap;
-import javax.lang.model.type.NullType;
-
 import com.adjust.sdk.*;
 
 @Kroll.module(name="Adjust", id="ti.adjust")
@@ -53,7 +51,6 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private static final String KEY_INFO_3 = "info3";
     private static final String KEY_INFO_4 = "info4";
     private static final String KEY_SET_DEVICE_KNOWN = "isDeviceKnown";
-    // private static final String KEY_READ_MOBILE_EQUIPMENT_IDENTITY = "readMobileEquipmentIdentity";
     private static final String KEY_ATTRIBUTION_CALLBACK = "attributionCallback";
     private static final String KEY_SESSION_SUCCESS_CALLBACK = "sessionSuccessCallback";
     private static final String KEY_SESSION_FAILURE_CALLBACK = "sessionFailureCallback";
@@ -73,6 +70,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private static final String KEY_TEST_TRY_INSTALL_REFERRER = "tryInstallReferrer";
     private static final String KEY_TEST_NO_BACKOFF_WAIT = "noBackoffWait";
     private static final String KEY_TEST_TEARDOWN = "teardown";
+    // private static final String KEY_READ_MOBILE_EQUIPMENT_IDENTITY = "readMobileEquipmentIdentity";
 
     private V8Function jsAttributionCallback = null;
     private V8Function jsSessionSuccessCallback = null;
@@ -102,13 +100,13 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         boolean isLogLevelSuppress = false;
         boolean eventBufferingEnabled = false;
         boolean isDeviceKnown = false;
-        // boolean readMobileEquipmentIdentity = false;
         long secretId = -1L;
         long info1 = -1L;
         long info2 = -1L;
         long info3 = -1L;
         long info4 = -1L;
         double delayStart = 0.0;
+        // boolean readMobileEquipmentIdentity = false;
 
         @SuppressWarnings("unchecked")
         HashMap<Object, Object> hmArgs = (HashMap<Object, Object>)args;
@@ -275,7 +273,12 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
             return;
         }
 
-        // Log level
+        // SDK prefix.
+        if (isFieldValid(sdkPrefix)) {
+            adjustConfig.setSdkPrefix(sdkPrefix);
+        }
+
+        // Log level.
         if (isFieldValid(logLevel)) {
             if (logLevel.equalsIgnoreCase("VERBOSE")) {
                 adjustConfig.setLogLevel(LogLevel.VERBOSE);
@@ -296,90 +299,84 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
             }
         }
 
-        // Event buffering
+        // Event buffering.
         if (eventBufferingEnabled) {
             adjustConfig.setEventBufferingEnabled(eventBufferingEnabled);
         }
 
-        // Background tracking
+        // Background tracking.
         if (sendInBackground) {
             adjustConfig.setSendInBackground(sendInBackground);
         }
 
-        // SDK prefix
-        if (isFieldValid(sdkPrefix)) {
-            adjustConfig.setSdkPrefix(sdkPrefix);
-        }
-
-        // Main process name
+        // Main process name.
         if (isFieldValid(processName)) {
             adjustConfig.setProcessName(processName);
         }
 
-        // Default tracker
+        // Default tracker.
         if (isFieldValid(defaultTracker)) {
             adjustConfig.setDefaultTracker(defaultTracker);
         }
 
-        // User agent
+        // User agent.
         if (isFieldValid(userAgent)) {
             adjustConfig.setUserAgent(userAgent);
         }
 
-        // Delay start
+        // Delay start.
         if (delayStart > 0) {
             adjustConfig.setDelayStart(delayStart);
         }
 
-        // App secret
+        // App secret.
         if (secretId != -1 && info1 != -1 && info2 != -1 && info3 != -1 && info4 != -1) {
             adjustConfig.setAppSecret(secretId, info1, info2, info3, info4);
         }
 
-        // Is device known
+        // Is device known.
         if (isDeviceKnown) {
             adjustConfig.setDeviceKnown(isDeviceKnown);
         }
 
-        // Read mobile equipment identity
+        // Deprecated.
+        // Mobile equipment identity.
         // if (readMobileEquipmentIdentity) {
         //     adjustConfig.setReadMobileEquipmentIdentity(readMobileEquipmentIdentity);
         // }
 
-        // Attribution callback
+        // Attribution callback.
         if (null != jsAttributionCallback) {
             adjustConfig.setOnAttributionChangedListener(this);
         }
 
-        // Session success callback
+        // Session success callback.
         if (null != jsSessionSuccessCallback) {
             adjustConfig.setOnSessionTrackingSucceededListener(this);
         }
 
-        // Session failure callback
+        // Session failure callback.
         if (null != jsSessionFailureCallback) {
             adjustConfig.setOnSessionTrackingFailedListener(this);
         }
 
-        // Event success callback
+        // Event success callback.
         if (null != jsEventSuccessCallback) {
             adjustConfig.setOnEventTrackingSucceededListener(this);
         }
 
-        // Event failure callback
+        // Event failure callback.
         if (null != jsEventFailureCallback) {
             adjustConfig.setOnEventTrackingFailedListener(this);
         }
 
-        // Deferred deep link callback
+        // Deferred deep link callback.
         if (null != jsDeferredDeeplinkCallback) {
             adjustConfig.setOnDeeplinkResponseListener(this);
         }
 
-        // Start SDK
+        // Start SDK.
         Adjust.onCreate(adjustConfig);
-        // Needed because Titanium doesn't launch 'resumed' event on app start.
-        // It initializes it only when app comes back from the background.
         Adjust.onResume();
     }
 
@@ -436,43 +433,43 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
             return;
         }
 
-        // Revenue and currency
+        // Revenue and currency.
         if (isFieldValid(revenue) && isFieldValid(currency)) {
             try {
                 double revenueValue = Double.parseDouble(revenue);
                 adjustEvent.setRevenue(revenueValue, currency);
             } catch (NullPointerException e1) {
-                // No revenue
+                // No revenue.
             } catch (NumberFormatException e2) {
-                // No revenue
+                // No revenue.
             }
         }
 
-        // Callback parameters
+        // Callback parameters.
         if (callbackParameters != null) {
             for (Map.Entry<String, String> entry : callbackParameters.entrySet()) {
                 adjustEvent.addCallbackParameter(entry.getKey(), entry.getValue());
             }
         }
 
-        // Partner parameters
+        // Partner parameters.
         if (partnerParameters != null) {
             for (Map.Entry<String, String> entry : partnerParameters.entrySet()) {
                 adjustEvent.addPartnerParameter(entry.getKey(), entry.getValue());
             }
         }
 
-        // Transaction ID
+        // Transaction ID.
         if (isFieldValid(transactionId)) {
             adjustEvent.setOrderId(transactionId);
         }
 
-        // Callback ID
+        // Callback ID.
         if (isFieldValid(callbackId)) {
             adjustEvent.setCallbackId(callbackId);
         }
 
-        // Track event
+        // Track event.
         Adjust.trackEvent(adjustEvent);
     }
 

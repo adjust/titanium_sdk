@@ -122,7 +122,7 @@ AdjustConfig.prototype.setDeviceKnown = function(isDeviceKnown) {
 };
 
 AdjustConfig.prototype.setReadMobileEquipmentIdentity = function(readMobileEquipmentIdentity) {
-    // IMEI reading has been removed
+    // IMEI reading has been deprecated.
     // this.readMobileEquipmentIdentity = readMobileEquipmentIdentity;
 };
 
