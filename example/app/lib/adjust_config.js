@@ -30,7 +30,7 @@ function AdjustConfig(appToken, environment) {
     this.info3 = undefined;
     this.info4 = undefined;
     this.isDeviceKnown = undefined;
-    // this.readMobileEquipmentIdentity = undefined;
+    this.readMobileEquipmentIdentity = undefined;
 };
 
 AdjustConfig.EnvironmentSandbox = "sandbox";
@@ -121,8 +121,9 @@ AdjustConfig.prototype.setDeviceKnown = function(isDeviceKnown) {
     this.isDeviceKnown = isDeviceKnown;
 };
 
-// AdjustConfig.prototype.setReadMobileEquipmentIdentity = function(readMobileEquipmentIdentity) {
-//     this.readMobileEquipmentIdentity = readMobileEquipmentIdentity;
-// };
+AdjustConfig.prototype.setReadMobileEquipmentIdentity = function(readMobileEquipmentIdentity) {
+    // IMEI reading has been removed
+    // this.readMobileEquipmentIdentity = readMobileEquipmentIdentity;
+};
 
 module.exports = AdjustConfig;
