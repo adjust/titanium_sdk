@@ -42,7 +42,7 @@ if (OS_IOS) {
 (function() {
     var baseUrl = "";
     var gdprUrl = "";
-    var sdkPrefix = "titanium4.15.0";
+    var sdkPrefix = "titanium4.17.0";
 
     // var baseAddress = "10.0.2.2"; // Emulator Android
     var baseAddress = "127.0.0.1"; // Emulator iOS
@@ -74,8 +74,8 @@ if (OS_IOS) {
     // AdjustTest.addTest("current/event-callbacks/Test_EventCallback_success_callbackId_persistence");
 
     if (OS_ANDROID) {
-        AdjustTest.startTestSession(sdkPrefix + "@android4.15.0");
+        AdjustTest.startTestSession(sdkPrefix + "@android4.17.0");
     } else if (OS_IOS) {
-        AdjustTest.startTestSession(sdkPrefix + "@ios4.15.0");
+        AdjustTest.startTestSession(sdkPrefix + "@ios4.17.1");
     }
 })();
