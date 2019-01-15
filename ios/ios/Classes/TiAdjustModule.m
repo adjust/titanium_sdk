@@ -12,6 +12,8 @@
 #import "TiAdjustModule.h"
 #import "TiAdjustModuleDelegate.h"
 
+static NSString * const kSdkPrefix = @"titanium4.17.0";
+
 @implementation TiAdjustModule
 
 #pragma mark - Internal
@@ -64,7 +66,6 @@
     NSString *appToken = [params objectForKey:@"appToken"];
     NSString *environment = [params objectForKey:@"environment"];
     NSString *logLevel = [params objectForKey:@"logLevel"];
-    NSString *sdkPrefix = [params objectForKey:@"sdkPrefix"];
     NSString *userAgent = [params objectForKey:@"userAgent"];
     NSString *defaultTracker = [params objectForKey:@"defaultTracker"];
     NSString *secretId = [params objectForKey:@"secretId"];
@@ -99,8 +100,8 @@
     }
 
     // SDK prefix.
-    if ([self isFieldValid:sdkPrefix]) {
-        [adjustConfig setSdkPrefix:sdkPrefix];
+    if ([self isFieldValid:kSdkPrefix]) {
+        [adjustConfig setSdkPrefix:kSdkPrefix];
     }
 
     // Log level.
@@ -349,6 +350,13 @@
 
     KrollCallback *callback = [args objectAtIndex:0];
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
+    [callback call:array thisObject:nil];
+}
+
+- (void)getSdkVersion:(id)args {
+    NSString *sdkVersion = [NSString stringWithFormat:@"%@@%@", kSdkPrefix, [Adjust sdkVersion]];
+    KrollCallback *callback = [args objectAtIndex:0];
+    NSArray *array = [NSArray arrayWithObjects:(nil != sdkVersion ? sdkVersion : @""), nil];
     [callback call:array thisObject:nil];
 }
 

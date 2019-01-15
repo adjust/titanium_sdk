@@ -26,6 +26,8 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
                                                          OnSessionTrackingSucceededListener,
                                                          OnSessionTrackingFailedListener,
                                                          OnDeeplinkResponseListener {
+    private static final String SDK_PREFIX = "titanium4.17.0";
+
     private static final String LCAT = "AdjustModule";
     private static final String KEY_REVENUE = "revenue";
     private static final String KEY_CURRENCY = "currency";
@@ -123,11 +125,6 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         if (hmArgs.containsKey(KEY_LOG_LEVEL)) {
             if (null != hmArgs.get(KEY_LOG_LEVEL)) {
                 logLevel = hmArgs.get(KEY_LOG_LEVEL).toString();
-            }
-        }
-        if (hmArgs.containsKey(KEY_SDK_PREFIX)) {
-            if (null != hmArgs.get(KEY_SDK_PREFIX)) {
-                sdkPrefix = hmArgs.get(KEY_SDK_PREFIX).toString();
             }
         }
         if (hmArgs.containsKey(KEY_USER_AGENT)) {
@@ -274,8 +271,8 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         }
 
         // SDK prefix.
-        if (isFieldValid(sdkPrefix)) {
-            adjustConfig.setSdkPrefix(sdkPrefix);
+        if (isFieldValid(SDK_PREFIX)) {
+            adjustConfig.setSdkPrefix(SDK_PREFIX);
         }
 
         // Log level.
@@ -581,6 +578,12 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     @Kroll.method
     public void getAttribution(V8Function callback) {
         callback.call(getKrollObject(), (HashMap<String, String>)AdjustUtil.attributionToMap(Adjust.getAttribution()));
+    }
+
+    @Kroll.method
+    public void getSdkVersion(V8Function callback) {
+        Object[] answer = { SDK_PREFIX + "@" + Adjust.getSdkVersion() };
+        callback.call(getKrollObject(), answer);
     }
 
     @Kroll.method
