@@ -1,34 +1,28 @@
-/**
- * adjust_config.js
- * Adjust Sdk
- *
- * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
- * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
- */
+//
+//  adjust_config.js
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+//  Copyright © 2017-2019 Adjust GmbH. All rights reserved.
+//
 
 function AdjustConfig(appToken, environment) {
-    this.sdkPrefix = "titanium4.14.0";
-
     this.appToken = appToken;
     this.environment = environment;
-
     this.logLevel = undefined;
     this.userAgent = undefined;
     this.delayStart = undefined;
     this.processName = undefined;
     this.defaultTracker = undefined;
-
     this.sendInBackground = undefined;
     this.shouldLaunchDeeplink = undefined;
     this.eventBufferingEnabled = undefined;
-    
     this.attributionCallback = undefined;
     this.sessionSuccessCallback = undefined;
     this.sessionFailureCallback = undefined;
     this.eventSuccessCallback = undefined;
     this.eventFailureCallback = undefined;
     this.deferredDeeplinkCallback = undefined;
-
     this.secretId = undefined;
     this.info1 = undefined;
     this.info2 = undefined;
@@ -40,7 +34,6 @@ function AdjustConfig(appToken, environment) {
 
 AdjustConfig.EnvironmentSandbox = "sandbox";
 AdjustConfig.EnvironmentProduction = "production";
-
 AdjustConfig.LogLevelVerbose = "VERBOSE";
 AdjustConfig.LogLevelDebug = "DEBUG";
 AdjustConfig.LogLevelInfo = "INFO";
@@ -109,19 +102,15 @@ AdjustConfig.prototype.setAppSecret = function(secretId, info1, info2, info3, in
     if (secretId != null) {
         this.secretId = secretId.toString();
     }
-
     if (info1 != null) {
         this.info1 = info1.toString();
     }
-
     if (info2 != null) {
         this.info2 = info2.toString();
     }
-
     if (info3 != null) {
         this.info3 = info3.toString();
     }
-
     if (info4 != null) {
         this.info4 = info4.toString();
     }
@@ -132,7 +121,8 @@ AdjustConfig.prototype.setDeviceKnown = function(isDeviceKnown) {
 };
 
 AdjustConfig.prototype.setReadMobileEquipmentIdentity = function(readMobileEquipmentIdentity) {
-    this.readMobileEquipmentIdentity = readMobileEquipmentIdentity;
+    // IMEI reading has been deprecated.
+    // this.readMobileEquipmentIdentity = readMobileEquipmentIdentity;
 };
 
 module.exports = AdjustConfig;

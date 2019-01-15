@@ -1,0 +1,13 @@
+//
+//  TiAdjustTestModule.h
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 6th August 2018.
+//  Copyright © 2018-2019 Adjust GmbH. All rights reserved.
+//
+
+#import "TiModule.h"
+
+@interface TiAdjustTestModule : TiModule
+
+@end

@@ -1,10 +1,10 @@
-/**
- * TiAdjustModuleDelegate.h
- * Adjust SDK
- *
- * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
- * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
- */
+//
+//  TiAdjustModuleDelegate.h
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+//  Copyright © 2017-2019 Adjust GmbH. All rights reserved.
+//
 
 #import "TiAdjustModule.h"
 
@@ -21,5 +21,7 @@
                          deferredDeeplinkCallback:(BOOL)swizzleDeferredDeeplinkCallback
                      shouldLaunchDeferredDeeplink:(BOOL)shouldLaunchDeferredDeeplink
                                        withModule:(TiAdjustModule *)module;
+
++ (void)teardown;
 
 @end

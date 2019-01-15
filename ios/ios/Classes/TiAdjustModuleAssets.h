@@ -1,16 +1,14 @@
-/**
- * TiAdjustModuleAssets.h
- * Adjust SDK
- *
- * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
- * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
- */
+//
+//  TiAdjustModuleAssets.h
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+//  Copyright © 2017-2019 Adjust GmbH. All rights reserved.
+//
 
-@interface TiAdjustModuleAssets : NSObject {
-
-}
+@interface TiAdjustModuleAssets : NSObject {}
 
 - (NSData *)moduleAsset;
-- (NSData *)resolveModuleAsset:(NSString*)path;
+- (NSData *)resolveModuleAsset:(NSString *)path;
 
 @end

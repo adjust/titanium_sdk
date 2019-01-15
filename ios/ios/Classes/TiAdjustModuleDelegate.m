@@ -1,14 +1,16 @@
-/**
- * TiAdjustModuleDelegate.m
- * Adjust SDK
- *
- * Created by Uglješa Erceg (@uerceg) on 18th May 2017.
- * Copyright (c) 2012-2018 Adjust GmbH. All rights reserved.
- */
+//
+//  TiAdjustModuleDelegate.m
+//  Adjust SDK
+//
+//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
+//  Copyright © 2017-2019 Adjust GmbH. All rights reserved.
+//
 
 #import <objc/runtime.h>
-
 #import "TiAdjustModuleDelegate.h"
+
+static dispatch_once_t onceToken;
+static TiAdjustModuleDelegate *defaultInstance = nil;
 
 @implementation TiAdjustModuleDelegate
 
@@ -20,41 +22,33 @@
                          deferredDeeplinkCallback:(BOOL)swizzleDeferredDeeplinkCallback
                      shouldLaunchDeferredDeeplink:(BOOL)shouldLaunchDeferredDeeplink
                                        withModule:(TiAdjustModule *)module {
-    static dispatch_once_t onceToken;
-    static TiAdjustModuleDelegate *defaultInstance = nil;
-
     dispatch_once(&onceToken, ^{
         defaultInstance = [[TiAdjustModuleDelegate alloc] init];
 
         // Do the swizzling where and if needed.
         if (swizzleAttributionCallback) {
             [defaultInstance swizzleCallbackMethod:@selector(adjustAttributionChanged:)
-                                  swizzledSelector:@selector(adjustAttributionChangedWannabe:)];
+                                        withMethod:@selector(adjustAttributionChangedWannabe:)];
         }
-
         if (swizzleEventSuccessCallback) {
             [defaultInstance swizzleCallbackMethod:@selector(adjustEventTrackingSucceeded:)
-                                  swizzledSelector:@selector(adjustEventTrackingSucceededWannabe:)];
+                                        withMethod:@selector(adjustEventTrackingSucceededWannabe:)];
         }
-
         if (swizzleEventFailureCallback) {
             [defaultInstance swizzleCallbackMethod:@selector(adjustEventTrackingFailed:)
-                                  swizzledSelector:@selector(adjustEventTrackingFailedWannabe:)];
+                                        withMethod:@selector(adjustEventTrackingFailedWannabe:)];
         }
-
         if (swizzleSessionSuccessCallback) {
             [defaultInstance swizzleCallbackMethod:@selector(adjustSessionTrackingSucceeded:)
-                                  swizzledSelector:@selector(adjustSessionTrackingSucceededWannabe:)];
+                                        withMethod:@selector(adjustSessionTrackingSucceededWannabe:)];
         }
-
         if (swizzleSessionFailureCallback) {
             [defaultInstance swizzleCallbackMethod:@selector(adjustSessionTrackingFailed:)
-                                  swizzledSelector:@selector(adjustSessionTrackingFailedWananbe:)];
+                                        withMethod:@selector(adjustSessionTrackingFailedWananbe:)];
         }
-
         if (swizzleDeferredDeeplinkCallback) {
             [defaultInstance swizzleCallbackMethod:@selector(adjustDeeplinkResponse:)
-                                  swizzledSelector:@selector(adjustDeeplinkResponseWannabe:)];
+                                        withMethod:@selector(adjustDeeplinkResponseWannabe:)];
         }
 
         [defaultInstance setShouldLaunchDeferredDeeplink:shouldLaunchDeferredDeeplink];
@@ -64,13 +58,16 @@
     return defaultInstance;
 }
 
++ (void)teardown {
+    defaultInstance = nil;
+    onceToken = 0;
+}
+
 - (id)init {
     self = [super init];
-
     if (nil == self) {
         return nil;
     }
-
     return self;
 }
 
@@ -78,20 +75,19 @@
     if (nil == attribution) {
         return;
     }
-
     if (nil == self.adjustModule.jsAttributionCallback) {
         return;
     }
 
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [self addValueOrEmpty:dictionary key:@"trackerToken" value:attribution.trackerToken];
-    [self addValueOrEmpty:dictionary key:@"trackerName" value:attribution.trackerName];
-    [self addValueOrEmpty:dictionary key:@"network" value:attribution.network];
-    [self addValueOrEmpty:dictionary key:@"campaign" value:attribution.campaign];
-    [self addValueOrEmpty:dictionary key:@"creative" value:attribution.creative];
-    [self addValueOrEmpty:dictionary key:@"adgroup" value:attribution.adgroup];
-    [self addValueOrEmpty:dictionary key:@"clickLabel" value:attribution.clickLabel];
-    [self addValueOrEmpty:dictionary key:@"adid" value:attribution.adid];
+    [self addValueOrEmpty:attribution.trackerToken forKey:@"trackerToken" toDictionary:dictionary];
+    [self addValueOrEmpty:attribution.trackerName forKey:@"trackerName" toDictionary:dictionary];
+    [self addValueOrEmpty:attribution.network forKey:@"network" toDictionary:dictionary];
+    [self addValueOrEmpty:attribution.campaign forKey:@"campaign" toDictionary:dictionary];
+    [self addValueOrEmpty:attribution.creative forKey:@"creative" toDictionary:dictionary];
+    [self addValueOrEmpty:attribution.adgroup forKey:@"adgroup" toDictionary:dictionary];
+    [self addValueOrEmpty:attribution.clickLabel forKey:@"clickLabel" toDictionary:dictionary];
+    [self addValueOrEmpty:attribution.adid forKey:@"adid" toDictionary:dictionary];
 
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
     [self.adjustModule.jsAttributionCallback call:array thisObject:nil];
@@ -106,11 +102,18 @@
     }
 
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [self addValueOrEmpty:dictionary key:@"message" value:eventSuccessResponseData.message];
-    [self addValueOrEmpty:dictionary key:@"timestamp" value:eventSuccessResponseData.timeStamp];
-    [self addValueOrEmpty:dictionary key:@"adid" value:eventSuccessResponseData.adid];
-    [self addValueOrEmpty:dictionary key:@"eventToken" value:eventSuccessResponseData.eventToken];
-    [self addValueOrEmpty:dictionary key:@"jsonResponse" value:eventSuccessResponseData.jsonResponse];
+    [self addValueOrEmpty:eventSuccessResponseData.message forKey:@"message" toDictionary:dictionary];
+    [self addValueOrEmpty:eventSuccessResponseData.timeStamp forKey:@"timestamp" toDictionary:dictionary];
+    [self addValueOrEmpty:eventSuccessResponseData.adid forKey:@"adid" toDictionary:dictionary];
+    [self addValueOrEmpty:eventSuccessResponseData.eventToken forKey:@"eventToken" toDictionary:dictionary];
+    [self addValueOrEmpty:eventSuccessResponseData.callbackId forKey:@"callbackId" toDictionary:dictionary];
+    if (eventSuccessResponseData.jsonResponse != nil) {
+        NSData *dataJsonResponse = [NSJSONSerialization dataWithJSONObject:eventSuccessResponseData.jsonResponse options:0 error:nil];
+        NSString *stringJsonResponse = [[NSString alloc] initWithBytes:[dataJsonResponse bytes]
+                                                                length:[dataJsonResponse length]
+                                                              encoding:NSUTF8StringEncoding];
+        [dictionary setObject:stringJsonResponse forKey:@"jsonResponse"];
+    }
 
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
     [self.adjustModule.jsEventSuccessCallback call:array thisObject:nil];
@@ -125,12 +128,19 @@
     }
 
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [self addValueOrEmpty:dictionary key:@"message" value:eventFailureResponseData.message];
-    [self addValueOrEmpty:dictionary key:@"timestamp" value:eventFailureResponseData.timeStamp];
-    [self addValueOrEmpty:dictionary key:@"adid" value:eventFailureResponseData.adid];
-    [self addValueOrEmpty:dictionary key:@"eventToken" value:eventFailureResponseData.eventToken];
-    [dictionary setObject:(eventFailureResponseData.willRetry ? @"true" : @"false") forKey:@"willRetry"];
-    [self addValueOrEmpty:dictionary key:@"jsonResponse" value:eventFailureResponseData.jsonResponse];
+    [self addValueOrEmpty:eventFailureResponseData.message forKey:@"message" toDictionary:dictionary];
+    [self addValueOrEmpty:eventFailureResponseData.timeStamp forKey:@"timestamp" toDictionary:dictionary];
+    [self addValueOrEmpty:eventFailureResponseData.adid forKey:@"adid" toDictionary:dictionary];
+    [self addValueOrEmpty:eventFailureResponseData.eventToken forKey:@"eventToken" toDictionary:dictionary];
+    [self addValueOrEmpty:eventFailureResponseData.callbackId forKey:@"callbackId" toDictionary:dictionary];
+    [self addValueOrEmpty:(eventFailureResponseData.willRetry ? @"true" : @"false") forKey:@"willRetry" toDictionary:dictionary];
+    if (eventFailureResponseData.jsonResponse != nil) {
+        NSData *dataJsonResponse = [NSJSONSerialization dataWithJSONObject:eventFailureResponseData.jsonResponse options:0 error:nil];
+        NSString *stringJsonResponse = [[NSString alloc] initWithBytes:[dataJsonResponse bytes]
+                                                                length:[dataJsonResponse length]
+                                                              encoding:NSUTF8StringEncoding];
+        [dictionary setObject:stringJsonResponse forKey:@"jsonResponse"];
+    }
 
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
     [self.adjustModule.jsEventFailureCallback call:array thisObject:nil];
@@ -146,10 +156,16 @@
     }
 
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [self addValueOrEmpty:dictionary key:@"message" value:sessionSuccessResponseData.message];
-    [self addValueOrEmpty:dictionary key:@"timestamp" value:sessionSuccessResponseData.timeStamp];
-    [self addValueOrEmpty:dictionary key:@"adid" value:sessionSuccessResponseData.adid];
-    [self addValueOrEmpty:dictionary key:@"jsonResponse" value:sessionSuccessResponseData.jsonResponse];
+    [self addValueOrEmpty:sessionSuccessResponseData.message forKey:@"message" toDictionary:dictionary];
+    [self addValueOrEmpty:sessionSuccessResponseData.timeStamp forKey:@"timestamp" toDictionary:dictionary];
+    [self addValueOrEmpty:sessionSuccessResponseData.adid forKey:@"adid" toDictionary:dictionary];
+    if (sessionSuccessResponseData.jsonResponse != nil) {
+        NSData *dataJsonResponse = [NSJSONSerialization dataWithJSONObject:sessionSuccessResponseData.jsonResponse options:0 error:nil];
+        NSString *stringJsonResponse = [[NSString alloc] initWithBytes:[dataJsonResponse bytes]
+                                                                length:[dataJsonResponse length]
+                                                              encoding:NSUTF8StringEncoding];
+        [dictionary setObject:stringJsonResponse forKey:@"jsonResponse"];
+    }
 
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
     [self.adjustModule.jsSessionSuccessCallback call:array thisObject:nil];
@@ -164,11 +180,17 @@
     }
 
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-    [self addValueOrEmpty:dictionary key:@"message" value:sessionFailureResponseData.message];
-    [self addValueOrEmpty:dictionary key:@"timestamp" value:sessionFailureResponseData.timeStamp];
-    [self addValueOrEmpty:dictionary key:@"adid" value:sessionFailureResponseData.adid];
-    [dictionary setObject:(sessionFailureResponseData.willRetry ? @"true" : @"false") forKey:@"willRetry"];
-    [self addValueOrEmpty:dictionary key:@"jsonResponse" value:sessionFailureResponseData.jsonResponse];
+    [self addValueOrEmpty:sessionFailureResponseData.message forKey:@"message" toDictionary:dictionary];
+    [self addValueOrEmpty:sessionFailureResponseData.timeStamp forKey:@"timestamp" toDictionary:dictionary];
+    [self addValueOrEmpty:sessionFailureResponseData.adid forKey:@"adid" toDictionary:dictionary];
+    [self addValueOrEmpty:(sessionFailureResponseData.willRetry ? @"true" : @"false") forKey:@"willRetry" toDictionary:dictionary];
+    if (sessionFailureResponseData.jsonResponse != nil) {
+        NSData *dataJsonResponse = [NSJSONSerialization dataWithJSONObject:sessionFailureResponseData.jsonResponse options:0 error:nil];
+        NSString *stringJsonResponse = [[NSString alloc] initWithBytes:[dataJsonResponse bytes]
+                                                                length:[dataJsonResponse length]
+                                                              encoding:NSUTF8StringEncoding];
+        [dictionary setObject:stringJsonResponse forKey:@"jsonResponse"];
+    }
 
     NSArray *array = [NSArray arrayWithObjects:dictionary, nil];
     [self.adjustModule.jsSessionFailureCallback call:array thisObject:nil];
@@ -178,14 +200,12 @@
     NSString *path = [deeplink absoluteString];
     NSArray *array = [NSArray arrayWithObjects:@{@"uri": path}, nil];
     [self.adjustModule.jsDeferredDeeplinkCallback call:array thisObject:nil];
-
     return _shouldLaunchDeferredDeeplink;
 }
 
 - (void)swizzleCallbackMethod:(SEL)originalSelector
-             swizzledSelector:(SEL)swizzledSelector {
+                   withMethod:(SEL)swizzledSelector {
     Class class = [self class];
-
     Method originalMethod = class_getInstanceMethod(class, originalSelector);
     Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
 
@@ -193,7 +213,6 @@
                                         originalSelector,
                                         method_getImplementation(swizzledMethod),
                                         method_getTypeEncoding(swizzledMethod));
-
     if (didAddMethod) {
         class_replaceMethod(class,
                             swizzledSelector,
@@ -204,9 +223,9 @@
     }
 }
 
-- (void)addValueOrEmpty:(NSMutableDictionary *)dictionary
-                    key:(NSString *)key
-                  value:(NSObject *)value {
+- (void)addValueOrEmpty:(NSObject *)value
+                 forKey:(NSString *)key
+           toDictionary:(NSMutableDictionary *)dictionary {
     if (nil != value) {
         [dictionary setObject:[NSString stringWithFormat:@"%@", value] forKey:key];
     } else {

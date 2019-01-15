@@ -25,6 +25,7 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
       * [Revenue deduplication](#revenue-deduplication)
       * [Callback parameters](#callback-parameters)
       * [Partner parameters](#partner-parameters)
+      * [Callback identifier](#callback-id)
    * [Session parameters](#session-parameters)
       * [Session callback parameters](#session-callback-parameters)
       * [Session partner parameters](#session-partner-parameters)
@@ -44,7 +45,6 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
       * [Adjust device identifier](#di-adid)
    * [User attribution](#user-attribution)
    * [Push token](#push-token)
-   * [Track additional device identifiers](#track-additional-ids)
    * [Pre-installed trackers](#pre-installed-trackers)
    * [Deeplinking](#deeplinking)
       * [Standard deeplinking scenario](#deeplinking-standard)
@@ -225,20 +225,6 @@ If you are using Proguard, add these lines to your Proguard file:
     java.lang.String getId();
     boolean isLimitAdTrackingEnabled();
 }
--keep class dalvik.system.VMRuntime {
-    java.lang.String getRuntime();
-}
--keep class android.os.Build {
-    java.lang.String[] SUPPORTED_ABIS;
-    java.lang.String CPU_ABI;
-}
--keep class android.content.res.Configuration {
-    android.os.LocaleList getLocales();
-    java.util.Locale locale;
-}
--keep class android.os.LocaledList {
-    java.util.Locale get(int);
-}
 -keep public class com.android.installreferrer.** { *; }
 ```
 
@@ -293,7 +279,7 @@ Another setting we add is for the `Framework Search Paths` value of the iOS Xcod
 Settings for this can also be found in the `module.xcconfig` file of the Adjust SDK iOS module:
 
 ```
-FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.14.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.14.0/platform"
+FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.17.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.17.0/platform"
 OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework -framework CoreTelephony AdjustSdk -ObjC
 ```
 
@@ -318,9 +304,7 @@ If your users can generate revenue by tapping on advertisements or making in-app
 
 ```js
 var adjustEvent = new AdjustEvent("abc123");
-
 adjustEvent.setRevenue(0.01, "EUR");
-
 Adjust.trackEvent(adjustEvent);
 ```
 
@@ -335,10 +319,8 @@ If you want to track in-app purchases, please make sure to call `trackEvent` onl
 
 ```js
 var adjustEvent = new AdjustEvent("abc123");
-
 adjustEvent.setRevenue(0.01, "EUR");
 adjustEvent.setTransactionId("{YourTransactionId}");
-
 Adjust.trackEvent(adjustEvent);
 ```
 
@@ -352,10 +334,8 @@ For example, suppose you have registered the URL `http://www.adjust.com/callback
 
 ```js
 var adjustEvent = new AdjustEvent("abc123");
-
 adjustEvent.addCallbackParameter("key", "value");
 adjustEvent.addCallbackParameter("foo", "bar");
-
 Adjust.trackEvent(adjustEvent);
 ```
 
@@ -377,14 +357,22 @@ These work similarly to the callback parameters mentioned above but can be added
 
 ```js
 var adjustEvent = new AdjustEvent("abc123");
-
 adjustEvent.addPartnerParameter("key", "value");
 adjustEvent.addPartnerParameter("foo", "bar");
-
 Adjust.trackEvent(adjustEvent);
 ```
 
 You can read more about special partners and networks in our [guide to special partners][special-partners].
+
+### <a id="callback-id"></a>Callback identifier
+
+You can also add custom string identifier to each event you want to track. This identifier will later be reported in event success and/or event failure callbacks to enable you to keep track on which event was successfully tracked or not. You can set this identifier by calling the `setCallbackId` method on your `AdjustEvent` instance:
+
+```js
+var adjustEvent = new AdjustEvent("abc123");
+adjustEvent.setCallbackId("Your-Custom-Id");
+Adjust.trackEvent(adjustEvent);
+```
 
 ### <a id="session-parameters"></a>Session parameters
 
@@ -508,6 +496,7 @@ adjustConfig.setEventTrackingSuccessCallback(function(eventSuccess) {
     Ti.API.info("Timestamp: " + eventSuccess.timestamp);
     Ti.API.info("Adid: " + eventSuccess.adid);
     Ti.API.info("Event token: " + eventSuccess.eventToken);
+    Ti.API.info("Callback Id: " + eventSuccess.callbackId);
     Ti.API.info("JSON response: " + eventSuccess.jsonResponse);
 });
 
@@ -526,6 +515,7 @@ adjustConfig.setEventTrackingFailureCallback(function(eventFailure) {
     Ti.API.info("Timestamp: " + eventFailure.timestamp);
     Ti.API.info("Adid: " + eventFailure.adid);
     Ti.API.info("Event token: " + eventFailure.eventToken);
+    Ti.API.info("Callback Id: " + eventFailure.callbackId);
     Ti.API.info("Will retry: " + eventFailure.willRetry);
     Ti.API.info("JSON response: " + eventFailure.jsonResponse);
 });
@@ -578,6 +568,7 @@ The callback functions will be called after the SDK tries to send a package to t
 Both event response data objects contain:
 
 - `var eventToken` the event token, if the package tracked was an event
+- `var callbackId` the custom defined callback ID set on event object.
 
 And both event and session failed objects also contain:
 
@@ -729,26 +720,6 @@ Adjust.setPushToken("YourPushNotificationToken");
 ```
 
 Push tokens are used for Audience Builder and client callbacks, and they are required for the upcoming uninstall tracking feature.
-
-### <a id="track-additional-ids"></a>Track additional device identifiers
-
-If you are distributing your Android app **outside of the Google Play Store** and would like to track additional device identifiers (IMEI and MEID), you need to explicitly instruct the Adjust SDK to do so. You can do that by calling the `setReadMobileEquipmentIdentity` method of the `AdjustConfig` instance. **The Adjust SDK does not collect these identifiers by default**.
-
-```js
-var adjustConfig = new AdjustConfig(appToken, environment);
-
-adjustConfig.setReadMobileEquipmentIdentity(true);
-
-Adjust.create(adjustConfig);
-```
-
-You will also need to add the `READ_PHONE_STATE` permission to your `AndroidManifest.xml` file:
-
-```xml
-<uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-```
-
-In order to use this feature, additional steps are required within your Adjust Dashboard. For more information, please contact your dedicated account manager or write an email to support@adjust.com.
 
 ### <a id="pre-installed-trackers"></a>Pre-installed trackers
 
@@ -1051,7 +1022,7 @@ If you see that the `gps_adid` parameter is being successfully sent with SDK pac
 
 The Adjust SDK is licensed under the MIT License.
 
-Copyright (c) 2012-2018 Adjust GmbH, http://www.adjust.com
+Copyright (c) 2012-2019 Adjust GmbH, http://www.adjust.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
