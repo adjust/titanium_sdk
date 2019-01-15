@@ -3,11 +3,10 @@
 //  Adjust SDK
 //
 //  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
-//  Copyright © 2017-2018 Adjust GmbH. All rights reserved.
+//  Copyright © 2017-2019 Adjust GmbH. All rights reserved.
 //
 
 function AdjustConfig(appToken, environment) {
-    this.sdkPrefix = "titanium4.17.0";
     this.appToken = appToken;
     this.environment = environment;
     this.logLevel = undefined;

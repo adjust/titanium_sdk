@@ -8,7 +8,7 @@ architectures: armv7 arm64 i386 x86_64
 description: AdjustTest
 author: Adjust GmbH
 license: Specify your license
-copyright: Copyright (c) 2018 by Your Company
+copyright: Copyright (c) 2018-2019 by Adjust GmbH
 
 # these should not be edited
 name: AdjustTest
