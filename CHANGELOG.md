@@ -1,3 +1,21 @@
+### Version 4.17.0 (15th January 2019)
+#### Added
+- Added `getSdkVersion` method to `Adjust` interface to obtain current SDK version string.
+- Added `setCallbackId` method on `AdjustEvent` object for users to set custom ID on event object which will later be reported in event success/failure callbacks.
+- Added `callbackId` field to event tracking success callback object.
+- Added `callbackId` field to event tracking failure callback object.
+
+#### Changed
+- Updated Android SDK and build tools to `28`.
+- Marked `setReadMobileEquipmentIdentity` method of `AdjustConfig` object as deprecated.
+- SDK will now fire attribution request each time upon session tracking finished in case it lacks attribution info.
+
+#### Native SDKs
+- [iOS@v4.17.1][ios_sdk_v4.17.1]
+- [Android@v4.17.0][android_sdk_v4.17.0]
+
+---
+
 ### Version 4.14.0 (16th July 2018)
 #### Added
 - Added deep link caching in case `appWillOpenUrl` method is called before SDK is initialised.
@@ -88,6 +106,7 @@
 [ios_sdk_v4.12.3]: https://github.com/adjust/ios_sdk/tree/v4.12.3
 [ios_sdk_v4.13.0]: https://github.com/adjust/ios_sdk/tree/v4.13.0
 [ios_sdk_v4.14.1]: https://github.com/adjust/ios_sdk/tree/v4.14.1
+[ios_sdk_v4.17.1]: https://github.com/adjust/ios_sdk/tree/v4.17.1
 
 [android_sdk_v4.11.4]: https://github.com/adjust/android_sdk/tree/v4.11.4
 [android_sdk_v4.12.0]: https://github.com/adjust/android_sdk/tree/v4.12.0
@@ -95,3 +114,4 @@
 [android_sdk_v4.12.4]: https://github.com/adjust/android_sdk/tree/v4.12.4
 [android_sdk_v4.13.0]: https://github.com/adjust/android_sdk/tree/v4.13.0
 [android_sdk_v4.14.0]: https://github.com/adjust/android_sdk/tree/v4.14.0
+[android_sdk_v4.17.0]: https://github.com/adjust/android_sdk/tree/v4.17.0
