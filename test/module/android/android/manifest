@@ -2,16 +2,16 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.0.0
+version: 4.17.0
 apiversion: 4
 architectures: arm64-v8a armeabi-v7a x86
-description: adjust-test
+description: adjust.test
 author: Adjust GmbH
 license: MIT License
 copyright: Copyright (c) 2018 by Adjust GmbH
 
 # these should not be edited
-name: adjust-test
+name: adjust.test
 moduleid: ti.adjust.test
 guid: 1ade5688-f604-48c6-b47c-86399f7e12e4
 platform: android

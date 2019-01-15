@@ -16,7 +16,7 @@ import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.common.TiConfig;
 import org.appcelerator.kroll.runtime.v8.V8Function;
 import org.appcelerator.titanium.TiApplication;
-import com.adjust.testlibrary.*;
+import com.adjust.test.*;
 
 @Kroll.module(name="AdjustTest", id="ti.adjust.test")
 public class AdjustTestModule extends KrollModule implements ICommandRawJsonListener {

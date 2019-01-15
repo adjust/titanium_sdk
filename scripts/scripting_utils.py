@@ -194,20 +194,20 @@ def adb_install_apk(path):
 def adb_shell_monkey(app_package):
     execute_command(['adb', 'shell', 'monkey', '-p', app_package, '1'])
 
-def gradle_make_release_jar(do_clean=False):
+def gradle_make_release_jar_sdk(do_clean=False):
     if (do_clean):
-        execute_command(['./gradlew', 'clean', 'makeReleaseJar'])
+        execute_command(['./gradlew', 'clean', 'adjustSdkNonNativeJarRelease'])
     else:
-        execute_command(['./gradlew', 'makeReleaseJar'])
+        execute_command(['./gradlew', 'adjustSdkNonNativeJarRelease'])
 
-def gradle_make_debug_jar(do_clean=False):
+def gradle_make_debug_jar_sdk(do_clean=False):
     if (do_clean):
-        execute_command(['./gradlew', 'clean', 'makeDebugJar'])
+        execute_command(['./gradlew', 'clean', 'adjustSdkNonNativeJarDebug'])
     else:
-        execute_command(['./gradlew', 'makeDebugJar'])
+        execute_command(['./gradlew', 'adjustSdkNonNativeJarDebug'])
 
-def gradle_clean_make_jar():
-    execute_command(['./gradlew', 'clean', 'makeJar'])
+def gradle_clean_make_jar_test():
+    execute_command(['./gradlew', 'clean', 'adjustMakeJarDebug'])
 
 def gradle_run(options):
     cmd_params = ['./gradlew']
@@ -227,23 +227,3 @@ def appc_ti_build():
 def ti_unzip(ti_zip_path):
     ti_support_path = get_env_variable('TITANIUM_SUPPORT_PATH')
     execute_command(['unzip', '-oq', ti_zip_path, '-d', ti_support_path])
-
-############################################################
-### nonsense, eyecandy and such
-
-def waiting_animation(duration, step):
-    if(duration <= step):
-        return
-
-    line = '-'
-    line_killer = '\b'
-    while duration >= 0:
-        duration -= step
-        sys.stdout.write(line)
-        sys.stdout.flush()
-        sys.stdout.write(line_killer)
-        line += '-'
-        line_killer += '\b'
-        if len(line) > 65:
-            line = '-'
-        time.sleep(step)

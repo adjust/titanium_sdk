@@ -1,10 +1,10 @@
-# adjust-test Module
+# adjust.test Module
 
 ## Description
 
 TODO: Enter your module description here
 
-## Accessing the adjust-test Module
+## Accessing the adjust.test Module
 
 To access this module from JavaScript, you would do the following:
 

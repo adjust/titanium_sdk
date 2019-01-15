@@ -45,15 +45,15 @@ if (OS_IOS) {
     var sdkPrefix = "titanium4.17.0";
 
     // var baseAddress = "10.0.2.2"; // Emulator Android
-    var baseAddress = "127.0.0.1"; // Emulator iOS
-    // var baseAddress = "192.168.8.189"; // Device
+    // var baseAddress = "127.0.0.1"; // Emulator iOS
+    // var baseAddress = "192.168.9.145"; // Device
 
     if (OS_ANDROID) {
-        baseUrl = "https://" + baseAddress + ":8443";
-        gdprUrl = "https://" + baseAddress + ":8443";
+        baseUrl = "https://10.0.2.2:8443";
+        gdprUrl = "https://10.0.2.2:8443";
     } else if (OS_IOS) {
-        baseUrl = "http://" + baseAddress + ":8080";
-        gdprUrl = "http://" + baseAddress + ":8080";
+        baseUrl = "http://127.0.0.1:8080";
+        gdprUrl = "http://127.0.0.1:8080";
     }
 
     Ti.API.info('[AdjustTest]: Connecting to: ' + baseUrl);
