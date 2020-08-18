@@ -11,11 +11,9 @@ package ti.adjust;
 import android.net.Uri;
 import java.util.Map;
 import java.util.HashMap;
-import javax.lang.model.type.NullType;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.TiApplication;
-import org.appcelerator.kroll.common.Log;
 import org.appcelerator.kroll.runtime.v8.V8Function;
 import com.adjust.sdk.*;
 
