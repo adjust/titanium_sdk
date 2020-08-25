@@ -1,3 +1,8 @@
+### Version 4.24.0 (25th August 2020)
+#### Native SDKs
+- [Android@v4.24.0][android_sdk_v4.24.0]
+
+
 ### Version 4.17.0 (15th January 2019)
 #### Added
 - Added `getSdkVersion` method to `Adjust` interface to obtain current SDK version string.

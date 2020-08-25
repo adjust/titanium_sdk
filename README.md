@@ -126,7 +126,7 @@ We use this environment to distinguish between real traffic and test traffic fro
 
 When integrating the Adjust SDK into your app, you need to perform one additional and **vital step** related to enabling proper session tracking on the Android platform. After your app starts in the Android environment, you should subscribe to get notifications whenever your app moves to the background or comes to the foreground. In these moments, you need to add calls to `Adjust.onResume()` (when your app comes to foreground) and `Adjust.onPause()` (when your app moves to background).
 
-Feel free to subscribe to these events however you like, but it is crucial that you do so in a proper way, otherwise session tracking might be affected. In our example app, we managed to do it using the [benCoding.Android.Tools][bencooding-android-tools] Titanium module in the following way:
+Feel free to subscribe to these events however you like, but it is crucial that you do so in a proper way, otherwise session tracking might be affected. In our example app we do it in the following way:
 
 ```js
 Ti.App.addEventListener('resumed', function(e) {
@@ -136,21 +136,6 @@ Ti.App.addEventListener('resumed', function(e) {
 Ti.App.addEventListener('paused', function(e) {
     Adjust.onPause();
 });
-
-if (OS_ANDROID) {
-    var platformTools = require('bencoding.android.tools').createPlatform(),
-        wasInForeGround = true;
-
-    setInterval(function() {
-        var isInForeground = platformTools.isInForeground();
-
-        if (wasInForeGround !== isInForeground) {
-            Ti.App.fireEvent(isInForeground ? 'resumed' : 'paused');
-
-            wasInForeGround = isInForeground;
-        }
-    }, 1000);
-}
 ```
 
 For additional information about this approach, please check the `benCoding.Android.Tools` module GitHub page.
@@ -182,8 +167,8 @@ The Adjust SDK adds by default certain permissions to your Android manifest file
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" /> 
-    
+    <uses-permission android:name="com.google.android.finsky.permission.BIND_GET_INSTALL_REFERRER_SERVICE" />
+
     <!-- ... -->
 </manifest>
 ```
@@ -248,8 +233,8 @@ The Adjust install referrer broadcast receiver is added to your app by default. 
 <manifest>
     <!-- ... -->
     <application>
-        <receiver 
-            android:name="com.adjust.sdk.AdjustReferrerReceiver" 
+        <receiver
+            android:name="com.adjust.sdk.AdjustReferrerReceiver"
             android:permission="android.permission.INSTALL_PACKAGES"
             android:exported="true">
             <intent-filter>
@@ -621,9 +606,9 @@ Adjust.gdprForgetMe();
 Upon receiving this information, Adjust will erase the user's data and the Adjust SDK will stop tracking the user. No requests from this device will be sent to Adjust in the future.
 
 ### <a id="sdk-signature"></a>SDK signature
- 
+
 An account manager must activate the Adjust SDK signature. Contact Adjust support (support@adjust.com) if you are interested in using this feature.
- 
+
 If the SDK signature has already been enabled on your account and you have access to App Secrets in your Adjust Dashboard, please use the method below to integrate the SDK signature into your app.
 
 An App Secret is set by passing all secret parameters (`secretId`, `info1`, `info2`, `info3`, `info4`) to `setAppSecret` method of `AdjustConfig` instance:
@@ -732,7 +717,7 @@ If you want to use the Adjust SDK to recognize users whose devices came with you
     var adjustConfig = new AdjustConfig(appToken, environment);
 
     adjustConfig.setDefaultTracker("{TrackerToken}");
-    
+
     Adjust.start(adjustConfig);
     ```
 
@@ -753,7 +738,7 @@ If you are using the Adjust tracker URL with an option to deep link into your ap
 
 ### <a id="deeplinking-standard"></a>Standard deeplinking
 
-Standard deeplinking is a platform-specific feature and in order to support it you need to add some additional settings to your app. If your user already has the app installed and hits the tracker URL with deeplink information in it, your application will be opened and the content of the deep link will be sent to your app so that you can parse it and decide what to do next. 
+Standard deeplinking is a platform-specific feature and in order to support it you need to add some additional settings to your app. If your user already has the app installed and hits the tracker URL with deeplink information in it, your application will be opened and the content of the deep link will be sent to your app so that you can parse it and decide what to do next.
 
 **Note for iOS**: With the introduction of iOS 9, Apple has changed the way deeplinking is handled in the app. Depending on which deeplinking scenario you want to use for your app (or if you want to use them both to support a wide range of devices), you need to set up your app to handle one or both of the following scenarios.
 
@@ -848,7 +833,7 @@ if (OS_IOS) {
     Ti.App.iOS.addEventListener('continueactivity', function(e) {
         if (e.activityType === "NSUserActivityTypeBrowsingWeb"){
             var deeplink = e.webpageURL;
-	
+
             if (deeplink) {
                 Ti.API.info("URL = " + deeplink);
             }
@@ -878,9 +863,9 @@ You need to assign a custom URL scheme to the activity of your choice by adding 
     <manifest>
         <!-- keep any custom attributes for application -->
         <application>
-            <activity android:name=".AdjustexampleActivity" 
-                      android:label="@string/app_name" 
-                      android:theme="@style/Theme.Titanium" 
+            <activity android:name=".AdjustexampleActivity"
+                      android:label="@string/app_name"
+                      android:theme="@style/Theme.Titanium"
                       android:configChanges="keyboardHidden|orientation|screenSize">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN"/>
@@ -922,7 +907,7 @@ By completing this, you should be able to handle direct deeplinking on **Android
 ### <a id="deeplinking-deferred"></a>Deferred deeplinking
 
 While deferred deeplinking is not supported out of the box on Android or iOS, the Adjust SDK makes it possible.
- 
+
 In order to get information about the URL content through deferred deeplinking, you should set a callback method on the the `AdjustConfig` object which will receive one parameter where the content of the URL will be delivered. You should set this method on the config object by calling the `setDeferredDeeplinkCallback` method:
 
 ```js

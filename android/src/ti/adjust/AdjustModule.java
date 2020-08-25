@@ -9,21 +9,40 @@
 package ti.adjust;
 
 import android.net.Uri;
+
+import com.adjust.sdk.Adjust;
+import com.adjust.sdk.AdjustAttribution;
+import com.adjust.sdk.AdjustConfig;
+import com.adjust.sdk.AdjustEvent;
+import com.adjust.sdk.AdjustEventFailure;
+import com.adjust.sdk.AdjustEventSuccess;
+import com.adjust.sdk.AdjustSessionFailure;
+import com.adjust.sdk.AdjustSessionSuccess;
+import com.adjust.sdk.AdjustTestOptions;
+import com.adjust.sdk.LogLevel;
+import com.adjust.sdk.OnAttributionChangedListener;
+import com.adjust.sdk.OnDeeplinkResponseListener;
+import com.adjust.sdk.OnDeviceIdsRead;
+import com.adjust.sdk.OnEventTrackingFailedListener;
+import com.adjust.sdk.OnEventTrackingSucceededListener;
+import com.adjust.sdk.OnSessionTrackingFailedListener;
+import com.adjust.sdk.OnSessionTrackingSucceededListener;
+
 import java.util.Map;
 import java.util.HashMap;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.TiApplication;
 import org.appcelerator.kroll.runtime.v8.V8Function;
-import com.adjust.sdk.*;
+
 
 @Kroll.module(name="Adjust", id="ti.adjust")
 public class AdjustModule extends KrollModule implements OnAttributionChangedListener,
-                                                         OnEventTrackingSucceededListener,
-                                                         OnEventTrackingFailedListener, 
-                                                         OnSessionTrackingSucceededListener,
-                                                         OnSessionTrackingFailedListener,
-                                                         OnDeeplinkResponseListener {
+        OnEventTrackingSucceededListener,
+        OnEventTrackingFailedListener,
+        OnSessionTrackingSucceededListener,
+        OnSessionTrackingFailedListener,
+        OnDeeplinkResponseListener {
     private static final String SDK_PREFIX = "titanium4.17.0";
 
     private static final String LCAT = "AdjustModule";
@@ -558,7 +577,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 
     @Kroll.method
     public void getGoogleAdId(final V8Function callback) {
-        Adjust.getGoogleAdId(getActivity().getApplication(), new OnDeviceIdsRead() { 
+        Adjust.getGoogleAdId(getActivity().getApplication(), new OnDeviceIdsRead() {
             @Override
             public void onGoogleAdIdRead(String gpsAdId) {
                 Object[] answer = { gpsAdId };
