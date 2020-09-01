@@ -10,6 +10,8 @@ Ti.App.addEventListener('paused', function(e) {
 });
 
 if (OS_ANDROID) {
+    // bye bye bencoding.android.tools, it's been a pleasure
+    /*
     var platformTools = require('bencoding.android.tools').createPlatform(), wasInForeground = true;
     setInterval(function() {
         var isInForeground = platformTools.isInForeground();
@@ -18,6 +20,7 @@ if (OS_ANDROID) {
             wasInForeground = isInForeground;
         }
     }, 1000);
+    */
 }
 
  if (OS_IOS) {

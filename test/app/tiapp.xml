@@ -3,7 +3,7 @@
   xmlns:ti="http://ti.appcelerator.org">
   <id>com.adjust.examples</id>
   <name>AdjustTest</name>
-  <version>4.17.0</version>
+  <version>4.23.0</version>
   <publisher>Adjust GmbH</publisher>
   <url>http://www.adjust.com</url>
   <description>Test app to test Adjust Titanium plugin.</description>
@@ -90,7 +90,7 @@
     <target device="ipad">true</target>
     <target device="iphone">true</target>
   </deployment-targets>
-  <sdk-version>7.5.0.GA</sdk-version>
+  <sdk-version>9.1.0.GA</sdk-version>
   <plugins>
     <plugin version="1.0">ti.alloy</plugin>
   </plugins>

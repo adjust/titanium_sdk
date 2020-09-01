@@ -25,7 +25,7 @@ dir_scripts         = os.path.dirname(os.path.realpath(__file__))
 dir_root            = os.path.dirname(os.path.normpath(dir_scripts))
 dir_ext_android     = '{0}/ext/android'.format(dir_root)
 dir_ext_ios         = '{0}/ext/ios'.format(dir_root)
-version_titanium    = '7.5.0.GA'
+version_titanium    = '9.1.0.GA'
 
 # ------------------------------------------------------------------
 

@@ -12,7 +12,7 @@
 #import "TiAdjustModule.h"
 #import "TiAdjustModuleDelegate.h"
 
-static NSString * const kSdkPrefix = @"titanium4.17.0";
+static NSString * const kSdkPrefix = @"titanium4.23.0";
 
 @implementation TiAdjustModule
 
@@ -418,6 +418,7 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
             testOptions.gdprUrl = value;
         }
     }
+    /*
     if ([params objectForKey:@"basePath"]) {
         NSString *value = params[@"basePath"];
         if ([self isFieldValid:value]) {
@@ -428,6 +429,13 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
         NSString *value = params[@"gdprPath"];
         if ([self isFieldValid:value]) {
             testOptions.gdprPath = value;
+        }
+    }
+    */
+    if ([params objectForKey:@"extraPath"]) {
+        NSString *value = params[@"extraPath"];
+        if ([self isFieldValid:value]) {
+            testOptions.extraPath = value;
         }
     }
     if ([params objectForKey:@"timerIntervalInMilliseconds"]) {

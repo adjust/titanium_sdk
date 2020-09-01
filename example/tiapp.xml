@@ -3,7 +3,7 @@
   xmlns:ti="http://ti.appcelerator.org">
   <id>com.adjust.examples</id>
   <name>AdjustExample</name>
-  <version>4.17.0</version>
+  <version>4.23.0</version>
   <publisher>Adjust GmbH</publisher>
   <url>http://www.adjust.com</url>
   <description>Example app to test Adjust Titanium plugin.</description>
@@ -78,8 +78,10 @@
   </android>
   <modules>
     <module platform="android">ti.adjust</module>
-    <module platform="android">bencoding.android.tools</module>
-    <module platform="android">ti.playservices</module>
+    <!-- not supported anymore -->
+    <!-- <module platform="android">bencoding.android.tools</module> -->
+    <!-- fails to be loaded on 9.1.0.GA for some reason -->
+    <!-- <module platform="android">ti.playservices</module> -->
     <module platform="iphone">ti.adjust</module>
   </modules>
   <deployment-targets>
@@ -87,7 +89,7 @@
     <target device="ipad">true</target>
     <target device="iphone">true</target>
   </deployment-targets>
-  <sdk-version>7.5.0.GA</sdk-version>
+  <sdk-version>9.1.0.GA</sdk-version>
   <plugins>
     <plugin version="1.0">ti.alloy</plugin>
   </plugins>

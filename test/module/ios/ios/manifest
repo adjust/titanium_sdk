@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 4.17.0
+version: 4.23.0
 apiversion: 2
 architectures: armv7 arm64 i386 x86_64
 description: AdjustTest
@@ -15,4 +15,4 @@ name: AdjustTest
 moduleid: ti.adjust.test
 guid: ba260430-69e1-4fd6-82e7-56e777b468dc
 platform: iphone
-minsdk: 7.2.0.GA
+minsdk: 9.1.0.GA
