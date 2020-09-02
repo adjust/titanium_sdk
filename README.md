@@ -18,14 +18,19 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
       * [Install referrer](#android-referrer)
          * [Google Play Referrer API](#android-referrer-gpr-api)
          * [Google Play Store intent](#android-referrer-gps-intent)
+         * [Huawei Referrer API](#android-huawei-referrer-api)
       * [iOS frameworks](#ios-frameworks)
 * [Additional features](#additional-features)
+   * [AppTrackingTransparency framework](#att-framework)
+      * [App-tracking authorisation wrapper](#ata-wrapper)
+   * [SKAdNetwork framework](#skadn-framework)
    * [Event tracking](#event-tracking)
       * [Revenue tracking](#revenue-tracking)
       * [Revenue deduplication](#revenue-deduplication)
       * [Callback parameters](#callback-parameters)
       * [Partner parameters](#partner-parameters)
       * [Callback identifier](#callback-id)
+   * [Subscription tracking](#subscription-tracking)
    * [Session parameters](#session-parameters)
       * [Session callback parameters](#session-callback-parameters)
       * [Session partner parameters](#session-partner-parameters)
@@ -36,6 +41,7 @@ This is the Titanium SDK of Adjust™. You can read more about Adjust™ at [adj
    * [Offline mode](#offline-mode)
    * [Event buffering](#event-buffering)
    * [GDPR right to be forgotten](#gdpr-forget-me)
+   * [Disable third-party sharing](#disable-third-party-sharing)
    * [SDK signature](#sdk-signature)
    * [Background tracking](#background-tracking)
    * [Device IDs](#device-ids)
@@ -85,16 +91,20 @@ After adding the Adjust SDK module, you should see the following in your `tiapp.
 </modules>
 ```
 
-In addition to the Titanium module, we have created two additional JavaScript classes, which can also be found on the [releases page][releases], to help you while using the Adjust SDK:
+In addition to the Titanium module, we have created additional JavaScript classes, which can also be found on the [releases page][releases], to help you while using the Adjust SDK:
 
 - `adjust_config.js`
 - `adjust_event.js`
+- `adjust_app_store_subscription.js`
+- `adjust_play_store_subscription.js`
 
 Make sure to add these two JavaScript files to your app as well. In order to be able to use these two classes the way they will be used in code examples in this README, please add the following lines anywhere you want to use instances of these two classes:
 
 ```js
 var AdjustEvent = require('adjust_event');
 var AdjustConfig = require('adjust_config');
+var AdjustAppStoreSubscription = require('adjust_app_store_subscription');
+var AdjustPlayStoreSubscription = require('adjust_play_store_subscription');
 ```
 
 **Note**: With each SDK update, please make sure that you **update these two files as well**.
@@ -190,7 +200,7 @@ The Adjust SDK adds by default certain permissions to your Android manifest file
 
 - `INTERNET` permission is what our SDK might need at any point of time.
 - `ACCESS_WIFI_STATE` permission is what our SDK needs in case your app is `not targeting` the Google Play Store and `doesn't use` Google Play Services. If you are targeting the Google Play Store and you are using Google Play Services, the Adjust SDK doesn't need this permission and, if you don't need it anywhere else in your app, you can remove it.
-- `ACCESS_NETWORK_STATE` permission is what our SDK needs to read `MMC` and `MNC` information.
+- `ACCESS_NETWORK_STATE` permission is what our SDK needs to read information about network user is currently connected to.
 - `BIND_GET_INSTALL_REFERRER_SERVICE` permission is needed so that new Google referrer API can be utilized.
 
 ### <a id="android-gps"></a>Google Play Services
@@ -263,14 +273,20 @@ The Adjust install referrer broadcast receiver is added to your app by default. 
 
 Please bear in mind that, if you are using your own broadcast receiver which handles the `INSTALL_REFERRER` intent, you don't need the Adjust broadcast receiver to be added to your manifest file. You can remove it, but, inside your own receiver, add the call to the Adjust broadcast receiver as described in our [Android guide][broadcast-receiver-custom].
 
+#### <a id="android-huawei-referrer-api"></a>Huawei Referrer API
+
+As of v4.23.0, the Adjust SDK supports install tracking on Huawei devices with Huawei App Gallery version 10.4 and higher. No additional integration steps are needed to start using the Huawei Referrer API.
+
 ### <a id="ios-frameworks"></a>iOS frameworks
 
-The Adjust SDK iOS module adds three iOS frameworks to your generated Xcode project:
+The Adjust SDK iOS module adds following iOS frameworks to your generated Xcode project:
 
-* `iAd.framework` - In case you are running iAd campaigns.
-* `AdSupport.framework` - For reading the iOS advertising ID (IDFA).
-* `CoreTelephony.framework` - For reading MMC and MNC information.
-* `AdjustSdk.framework` - Our native iOS SDK framework.
+* `iAd.framework` - in case you are running iAd campaigns
+* `AdSupport.framework` - for reading iOS Advertising Id (IDFA)
+* `CoreTelephony.framework` - for reading MCC and MNC information
+* `StoreKit.framework` - for communication with SKAdNetwork framework
+* `AppTrackingTransparency.framework` - to ask for user's consent to be tracked and obtain status of that consent
+* `AdjustSdk.framework` - our native iOS SDK framework
 
 In order to support some features from the `AdjustSdk.framework`, our iOS module will also add an `-ObjC` flag to the `Other Linker Flags` setting in your Xcode project.
 
@@ -279,8 +295,8 @@ Another setting we add is for the `Framework Search Paths` value of the iOS Xcod
 Settings for this can also be found in the `module.xcconfig` file of the Adjust SDK iOS module:
 
 ```
-FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.17.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.17.0/platform"
-OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework -framework CoreTelephony AdjustSdk -ObjC
+FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.23.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.23.0/platform"
+OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework -framework CoreTelephony AdjustSdk -framework StoreKit -framework AppTrackingTransparency -ObjC
 ```
 
 If you are not running any iAd campaigns, you can feel free to remove the `iAd.framework` dependency.
@@ -288,6 +304,69 @@ If you are not running any iAd campaigns, you can feel free to remove the `iAd.f
 ## <a id="additional-features"></a>Additional features
 
 You can take advantage of the following features once you have integrated the Adjust SDK into your project.
+
+### <a id="att-framework"></a>AppTrackingTransparency framework
+
+**Note**: This feature exists only in iOS platform.
+
+For each package sent, the Adjust backend receives one of the following four (4) states of consent for access to app-related data that can be used for tracking the user or the device:
+
+- Authorized
+- Denied
+- Not Determined
+- Restricted
+
+After a device receives an authorization request to approve access to app-related data, which is used for user device tracking, the returned status will either be Authorized or Denied.
+
+Before a device receives an authorization request for access to app-related data, which is used for tracking the user or device, the returned status will be Not Determined.
+
+If authorization to use app tracking data is restricted, the returned status will be Restricted.
+
+The SDK has a built-in mechanism to receive an updated status after a user responds to the pop-up dialog, in case you don't want to customize your displayed dialog pop-up. To conveniently and efficiently communicate the new state of consent to the backend, Adjust SDK offers a wrapper around the app tracking authorization method described in the following chapter, App-tracking authorization wrapper.
+
+### <a id="ata-wrapper"></a>App-tracking authorisation wrapper
+
+**Note**: This feature exists only in iOS platform.
+
+Adjust SDK offers the possibility to use it for requesting user authorization in accessing their app-related data. Adjust SDK has a wrapper built on top of the [requestTrackingAuthorizationWithCompletionHandler:](https://developer.apple.com/documentation/apptrackingtransparency/attrackingmanager/3547037-requesttrackingauthorizationwith?language=objc) method, where you can as well define the callback method to get information about a user's choice. Also, with the use of this wrapper, as soon as a user responds to the pop-up dialog, it's then communicated back using your callback method. The SDK will also inform the backend of the user's choice. Integer value will be delivered via your callback method with the following meaning:
+
+- 0: `ATTrackingManagerAuthorizationStatusNotDetermined`
+- 1: `ATTrackingManagerAuthorizationStatusRestricted`
+- 2: `ATTrackingManagerAuthorizationStatusDenied`
+- 3: `ATTrackingManagerAuthorizationStatusAuthorized`
+
+To use this wrapper, you can call it as such:
+
+```js
+Adjust.requestTrackingAuthorizationWithCompletionHandler(function(status) {
+    switch (status) {
+        case 0:
+            // ATTrackingManagerAuthorizationStatusNotDetermined case
+            break;
+        case 1:
+            // ATTrackingManagerAuthorizationStatusRestricted case
+            break;
+        case 2:
+            // ATTrackingManagerAuthorizationStatusDenied case
+            break;
+        case 3:
+            // ATTrackingManagerAuthorizationStatusAuthorized case
+            break;
+    }
+});
+```
+
+### <a id="skadn-framework"></a>SKAdNetwork framework
+
+**Note**: This feature exists only in iOS platform.
+
+If you have implemented the Adjust iOS SDK v4.23.0 or above and your app is running on iOS 14, the communication with SKAdNetwork will be set on by default, although you can choose to turn it off. When set on, Adjust automatically registers for SKAdNetwork attribution when the SDK is initialized. If events are set up in the Adjust dashboard to receive conversion values, the Adjust backend sends the conversion value data to the SDK. The SDK then sets the conversion value. After Adjust receives the SKAdNetwork callback data, it is then displayed in the dashboard.
+
+In case you don't want the Adjust SDK to automatically communicate with SKAdNetwork, you can disable that by calling the following method on configuration object:
+
+```js
+adjustConfig.deactivateSKAdNetworkHandling();
+```
 
 ### <a id="event-tracking"></a>Event tracking
 
@@ -372,6 +451,89 @@ You can also add custom string identifier to each event you want to track. This 
 var adjustEvent = new AdjustEvent("abc123");
 adjustEvent.setCallbackId("Your-Custom-Id");
 Adjust.trackEvent(adjustEvent);
+```
+
+### <a id="subscription-tracking"></a>Subscription tracking
+
+**Note**: This feature is only available in the SDK v4.23.0 and above.
+
+You can track App Store and Play Store subscriptions and verify their validity with the Adjust SDK. After a subscription has been successfully purchased, make the following call to the Adjust SDK:
+
+**For App Store subscription:**
+
+```js
+var subscription = new AdjustAppStoreSubscription(price, currency, transactionId, receipt);
+subscription.setTransactionDate(transactionDate);
+subscription.setSalesRegion(salesRegion);
+
+Adjust.trackAppStoreSubscription(subscription);
+```
+
+**For Play Store subscription:**
+
+```js
+var subscription = new AdjustPlayStoreSubscription(price, currency, sku, orderId, signature, purchaseToken);
+subscription.setPurchaseTime(purchaseTime);
+
+Adjust.trackPlayStoreSubscription(subscription);
+```
+
+Subscription tracking parameters for App Store subscription:
+
+- [price](https://developer.apple.com/documentation/storekit/skproduct/1506094-price?language=objc)
+- currency (you need to pass [currencyCode](https://developer.apple.com/documentation/foundation/nslocale/1642836-currencycode?language=objc) of the [priceLocale](https://developer.apple.com/documentation/storekit/skproduct/1506145-pricelocale?language=objc) object)
+- [transactionId](https://developer.apple.com/documentation/storekit/skpaymenttransaction/1411288-transactionidentifier?language=objc)
+- [receipt](https://developer.apple.com/documentation/foundation/nsbundle/1407276-appstorereceipturl)
+- [transactionDate](https://developer.apple.com/documentation/storekit/skpaymenttransaction/1411273-transactiondate?language=objc)
+- salesRegion (you need to pass [countryCode](https://developer.apple.com/documentation/foundation/nslocale/1643060-countrycode?language=objc) of the [priceLocale](https://developer.apple.com/documentation/storekit/skproduct/1506145-pricelocale?language=objc) object)
+
+Subscription tracking parameters for Play Store subscription:
+
+- [price](https://developer.android.com/reference/com/android/billingclient/api/SkuDetails#getpriceamountmicros)
+- [currency](https://developer.android.com/reference/com/android/billingclient/api/SkuDetails#getpricecurrencycode)
+- [sku](https://developer.android.com/reference/com/android/billingclient/api/Purchase#getsku)
+- [orderId](https://developer.android.com/reference/com/android/billingclient/api/Purchase#getorderid)
+- [signature](https://developer.android.com/reference/com/android/billingclient/api/Purchase#getsignature)
+- [purchaseToken](https://developer.android.com/reference/com/android/billingclient/api/Purchase#getpurchasetoken)
+- [purchaseTime](https://developer.android.com/reference/com/android/billingclient/api/Purchase#getpurchasetime)
+
+**Note:** Subscription tracking API offered by Adjust SDK expects all parameters to be passed as `string` values. Parameters described above are the ones which API exects you to pass to subscription object prior to tracking subscription. There are various libraries which are handling in app purchases in Cordova and each one of them should return information described above in some form upon successfully completed subscription purchase. You should locate where these parameters are placed in response you are getting from library you are using for in app purchases, extract those values and pass them to Adjust API as string values.
+
+Just like with event tracking, you can attach callback and partner parameters to the subscription object as well:
+
+**For App Store subscription:**
+
+```js
+var subscription = new AdjustAppStoreSubscription(price, currency, transactionId, receipt);
+subscription.setTransactionDate(transactionDate);
+subscription.setSalesRegion(salesRegion);
+
+// add callback parameters
+subscription.addCallbackParameter("key", "value");
+subscription.addCallbackParameter("foo", "bar");
+
+// add partner parameters
+subscription.addPartnerParameter("key", "value");
+subscription.addPartnerParameter("foo", "bar");
+
+Adjust.trackAppStoreSubscription(subscription);
+```
+
+**For Play Store subscription:**
+
+```js
+var subscription = new AdjustPlayStoreSubscription(price, currency, sku, orderId, signature, purchaseToken);
+subscription.setPurchaseTime(purchaseTime);
+
+// add callback parameters
+subscription.addCallbackParameter("key", "value");
+subscription.addCallbackParameter("foo", "bar");
+
+// add partner parameters
+subscription.addPartnerParameter("key", "value");
+subscription.addPartnerParameter("foo", "bar");
+
+Adjust.trackPlayStoreSubscription(subscription);
 ```
 
 ### <a id="session-parameters"></a>Session parameters
@@ -619,6 +781,19 @@ Adjust.gdprForgetMe();
 ```
 
 Upon receiving this information, Adjust will erase the user's data and the Adjust SDK will stop tracking the user. No requests from this device will be sent to Adjust in the future.
+
+### <a id="disable-third-party-sharing"></a>Disable third-party sharing for specific users
+
+You can now notify Adjust when a user has exercised their right to stop sharing their data with partners for marketing purposes, but has allowed it to be shared for statistics purposes. 
+
+Call the following method to instruct the Adjust SDK to communicate the user's choice to disable data sharing to the Adjust backend:
+
+
+```cs
+Adjust.disableThirdPartySharing();
+```
+
+Upon receiving this information, Adjust will block the sharing of that specific user's data to partners and the Adjust SDK will continue to work as usual.
 
 ### <a id="sdk-signature"></a>SDK signature
  

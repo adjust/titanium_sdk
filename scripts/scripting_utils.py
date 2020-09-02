@@ -196,18 +196,18 @@ def adb_shell_monkey(app_package):
 
 def gradle_make_release_jar_sdk(do_clean=False):
     if (do_clean):
-        execute_command(['./gradlew', 'clean', 'adjustSdkNonNativeJarRelease'])
+        execute_command(['./gradlew', 'clean', 'adjustCoreJarRelease'])
     else:
-        execute_command(['./gradlew', 'adjustSdkNonNativeJarRelease'])
+        execute_command(['./gradlew', 'adjustCoreJarRelease'])
 
 def gradle_make_debug_jar_sdk(do_clean=False):
     if (do_clean):
-        execute_command(['./gradlew', 'clean', 'adjustSdkNonNativeJarDebug'])
+        execute_command(['./gradlew', 'clean', 'adjustCoreJarDebug'])
     else:
-        execute_command(['./gradlew', 'adjustSdkNonNativeJarDebug'])
+        execute_command(['./gradlew', 'adjustCoreJarDebug'])
 
 def gradle_clean_make_jar_test():
-    execute_command(['./gradlew', 'clean', 'adjustMakeJarDebug'])
+    execute_command(['./gradlew', 'clean', 'adjustTestLibraryJarDebug'])
 
 def gradle_run(options):
     cmd_params = ['./gradlew']

@@ -10,6 +10,8 @@ Ti.App.addEventListener('paused', function(e) {
 });
 
 if (OS_ANDROID) {
+    // bye bye bencoding.android.tools, it's been a pleasure
+    /*
     var platformTools = require('bencoding.android.tools').createPlatform(), wasInForeground = true;
     setInterval(function() {
         var isInForeground = platformTools.isInForeground();
@@ -18,6 +20,7 @@ if (OS_ANDROID) {
             wasInForeground = isInForeground;
         }
     }, 1000);
+    */
 }
 
  if (OS_IOS) {
@@ -56,6 +59,9 @@ if (OS_ANDROID) {
     adjustConfig.setUserAgent("Adjust Custom UA");
     adjustConfig.setDeviceKnown(true);
     // adjustConfig.setEventBufferingEnabled(true);
+    adjustConfig.setUrlStrategy(AdjustConfig.UrlStrategyChina);
+    adjustConfig.deactivateSKAdNetworkHandling();
+    adjustConfig.setExternalDeviceId("pretty-random-id");
 
     adjustConfig.setAttributionCallback(function(attribution) {
         Ti.API.info("[AdjustExample]: Attribution callback invoked!");
@@ -122,6 +128,28 @@ if (OS_ANDROID) {
 
     // Adjust.resetSessionCallbackParameters();
     // Adjust.resetSessionPartnerParameters();
+
+    Adjust.requestTrackingAuthorizationWithCompletionHandler(function (status) {
+        Ti.API.info("[AdjustExample]: Authorization status update");
+        switch (status) {
+            case 0:
+                // ATTrackingManagerAuthorizationStatusNotDetermined case
+                Ti.API.info("[AdjustExample]: Authorization status: ATTrackingManagerAuthorizationStatusNotDetermined");
+                break;
+            case 1:
+                // ATTrackingManagerAuthorizationStatusRestricted case
+                Ti.API.info("[AdjustExample]: Authorization status: ATTrackingManagerAuthorizationStatusRestricted");
+                break;
+            case 2:
+                // ATTrackingManagerAuthorizationStatusDenied case
+                Ti.API.info("[AdjustExample]: Authorization status: ATTrackingManagerAuthorizationStatusDenied");
+                break;
+            case 3:
+                // ATTrackingManagerAuthorizationStatusAuthorized case
+                Ti.API.info("[AdjustExample]: Authorization status: ATTrackingManagerAuthorizationStatusAuthorized");
+                break;
+        }
+    });
 
     Adjust.start(adjustConfig);
     Adjust.sendFirstPackages();

@@ -12,7 +12,7 @@
 #import "TiAdjustModule.h"
 #import "TiAdjustModuleDelegate.h"
 
-static NSString * const kSdkPrefix = @"titanium4.17.0";
+static NSString * const kSdkPrefix = @"titanium4.23.0";
 
 @implementation TiAdjustModule
 
@@ -68,6 +68,8 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
     NSString *logLevel = [params objectForKey:@"logLevel"];
     NSString *userAgent = [params objectForKey:@"userAgent"];
     NSString *defaultTracker = [params objectForKey:@"defaultTracker"];
+    NSString *externalDeviceId = [params objectForKey:@"externalDeviceId"];
+    NSString *urlStrategy = [params objectForKey:@"urlStrategy"];
     NSString *secretId = [params objectForKey:@"secretId"];
     NSString *info1 = [params objectForKey:@"info1"];
     NSString *info2 = [params objectForKey:@"info2"];
@@ -78,6 +80,9 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
     NSNumber *shouldLaunchDeeplink = [params objectForKey:@"shouldLaunchDeeplink"];
     NSNumber *eventBufferingEnabled = [params objectForKey:@"eventBufferingEnabled"];
     NSNumber *isDeviceKnown = [params objectForKey:@"isDeviceKnown"];
+    NSNumber *allowiAdInfoReading = [params objectForKey:@"allowiAdInfoReading"];
+    NSNumber *allowIdfaReading = [params objectForKey:@"allowIdfaReading"];
+    NSNumber *handleSkAdNetwork = [params objectForKey:@"handleSkAdNetwork"];
 
     self.jsAttributionCallback = [[params objectForKey:@"attributionCallback"] retain];
     self.jsSessionSuccessCallback = [[params objectForKey:@"sessionSuccessCallback"] retain];
@@ -119,6 +124,20 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
         [adjustConfig setDefaultTracker:defaultTracker];
     }
 
+    // External device ID.
+    if ([self isFieldValid:externalDeviceId]) {
+        [adjustConfig setExternalDeviceId:externalDeviceId];
+    }
+
+    // URL strategy.
+    if ([self isFieldValid:urlStrategy]) {
+        if ([urlStrategy isEqualToString:@"china"]) {
+            [adjustConfig setUrlStrategy:ADJUrlStrategyChina];
+        } else if ([urlStrategy isEqualToString:@"india"]) {
+            [adjustConfig setUrlStrategy:ADJUrlStrategyIndia];
+        }
+    }
+
     // Send in background.
     if ([self isFieldValid:sendInBackground]) {
         [adjustConfig setSendInBackground:[sendInBackground boolValue]];
@@ -150,6 +169,23 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
     // Is device known.
     if ([self isFieldValid:isDeviceKnown]) {
         [adjustConfig setIsDeviceKnown:[isDeviceKnown boolValue]];
+    }
+
+    // iAd info reading.
+    if ([self isFieldValid:allowiAdInfoReading]) {
+        [adjustConfig setAllowiAdInfoReading:[allowiAdInfoReading boolValue]];
+    }
+
+    // IDFA reading.
+    if ([self isFieldValid:allowIdfaReading]) {
+        [adjustConfig setAllowIdfaReading:[allowIdfaReading boolValue]];
+    }
+
+    // SKAdNetwork handling.
+    if ([self isFieldValid:handleSkAdNetwork]) {
+        if ([handleSkAdNetwork boolValue] == false) {
+            [adjustConfig deactivateSKAdNetworkHandling];
+        }
     }
 
     // User defined callbacks.
@@ -237,6 +273,82 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
     [Adjust trackEvent:adjustEvent];
 }
 
+- (void)trackAppStoreSubscription:(id)args {
+    NSArray *configArray = (NSArray *)args;
+    NSDictionary *params = (NSDictionary *)[configArray objectAtIndex:0];
+
+    NSString *price = [params objectForKey:@"price"];
+    NSString *currency = [params objectForKey:@"currency"];
+    NSString *transactionId = [params objectForKey:@"transactionId"];
+    NSString *receipt = [params objectForKey:@"receipt"];
+    NSString *transactionDate = [params objectForKey:@"transactionDate"];
+    NSString *salesRegion = [params objectForKey:@"salesRegion"];
+    NSMutableArray *callbackParameters = [[NSMutableArray alloc] init];
+    NSMutableArray *partnerParameters = [[NSMutableArray alloc] init];
+
+    for (id item in [params objectForKey:@"callbackParameters"]) {
+        [callbackParameters addObject:item];
+    }
+    for (id item in [params objectForKey:@"partnerParameters"]) {
+        [partnerParameters addObject:item];
+    }
+
+    // Price.
+    NSDecimalNumber *priceValue = nil;
+    if ([self isFieldValid:price]) {
+        priceValue = [NSDecimalNumber decimalNumberWithString:price];
+    }
+
+    // Receipt.
+    NSData *receiptValue = nil;
+    if ([self isFieldValid:receipt]) {
+        receiptValue = [receipt dataUsingEncoding:NSUTF8StringEncoding];
+    }
+
+    ADJSubscription *subscription = [[ADJSubscription alloc] initWithPrice:priceValue
+                                                                  currency:currency
+                                                             transactionId:transactionId
+                                                                andReceipt:receiptValue];
+
+    // Transaction date.
+    if ([self isFieldValid:transactionDate]) {
+        NSTimeInterval transactionDateInterval = [transactionDate doubleValue];
+        NSDate *oTransactionDate = [NSDate dateWithTimeIntervalSince1970:transactionDateInterval];
+        [subscription setTransactionDate:oTransactionDate];
+    }
+
+    // Sales region.
+    if ([self isFieldValid:salesRegion]) {
+        [subscription setSalesRegion:salesRegion];
+    }
+
+    // Callback parameters.
+    for (int i = 0; i < [callbackParameters count]; i += 2) {
+        NSString *key = [callbackParameters objectAtIndex:i];
+        NSObject *value = [callbackParameters objectAtIndex:(i+1)];
+        [subscription addCallbackParameter:key value:[NSString stringWithFormat:@"%@", value]];
+    }
+
+    // Partner parameters.
+    for (int i = 0; i < [partnerParameters count]; i += 2) {
+        NSString *key = [partnerParameters objectAtIndex:i];
+        NSObject *value = [partnerParameters objectAtIndex:(i+1)];
+        [subscription addPartnerParameter:key value:[NSString stringWithFormat:@"%@", value]];
+    }
+
+    // Track subscription.
+    [Adjust trackSubscription:subscription];
+}
+
+- (void)trackAdRevenue:(id)args {
+    NSArray *arrayArgs = (NSArray *)args;
+    NSString *source = [args objectAtIndex:0];
+    NSString *payload = [args objectAtIndex:1];
+
+    NSData *dataPayload = [payload dataUsingEncoding:NSUTF8StringEncoding];
+    [Adjust trackAdRevenue:source payload:dataPayload];
+}
+
 - (void)setOfflineMode:(id)args {
     NSNumber *isOffline = args;
     if (![self isFieldValid:isOffline]) {
@@ -267,6 +379,10 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
 
 - (void)gdprForgetMe:(id)args {
     [Adjust gdprForgetMe];
+}
+
+- (void)disableThirdPartySharing:(id)args {
+    [Adjust disableThirdPartySharing];
 }
 
 - (void)addSessionCallbackParameter:(id)args {
@@ -372,6 +488,14 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
     [callback call:array thisObject:nil];
 }
 
+- (void)requestTrackingAuthorizationWithCompletionHandler:(id)args {
+    [Adjust requestTrackingAuthorizationWithCompletionHandler:^(NSUInteger status) {
+        KrollCallback *callback = [args objectAtIndex:0];
+        NSArray *array = [NSArray arrayWithObjects:[NSNumber numberWithUnsignedLong:status], nil];
+        [callback call:array thisObject:nil];
+    }];
+}
+
 - (void)onResume:(id)args {
     NSArray *arrayArgs = (NSArray *)args;
     NSString *parameter = [args objectAtIndex:0];
@@ -396,6 +520,8 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
 
 - (void)setReferrer:(id)args {}
 
+- (void)trackPlayStoreSubscription:(id)args {}
+
 - (void)setTestOptions:(id)args {
     NSDictionary *params = (NSDictionary *)args;
     AdjustTestOptions *testOptions = [[AdjustTestOptions alloc] init];
@@ -418,6 +544,7 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
             testOptions.gdprUrl = value;
         }
     }
+    /*
     if ([params objectForKey:@"basePath"]) {
         NSString *value = params[@"basePath"];
         if ([self isFieldValid:value]) {
@@ -428,6 +555,13 @@ static NSString * const kSdkPrefix = @"titanium4.17.0";
         NSString *value = params[@"gdprPath"];
         if ([self isFieldValid:value]) {
             testOptions.gdprPath = value;
+        }
+    }
+    */
+    if ([params objectForKey:@"extraPath"]) {
+        NSString *value = params[@"extraPath"];
+        if ([self isFieldValid:value]) {
+            testOptions.extraPath = value;
         }
     }
     if ([params objectForKey:@"timerIntervalInMilliseconds"]) {

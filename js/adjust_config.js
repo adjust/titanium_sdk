@@ -2,8 +2,8 @@
 //  adjust_config.js
 //  Adjust SDK
 //
-//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
-//  Copyright © 2017-2019 Adjust GmbH. All rights reserved.
+//  Created by Uglješa Erceg (@ugi) on 18th May 2017.
+//  Copyright © 2017-2020 Adjust GmbH. All rights reserved.
 //
 
 function AdjustConfig(appToken, environment) {
@@ -12,8 +12,9 @@ function AdjustConfig(appToken, environment) {
     this.logLevel = undefined;
     this.userAgent = undefined;
     this.delayStart = undefined;
-    this.processName = undefined;
     this.defaultTracker = undefined;
+    this.externalDeviceId = undefined;
+    this.urlStrategy = undefined;
     this.sendInBackground = undefined;
     this.shouldLaunchDeeplink = undefined;
     this.eventBufferingEnabled = undefined;
@@ -29,7 +30,14 @@ function AdjustConfig(appToken, environment) {
     this.info3 = undefined;
     this.info4 = undefined;
     this.isDeviceKnown = undefined;
+    // android only
+    this.processName = undefined;
     this.readMobileEquipmentIdentity = undefined;
+    // ios only
+    // iOS only
+    this.allowiAdInfoReading = undefined;
+    this.allowIdfaReading = undefined;
+    this.handleSkAdNetwork = undefined;
 };
 
 AdjustConfig.EnvironmentSandbox = "sandbox";
@@ -41,6 +49,8 @@ AdjustConfig.LogLevelWarn = "WARN";
 AdjustConfig.LogLevelError = "ERROR";
 AdjustConfig.LogLevelAssert = "ASSERT";
 AdjustConfig.LogLevelSuppress = "SUPPRESS";
+AdjustConfig.UrlStrategyChina = "china";
+AdjustConfig.UrlStrategyIndia = "india";
 
 AdjustConfig.prototype.setLogLevel = function(logLevel) {
     this.logLevel = logLevel;
@@ -60,6 +70,14 @@ AdjustConfig.prototype.setProcessName = function(processName) {
 
 AdjustConfig.prototype.setDefaultTracker = function(defaultTracker) {
     this.defaultTracker = defaultTracker;
+};
+
+AdjustConfig.prototype.setExternalDeviceId = function(externalDeviceId) {
+    this.externalDeviceId = externalDeviceId;
+};
+
+AdjustConfig.prototype.setUrlStrategy = function(urlStrategy) {
+    this.urlStrategy = urlStrategy;
 };
 
 AdjustConfig.prototype.setSendInBackground = function(shouldSend) {
@@ -123,6 +141,18 @@ AdjustConfig.prototype.setDeviceKnown = function(isDeviceKnown) {
 AdjustConfig.prototype.setReadMobileEquipmentIdentity = function(readMobileEquipmentIdentity) {
     // IMEI reading has been deprecated.
     // this.readMobileEquipmentIdentity = readMobileEquipmentIdentity;
+};
+
+AdjustConfig.prototype.setAllowiAdInfoReading = function(allowiAdInfoReading) {
+    this.allowiAdInfoReading = allowiAdInfoReading;
+};
+
+AdjustConfig.prototype.setAllowIdfaReading = function(allowIdfaReading) {
+    this.allowIdfaReading = allowIdfaReading;
+};
+
+AdjustConfig.prototype.deactivateSKAdNetworkHandling = function() {
+    this.handleSkAdNetwork = false;
 };
 
 module.exports = AdjustConfig;

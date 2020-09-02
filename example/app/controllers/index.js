@@ -10,6 +10,8 @@ var AdjustEvent = require('adjust_event');
     adjustEvent.addPartnerParameter("DUMMY-KEY-1", "DUMMY-VALUE-1");
     adjustEvent.addPartnerParameter("DUMMY-KEY-2", "DUMMY-VALUE-2");
     Adjust.trackEvent(adjustEvent);
+
+    Adjust.disableThirdPartySharing();
  }
 
 function btnEnableOfflineModeTapped(e) {
