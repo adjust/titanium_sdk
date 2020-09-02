@@ -52,8 +52,11 @@
     self.order = 0;
     NSArray *configArray = (NSArray *)args;
     NSString *baseUrl = [configArray objectAtIndex:0];
-    self.jsCommandCallback = [configArray objectAtIndex:1];
-    self.testLibrary = [[ATLTestLibrary alloc] initWithBaseUrl:baseUrl andCommandDelegate:self];
+    NSString *controlUrl = [configArray objectAtIndex:1];
+    self.jsCommandCallback = [configArray objectAtIndex:2];
+    self.testLibrary = [ATLTestLibrary testLibraryWithBaseUrl:baseUrl
+                                                andControlUrl:controlUrl
+                                           andCommandDelegate:self];
 }
 
 - (void)addTestDirectory:(id)args {

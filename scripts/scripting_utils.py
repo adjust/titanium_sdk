@@ -207,7 +207,7 @@ def gradle_make_debug_jar_sdk(do_clean=False):
         execute_command(['./gradlew', 'adjustCoreJarDebug'])
 
 def gradle_clean_make_jar_test():
-    execute_command(['./gradlew', 'clean', 'adjustMakeJarDebug'])
+    execute_command(['./gradlew', 'clean', 'adjustTestLibraryJarDebug'])
 
 def gradle_run(options):
     cmd_params = ['./gradlew']

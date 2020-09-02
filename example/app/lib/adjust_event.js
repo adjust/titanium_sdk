@@ -2,8 +2,8 @@
 //  adjust_event.js
 //  Adjust SDK
 //
-//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
-//  Copyright © 2017-2019 Adjust GmbH. All rights reserved.
+//  Created by Uglješa Erceg (@ugi) on 18th May 2017.
+//  Copyright © 2017-2020 Adjust GmbH. All rights reserved.
 //
 
 function AdjustEvent(eventToken) {

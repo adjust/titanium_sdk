@@ -80,8 +80,10 @@
   <modules>
     <module platform="android">ti.adjust</module>
     <module platform="android">ti.adjust.test</module>
-    <module platform="android">bencoding.android.tools</module>
-    <module platform="android">ti.playservices</module>
+    <!-- not supported anymore -->
+    <!-- <module platform="android">bencoding.android.tools</module> -->
+    <!-- fails to build with 9.1.0.GA for some reason -->
+    <!-- <module platform="android">ti.playservices</module> -->
     <module platform="iphone">ti.adjust</module>
     <module platform="iphone">ti.adjust.test</module>
   </modules>

@@ -2,21 +2,26 @@
 //  command_executor.js
 //  Adjust SDK
 //
-//  Created by Uglješa Erceg (@uerceg) on 6th August 2018.
-//  Copyright © 2018-2019 Adjust GmbH. All rights reserved.
+//  Created by Uglješa Erceg (@ugi) on 6th August 2018.
+//  Copyright © 2018-2020 Adjust GmbH. All rights reserved.
 //
 
 var Adjust = require('ti.adjust');
 var AdjustTest = require('ti.adjust.test');
 var AdjustEvent = require('adjust_event');
 var AdjustConfig = require('adjust_config');
+var AdjustAppStoreSubscription = require('adjust_app_store_subscription');
+var AdjustPlayStoreSubscription = require('adjust_play_store_subscription');
 
 function AdjustTestOptions() {
     this.hasContext = false;
     this.baseUrl = null;
     this.gdprUrl = null;
+    this.subscriptionUrl = null;
+    this.extraPath = null;
     this.basePath = null;
     this.gdprPath = null;
+    this.subscriptionPath = null;
     this.useTestConnectionOptions = null;
     this.timerIntervalInMilliseconds = null;
     this.timerStartInMilliseconds = null;
@@ -35,8 +40,8 @@ function AdjustCommand(functionName, params, order) {
     this.order = order;
 }
 
-function CommandExecutor(baseUrl, gdprUrl) {
-    this.adjustCommandExecutor = new AdjustCommandExecutor(baseUrl, gdprUrl);
+function CommandExecutor(baseUrl, gdprUrl, subscriptionUrl) {
+    this.adjustCommandExecutor = new AdjustCommandExecutor(baseUrl, gdprUrl, subscriptionUrl);
 };
 
 CommandExecutor.prototype.scheduleCommand = function(className, functionName, params, order) {
@@ -48,11 +53,14 @@ CommandExecutor.prototype.scheduleCommand = function(className, functionName, pa
     }
 };
 
-function AdjustCommandExecutor(baseUrl, gdprUrl) {
+function AdjustCommandExecutor(baseUrl, gdprUrl, subscriptionUrl) {
     this.baseUrl = baseUrl;
     this.gdprUrl = gdprUrl;
+    this.subscriptionUrl = subscriptionUrl;
+    this.extraPath = null;
     this.basePath = null;
     this.gdprPath = null;
+    this.subscriptionPath = null;
     this.savedEvents = {};
     this.savedConfigs = {};
     this.savedCommands = [];
@@ -117,6 +125,9 @@ AdjustCommandExecutor.prototype.executeCommand = function(command, idx) {
         case "openDeeplink" : this.openDeeplink(command['params']); break;
         case "sendReferrer" : this.sendReferrer(command['params']); break;
         case "gdprForgetMe" : this.gdprForgetMe(command['params']); break;
+        case "trackAdRevenue" : this.trackAdRevenue(command['params']); break;
+        case "disableThirdPartySharing" : this.disableThirdPartySharing(command['params']); break;
+        case "trackSubscription" : this.trackSubscription(command['params']); break;
     }
 
     this.nextToSendCounter += 1;
@@ -135,9 +146,12 @@ AdjustCommandExecutor.prototype.testOptions = function(params) {
     var testOptions = new AdjustTestOptions();
     testOptions.baseUrl = this.baseUrl;
     testOptions.gdprUrl = this.gdprUrl;
+    testOptions.subscriptionUrl = this.subscriptionUrl;
     if (params['basePath']) {
+        this.extraPath = getFirstParameterValue(params, 'basePath');
         this.basePath = getFirstParameterValue(params, 'basePath');
         this.gdprPath = getFirstParameterValue(params, 'basePath');
+        this.subscriptionPath = getFirstParameterValue(params, 'basePath');
     }
     if (params['timerInterval']) {
         testOptions.timerIntervalInMilliseconds = getFirstParameterValue(params, 'timerInterval').toString();
@@ -166,8 +180,10 @@ AdjustCommandExecutor.prototype.testOptions = function(params) {
             var option = teardownOptions[i];
             if ('resetSdk' === option) {
                 testOptions.teardown = true;
+                testOptions.extraPath = this.extraPath;
                 testOptions.basePath = this.basePath;
                 testOptions.gdprPath = this.gdprPath;
+                testOptions.subscriptionPath = this.subscriptionPath;
                 testOptions.useTestConnectionOptions = true;
                 Adjust.teardown();
             }
@@ -184,14 +200,17 @@ AdjustCommandExecutor.prototype.testOptions = function(params) {
             }
             if ('sdk' === option) {
                 testOptions.teardown = true;
+                testOptions.extraPath = null;
                 testOptions.basePath = null;
                 testOptions.gdprPath = null;
+                testOptions.subscriptionPath = null;
                 testOptions.useTestConnectionOptions = false;
                 Adjust.teardown();
             }
             if ('test' === option) {
                 this.savedEvents = null;
                 this.savedConfigs = null;
+                this.extraPath = null;
                 testOptions.timerIntervalInMilliseconds = (-1).toString();
                 testOptions.timerStartInMilliseconds = (-1).toString();
                 testOptions.sessionIntervalInMilliseconds = (-1).toString();
@@ -261,6 +280,17 @@ AdjustCommandExecutor.prototype.config = function(params) {
         adjustConfig.setDefaultTracker(defaultTracker);
     }
 
+    if (params['externalDeviceId']) {
+        var externalDeviceId = getFirstParameterValue(params, 'externalDeviceId');
+        
+        // Special handling for null value case.
+        if (externalDeviceId == 'null') {
+            externalDeviceId = null;
+        }
+
+        adjustConfig.setExternalDeviceId(externalDeviceId);
+    }
+
     if (params['appSecret']) {
         var appSecretArray = getValueFromKey(params, 'appSecret');
         var secretId = appSecretArray[0].toString();
@@ -295,13 +325,25 @@ AdjustCommandExecutor.prototype.config = function(params) {
         adjustConfig.setSendInBackground(sendInBackground);
     }
 
+    if (params['allowiAdInfoReading']) {
+        var allowiAdInfoReadingS = getFirstParameterValue(params, 'allowiAdInfoReading');
+        var allowiAdInfoReading = allowiAdInfoReadingS == 'true';
+        adjustConfig.setAllowiAdInfoReading(allowiAdInfoReading);
+    }
+
+    if (params['allowIdfaReading']) {
+        var allowIdfaReadingS = getFirstParameterValue(params, 'allowIdfaReading');
+        var allowIdfaReading = allowIdfaReadingS == 'true';
+        adjustConfig.setAllowIdfaReading(allowIdfaReading);
+    }
+
     if (params['userAgent']) {
         var userAgent = getFirstParameterValue(params, 'userAgent');
         adjustConfig.setUserAgent(userAgent);
     }
 
     if (params['attributionCallbackSendAll']) {
-        var basePath = this.basePath;
+        var _this = this;
         adjustConfig.setAttributionCallback(function(attribution) {
             AdjustTest.addInfoToSend("trackerToken", attribution.trackerToken);
             AdjustTest.addInfoToSend("trackerName", attribution.trackerName);
@@ -311,12 +353,12 @@ AdjustCommandExecutor.prototype.config = function(params) {
             AdjustTest.addInfoToSend("creative", attribution.creative);
             AdjustTest.addInfoToSend("clickLabel", attribution.clickLabel);
             AdjustTest.addInfoToSend("adid", attribution.adid);
-            AdjustTest.sendInfoToServer(basePath);
+            AdjustTest.sendInfoToServer(_this.basePath);
         });
     }
 
     if (params['sessionCallbackSendSuccess']) {
-        var basePath = this.basePath;
+        var _this = this;
         adjustConfig.setSessionTrackingSuccessCallback(function(sessionSuccess) {
             AdjustTest.addInfoToSend("message", sessionSuccess.message);
             AdjustTest.addInfoToSend("timestamp", sessionSuccess.timestamp);
@@ -324,12 +366,12 @@ AdjustCommandExecutor.prototype.config = function(params) {
             if (sessionSuccess.jsonResponse != null) {
                 AdjustTest.addInfoToSend("jsonResponse", sessionSuccess.jsonResponse.toString());
             }
-            AdjustTest.sendInfoToServer(basePath);
+            AdjustTest.sendInfoToServer(_this.basePath);
         });
     }
 
     if (params['sessionCallbackSendFailure']) {
-        var basePath = this.basePath;
+        var _this = this;
         adjustConfig.setSessionTrackingFailureCallback(function(sessionFailed) {
             AdjustTest.addInfoToSend("message", sessionFailed.message);
             AdjustTest.addInfoToSend("timestamp", sessionFailed.timestamp);
@@ -338,12 +380,12 @@ AdjustCommandExecutor.prototype.config = function(params) {
             if (sessionFailed.jsonResponse != null) {
                 AdjustTest.addInfoToSend("jsonResponse", sessionFailed.jsonResponse.toString());
             }
-            AdjustTest.sendInfoToServer(basePath);
+            AdjustTest.sendInfoToServer(_this.basePath);
         });
     }
 
     if (params['eventCallbackSendSuccess']) {
-        var basePath = this.basePath;
+        var _this = this;
         adjustConfig.setEventTrackingSuccessCallback(function(eventSuccess) {
             AdjustTest.addInfoToSend("message", eventSuccess.message);
             AdjustTest.addInfoToSend("timestamp", eventSuccess.timestamp);
@@ -353,12 +395,12 @@ AdjustCommandExecutor.prototype.config = function(params) {
             if (eventSuccess.jsonResponse != null) {
                 AdjustTest.addInfoToSend("jsonResponse", eventSuccess.jsonResponse.toString());
             }
-            AdjustTest.sendInfoToServer(basePath);
+            AdjustTest.sendInfoToServer(_this.basePath);
         });
     }
 
     if (params['eventCallbackSendFailure']) {
-        var basePath = this.basePath;
+        var _this = this;
         adjustConfig.setEventTrackingFailureCallback(function(eventFailed) {
             AdjustTest.addInfoToSend("message", eventFailed.message);
             AdjustTest.addInfoToSend("timestamp", eventFailed.timestamp);
@@ -369,16 +411,16 @@ AdjustCommandExecutor.prototype.config = function(params) {
             if (eventFailed.jsonResponse != null) {
                 AdjustTest.addInfoToSend("jsonResponse", eventFailed.jsonResponse.toString());
             }
-            AdjustTest.sendInfoToServer(basePath);
+            AdjustTest.sendInfoToServer(_this.basePath);
         });
     }
 
     if (params['deferredDeeplinkCallback']) {
-        var basePath = this.basePath;
+        var _this = this;
         adjustConfig.setDeferredDeeplinkCallback(function(deeplink) {
             var openDeeplinkS = getFirstParameterValue(params, 'deferredDeeplinkCallback');
             var openDeeplink = openDeeplinkS == 'true';
-            AdjustTest.sendInfoToServer(basePath);
+            AdjustTest.sendInfoToServer(_this.basePath);
             if (openDeeplink === true) {
                 Adjust.appWillOpenUrl(deeplink);
             }
@@ -462,6 +504,82 @@ AdjustCommandExecutor.prototype.trackEvent = function(params) {
     var adjustEvent = this.savedEvents[eventNumber];
     Adjust.trackEvent(adjustEvent);
     delete this.savedEvents[0];
+};
+
+AdjustCommandExecutor.prototype.disableThirdPartySharing = function(params) {
+    Adjust.disableThirdPartySharing();
+};
+
+AdjustCommandExecutor.prototype.trackSubscription = function(params) {
+    if (OS_IOS) {
+        var price = getFirstParameterValue(params, 'revenue');
+        var currency = getFirstParameterValue(params, 'currency');
+        var transactionId = getFirstParameterValue(params, 'transactionId');
+        var receipt = getFirstParameterValue(params, 'receipt');
+        var transactionDate = getFirstParameterValue(params, 'transactionDate');
+        var salesRegion = getFirstParameterValue(params, 'salesRegion');
+
+        var subscription = new AdjustAppStoreSubscription(price, currency, transactionId, receipt);
+        subscription.setTransactionDate(transactionDate);
+        subscription.setSalesRegion(salesRegion);
+
+        if (params['callbackParams']) {
+            var callbackParams = getValueFromKey(params, 'callbackParams');
+            for (var i = 0; i < callbackParams.length; i = i + 2) {
+                var key = callbackParams[i];
+                var value = callbackParams[i + 1];
+                subscription.addCallbackParameter(key, value);
+            }
+        }
+
+        if (params['partnerParams']) {
+            var partnerParams = getValueFromKey(params, 'partnerParams');
+            for (var i = 0; i < partnerParams.length; i = i + 2) {
+                var key = partnerParams[i];
+                var value = partnerParams[i + 1];
+                subscription.addPartnerParameter(key, value);
+            }
+        }
+
+        Adjust.trackAppStoreSubscription(subscription);
+    } else if (OS_ANDROID) {
+        var price = getFirstParameterValue(params, 'revenue');
+        var currency = getFirstParameterValue(params, 'currency');
+        var sku = getFirstParameterValue(params, 'productId');
+        var signature = getFirstParameterValue(params, 'receipt');
+        var purchaseToken = getFirstParameterValue(params, 'purchaseToken');
+        var orderId = getFirstParameterValue(params, 'transactionId');
+        var purchaseTime = getFirstParameterValue(params, 'transactionDate');
+
+        var subscription = new AdjustPlayStoreSubscription(price, currency, sku, orderId, signature, purchaseToken);
+        subscription.setPurchaseTime(purchaseTime);
+
+        if (params['callbackParams']) {
+            var callbackParams = getValueFromKey(params, 'callbackParams');
+            for (var i = 0; i < callbackParams.length; i = i + 2) {
+                var key = callbackParams[i];
+                var value = callbackParams[i + 1];
+                subscription.addCallbackParameter(key, value);
+            }
+        }
+
+        if (params['partnerParams']) {
+            var partnerParams = getValueFromKey(params, "partnerParams");
+            for (var i = 0; i < partnerParams.length; i = i + 2) {
+                var key = partnerParams[i];
+                var value = partnerParams[i + 1];
+                subscription.addPartnerParameter(key, value);
+            }
+        }
+
+        Adjust.trackPlayStoreSubscription(subscription);
+    }
+};
+
+AdjustCommandExecutor.prototype.trackAdRevenue = function(params) {
+    var source = getFirstParameterValue(params, 'adRevenueSource');
+    var payload = getFirstParameterValue(params, 'adRevenueJsonString');
+    Adjust.trackAdRevenue(source, payload);
 };
 
 AdjustCommandExecutor.prototype.setReferrer = function(params) {

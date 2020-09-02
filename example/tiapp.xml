@@ -50,6 +50,8 @@
             </array>
           </dict>
         </array>
+        <key>NSUserTrackingUsageDescription</key>
+        <string>We will we will track you (clap clap stomp)</string>
       </dict>
     </plist>
   </ios>

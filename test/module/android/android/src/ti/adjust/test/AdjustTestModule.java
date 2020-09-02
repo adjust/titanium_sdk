@@ -45,9 +45,9 @@ public class AdjustTestModule extends KrollModule implements ICommandRawJsonList
 	}
 
 	@Kroll.method
-    public void initialize(String baseUrl, final V8Function callback) {
+    public void initialize(String baseUrl, String controlUrl, final V8Function callback) {
         order = 0;
-    	testLibrary = new TestLibrary(baseUrl, this);
+    	testLibrary = new TestLibrary(baseUrl, controlUrl, this);
 
         for (int i = 0; i < selectedTests.size(); i++) {
             testLibrary.addTest(selectedTests.get(i));

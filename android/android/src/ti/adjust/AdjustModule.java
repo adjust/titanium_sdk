@@ -2,8 +2,8 @@
 //  AdjustModule.java
 //  Adjust SDK
 //
-//  Created by Uglješa Erceg (@uerceg) on 18th May 2017.
-//  Copyright © 2017-2019 Adjust GmbH. All rights reserved.
+//  Created by Uglješa Erceg (@ugi) on 18th May 2017.
+//  Copyright © 2017-2020 Adjust GmbH. All rights reserved.
 //
 
 package ti.adjust;
@@ -12,6 +12,8 @@ import android.net.Uri;
 import java.util.Map;
 import java.util.HashMap;
 // import javax.lang.model.type.NullType;
+import org.json.JSONObject;
+import org.json.JSONException;
 import org.appcelerator.kroll.KrollModule;
 import org.appcelerator.kroll.annotations.Kroll;
 import org.appcelerator.titanium.TiApplication;
@@ -42,6 +44,8 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private static final String KEY_PROCESS_NAME = "processName";
     private static final String KEY_TRANSACTION_ID = "transactionId";
     private static final String KEY_DEFAULT_TRACKER = "defaultTracker";
+    private static final String KEY_EXTERNAL_DEVICE_ID = "externalDeviceId";
+    private static final String KEY_URL_STRATEGY = "urlStrategy";
     private static final String KEY_SEND_IN_BACKGROUND = "sendInBackground";
     private static final String KEY_PARTNER_PARAMETERS = "partnerParameters";
     private static final String KEY_CALLBACK_PARAMETERS = "callbackParameters";
@@ -52,6 +56,12 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private static final String KEY_INFO_2 = "info2";
     private static final String KEY_INFO_3 = "info3";
     private static final String KEY_INFO_4 = "info4";
+    private static final String KEY_PRICE = "price";
+    private static final String KEY_SKU = "sku";
+    private static final String KEY_ORDER_ID = "orderId";
+    private static final String KEY_SIGNATURE = "signature";
+    private static final String KEY_PURCHASE_TOKEN = "purchaseToken";
+    private static final String KEY_PURCHASE_TIME = "purchaseTime";
     private static final String KEY_SET_DEVICE_KNOWN = "isDeviceKnown";
     private static final String KEY_ATTRIBUTION_CALLBACK = "attributionCallback";
     private static final String KEY_SESSION_SUCCESS_CALLBACK = "sessionSuccessCallback";
@@ -62,8 +72,10 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     private static final String KEY_TEST_HAS_CONTEXT = "hasContext";
     private static final String KEY_TEST_BASE_URL = "baseUrl";
     private static final String KEY_TEST_GDPR_URL = "gdprUrl";
+    private static final String KEY_TEST_SUBSCRIPTION_URL = "subscriptionUrl";
     private static final String KEY_TEST_BASE_PATH = "basePath";
     private static final String KEY_TEST_GDPR_PATH = "gdprPath";
+    private static final String KEY_TEST_SUBSCRIPTION_PATH = "subscriptionPath";
     private static final String KEY_TEST_TEST_CONNECTION_OPTIONS = "useTestConnectionOptions";
     private static final String KEY_TEST_TIMER_INTERVAL = "timerIntervalInMilliseconds";
     private static final String KEY_TEST_TIMER_START = "timerStartInMilliseconds";
@@ -98,6 +110,8 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         String userAgent = null;
         String processName = null;
         String defaultTracker = null;
+        String externalDeviceId = null;
+        String urlStrategy = null;
         boolean sendInBackground = false;
         boolean isLogLevelSuppress = false;
         boolean eventBufferingEnabled = false;
@@ -140,6 +154,16 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
         if (hmArgs.containsKey(KEY_DEFAULT_TRACKER)) {
             if (null != hmArgs.get(KEY_DEFAULT_TRACKER)) {
                 defaultTracker = hmArgs.get(KEY_DEFAULT_TRACKER).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_EXTERNAL_DEVICE_ID)) {
+            if (null != hmArgs.get(KEY_EXTERNAL_DEVICE_ID)) {
+                externalDeviceId = hmArgs.get(KEY_EXTERNAL_DEVICE_ID).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_URL_STRATEGY)) {
+            if (null != hmArgs.get(KEY_URL_STRATEGY)) {
+                urlStrategy = hmArgs.get(KEY_URL_STRATEGY).toString();
             }
         }
         if (hmArgs.containsKey(KEY_DELAY_START)) {
@@ -316,6 +340,20 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
             adjustConfig.setDefaultTracker(defaultTracker);
         }
 
+        // External device ID.
+        if (isFieldValid(externalDeviceId)) {
+            adjustConfig.setExternalDeviceId(externalDeviceId);
+        }
+
+        // URL strategy.
+        if (isFieldValid(urlStrategy)) {
+            if (urlStrategy.equalsIgnoreCase("china")) {
+                adjustConfig.setUrlStrategy(AdjustConfig.URL_STRATEGY_CHINA);
+            } else if (urlStrategy.equalsIgnoreCase("india")) {
+                adjustConfig.setUrlStrategy(AdjustConfig.URL_STRATEGY_INDIA);
+            }
+        }
+
         // User agent.
         if (isFieldValid(userAgent)) {
             adjustConfig.setUserAgent(userAgent);
@@ -471,6 +509,119 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     }
 
     @Kroll.method
+    public void trackAdRevenue(String source, String payload) {
+        try {
+            JSONObject jsonPayload = new JSONObject(payload);
+            Adjust.trackAdRevenue(source, jsonPayload);
+        } catch (JSONException err) {
+             // "Given ad revenue payload is not a valid JSON string";
+        }
+    }
+
+    @Kroll.method
+    public void trackPlayStoreSubscription(Object args) {
+        String price = null;
+        String currency = null;
+        String sku = null;
+        String orderId = null;
+        String signature = null;
+        String purchaseToken = null;
+        String purchaseTime = null;
+        Map<String, String> callbackParameters = null;
+        Map<String, String> partnerParameters = null;
+
+        @SuppressWarnings("unchecked")
+        HashMap<Object, Object> hmArgs = (HashMap<Object, Object>)args;
+        if (hmArgs.containsKey(KEY_PRICE)) {
+            if (null != hmArgs.get(KEY_PRICE)) {
+                price = hmArgs.get(KEY_PRICE).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_CURRENCY)) {
+            if (null != hmArgs.get(KEY_CURRENCY)) {
+                currency = hmArgs.get(KEY_CURRENCY).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_SKU)) {
+            if (null != hmArgs.get(KEY_SKU)) {
+                sku = hmArgs.get(KEY_SKU).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_ORDER_ID)) {
+            if (null != hmArgs.get(KEY_ORDER_ID)) {
+                orderId = hmArgs.get(KEY_ORDER_ID).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_SIGNATURE)) {
+            if (null != hmArgs.get(KEY_SIGNATURE)) {
+                signature = hmArgs.get(KEY_SIGNATURE).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_PURCHASE_TOKEN)) {
+            if (null != hmArgs.get(KEY_PURCHASE_TOKEN)) {
+                purchaseToken = hmArgs.get(KEY_PURCHASE_TOKEN).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_PURCHASE_TIME)) {
+            if (null != hmArgs.get(KEY_PURCHASE_TIME)) {
+                purchaseTime = hmArgs.get(KEY_PURCHASE_TIME).toString();
+            }
+        }
+        if (hmArgs.containsKey(KEY_CALLBACK_PARAMETERS)) {
+            if (hmArgs.get(KEY_CALLBACK_PARAMETERS) != null) {
+                callbackParameters = (Map<String, String>)hmArgs.get(KEY_CALLBACK_PARAMETERS);
+            }
+        }
+        if (hmArgs.containsKey(KEY_PARTNER_PARAMETERS)) {
+            if (hmArgs.get(KEY_PARTNER_PARAMETERS) != null) {
+                partnerParameters = (Map<String, String>)hmArgs.get(KEY_PARTNER_PARAMETERS);
+            }
+        }
+
+        // Convert price to long.
+        long lPrice = -1;
+        if (isFieldValid(price)) {
+            try {
+                lPrice = Long.parseLong(price);
+            } catch (NumberFormatException ignore) {}
+        }
+
+        AdjustPlayStoreSubscription subscription = new AdjustPlayStoreSubscription(
+                lPrice,
+                currency,
+                sku,
+                orderId,
+                signature,
+                purchaseToken);
+
+        // Convert purchase time to long.
+        long lPurchaseTime = -1;
+        if (isFieldValid(purchaseTime)) {
+            try {
+                lPurchaseTime = Long.parseLong(purchaseTime);
+                subscription.setPurchaseTime(lPurchaseTime);
+            } catch (NumberFormatException ignore) {}
+        }
+
+        // Callback parameters.
+        if (callbackParameters != null) {
+            for (Map.Entry<String, String> entry : callbackParameters.entrySet()) {
+                subscription.addCallbackParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
+        // Partner parameters.
+        if (partnerParameters != null) {
+            for (Map.Entry<String, String> entry : partnerParameters.entrySet()) {
+                subscription.addPartnerParameter(entry.getKey(), entry.getValue());
+            }
+        }
+
+        // Track subscription.
+        Adjust.trackPlayStoreSubscription(subscription);
+    }
+
+    @Kroll.method
     public void onResume() {
         Adjust.onResume();
     }
@@ -588,9 +739,20 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
 
     @Kroll.method
     public void getIdfa(V8Function callback) {
+        // No idfa getter in Android.
         Object[] answer = { "" };
         callback.call(getKrollObject(), answer);
     }
+
+    @Kroll.method
+    public void requestTrackingAuthorizationWithCompletionHandler(V8Function callback) {
+        // Mo authorization wrapper in Android.
+        Object[] answer = { "" };
+        callback.call(getKrollObject(), answer);
+    }
+
+    @Kroll.method
+    public void trackAppStoreSubscription(Object args) {}
 
     // For testing purposes only.
     @Kroll.method
