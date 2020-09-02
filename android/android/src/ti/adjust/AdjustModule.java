@@ -622,6 +622,11 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
     }
 
     @Kroll.method
+    public void disableThirdPartySharing() {
+        Adjust.disableThirdPartySharing(getActivity().getApplication());
+    }
+
+    @Kroll.method
     public void onResume() {
         Adjust.onResume();
     }
