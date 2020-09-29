@@ -1,3 +1,13 @@
+### Version 4.23.1 (29th September 2020)
+#### Fixed
+- Fixed duplicate `ADJUrlStrategy` symbol error.
+
+#### Native SDKs
+- [iOS@v4.23.2][ios_sdk_v4.23.2]
+- [Android@v4.24.1][android_sdk_v4.24.1]
+
+---
+
 ### Version 4.23.0 (2nd September 2020)
 #### Added
 - Added `trackAdRevenue` method to `Adjust` interface to allow tracking of ad revenue. With this release added support for `MoPub` ad revenue tracking.
@@ -137,6 +147,7 @@
 [ios_sdk_v4.13.0]: https://github.com/adjust/ios_sdk/tree/v4.13.0
 [ios_sdk_v4.14.1]: https://github.com/adjust/ios_sdk/tree/v4.14.1
 [ios_sdk_v4.23.0]: https://github.com/adjust/ios_sdk/tree/v4.23.0
+[ios_sdk_v4.23.2]: https://github.com/adjust/ios_sdk/tree/v4.23.2
 
 [android_sdk_v4.11.4]: https://github.com/adjust/android_sdk/tree/v4.11.4
 [android_sdk_v4.12.0]: https://github.com/adjust/android_sdk/tree/v4.12.0
@@ -146,3 +157,4 @@
 [android_sdk_v4.14.0]: https://github.com/adjust/android_sdk/tree/v4.14.0
 [android_sdk_v4.17.0]: https://github.com/adjust/android_sdk/tree/v4.17.0
 [android_sdk_v4.24.0]: https://github.com/adjust/android_sdk/tree/v4.24.0
+[android_sdk_v4.24.1]: https://github.com/adjust/android_sdk/tree/v4.24.1
