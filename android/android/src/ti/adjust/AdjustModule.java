@@ -28,7 +28,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
                                                          OnSessionTrackingSucceededListener,
                                                          OnSessionTrackingFailedListener,
                                                          OnDeeplinkResponseListener {
-    private static final String SDK_PREFIX = "titanium4.23.0";
+    private static final String SDK_PREFIX = "titanium4.23.1";
 
     private static final String LCAT = "AdjustModule";
     private static final String KEY_REVENUE = "revenue";

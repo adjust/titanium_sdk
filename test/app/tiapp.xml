@@ -3,7 +3,7 @@
   xmlns:ti="http://ti.appcelerator.org">
   <id>com.adjust.examples</id>
   <name>AdjustTest</name>
-  <version>4.23.0</version>
+  <version>4.23.1</version>
   <publisher>Adjust GmbH</publisher>
   <url>http://www.adjust.com</url>
   <description>Test app to test Adjust Titanium plugin.</description>
