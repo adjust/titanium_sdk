@@ -1,3 +1,13 @@
+### Version 4.23.2 (21st January 2021)
+#### Fixed
+- Fixed linking of `AppTrackingTransparency.framework` by setting it to weak.
+
+#### Native SDKs
+- [iOS@v4.23.2][ios_sdk_v4.23.2]
+- [Android@v4.24.1][android_sdk_v4.24.1]
+
+---
+
 ### Version 4.23.1 (29th September 2020)
 #### Fixed
 - Fixed duplicate `ADJUrlStrategy` symbol error.
