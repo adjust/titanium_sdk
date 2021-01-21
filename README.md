@@ -296,7 +296,7 @@ Settings for this can also be found in the `module.xcconfig` file of the Adjust 
 
 ```
 FRAMEWORK_SEARCH_PATHS=$(SRCROOT)/../../modules/iphone/ti.adjust/4.23.0/platform "~/Library/Application Support/Titanium/modules/iphone/ti.adjust/4.23.0/platform"
-OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework -framework CoreTelephony AdjustSdk -framework StoreKit -framework AppTrackingTransparency -ObjC
+OTHER_LDFLAGS=$(inherited) -framework AdSupport -framework iAd -framework -framework CoreTelephony AdjustSdk -framework StoreKit -weak_framework AppTrackingTransparency -ObjC
 ```
 
 If you are not running any iAd campaigns, you can feel free to remove the `iAd.framework` dependency.
