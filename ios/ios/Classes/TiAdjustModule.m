@@ -12,7 +12,7 @@
 #import "TiAdjustModule.h"
 #import "TiAdjustModuleDelegate.h"
 
-static NSString * const kSdkPrefix = @"titanium4.23.2";
+static NSString * const kSdkPrefix = @"titanium4.28.0";
 
 @implementation TiAdjustModule
 

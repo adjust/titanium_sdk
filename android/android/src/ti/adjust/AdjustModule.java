@@ -28,7 +28,7 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
                                                          OnSessionTrackingSucceededListener,
                                                          OnSessionTrackingFailedListener,
                                                          OnDeeplinkResponseListener {
-    private static final String SDK_PREFIX = "titanium4.23.2";
+    private static final String SDK_PREFIX = "titanium4.28.0";
 
     private static final String LCAT = "AdjustModule";
     private static final String KEY_REVENUE = "revenue";
@@ -813,12 +813,12 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
                 testOptions.gdprPath = value;
             }
         }
-        if (hmArgs.containsKey(KEY_TEST_TEST_CONNECTION_OPTIONS)) {
-            if (null != hmArgs.get(KEY_TEST_TEST_CONNECTION_OPTIONS)) {
-                boolean value = Boolean.parseBoolean(hmArgs.get(KEY_TEST_TEST_CONNECTION_OPTIONS).toString());
-                testOptions.useTestConnectionOptions = value;
-            }
-        }
+        // if (hmArgs.containsKey(KEY_TEST_TEST_CONNECTION_OPTIONS)) {
+        //     if (null != hmArgs.get(KEY_TEST_TEST_CONNECTION_OPTIONS)) {
+        //         boolean value = Boolean.parseBoolean(hmArgs.get(KEY_TEST_TEST_CONNECTION_OPTIONS).toString());
+        //         testOptions.useTestConnectionOptions = value;
+        //     }
+        // }
         if (hmArgs.containsKey(KEY_TEST_TIMER_INTERVAL)) {
             if (null != hmArgs.get(KEY_TEST_TIMER_INTERVAL)) {
                 try {
