@@ -813,12 +813,12 @@ public class AdjustModule extends KrollModule implements OnAttributionChangedLis
                 testOptions.gdprPath = value;
             }
         }
-        if (hmArgs.containsKey(KEY_TEST_TEST_CONNECTION_OPTIONS)) {
-            if (null != hmArgs.get(KEY_TEST_TEST_CONNECTION_OPTIONS)) {
-                boolean value = Boolean.parseBoolean(hmArgs.get(KEY_TEST_TEST_CONNECTION_OPTIONS).toString());
-                testOptions.useTestConnectionOptions = value;
-            }
-        }
+        // if (hmArgs.containsKey(KEY_TEST_TEST_CONNECTION_OPTIONS)) {
+        //     if (null != hmArgs.get(KEY_TEST_TEST_CONNECTION_OPTIONS)) {
+        //         boolean value = Boolean.parseBoolean(hmArgs.get(KEY_TEST_TEST_CONNECTION_OPTIONS).toString());
+        //         testOptions.useTestConnectionOptions = value;
+        //     }
+        // }
         if (hmArgs.containsKey(KEY_TEST_TIMER_INTERVAL)) {
             if (null != hmArgs.get(KEY_TEST_TIMER_INTERVAL)) {
                 try {
