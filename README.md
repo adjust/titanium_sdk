@@ -204,6 +204,18 @@ The Adjust SDK adds by default certain permissions to your Android manifest file
 - `ACCESS_NETWORK_STATE` permission is what our SDK needs to read information about network user is currently connected to.
 - `BIND_GET_INSTALL_REFERRER_SERVICE` permission is needed so that new Google referrer API can be utilized.
 
+#### <a id="gps-adid-permission"></a>Add permission to gather Google advertising ID
+
+If you are targeting Android 12 and above (API level 31), you need to add the `com.google.android.gms.AD_ID` permission to read the device's advertising ID. Add the following line to your `timodule.xml` to enable the permission.
+
+```xml
+<manifest>
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+</manifest
+```
+
+For more information, see [Google's `AdvertisingIdClient.Info` documentation](https://developers.google.com/android/reference/com/google/android/gms/ads/identifier/AdvertisingIdClient.Info#public-string-getid).
+
 ### <a id="android-gps"></a>Google Play Services
 
 Since August 1, 2014, apps in the Google Play Store must use the [Google advertising ID][google-ad-id] to uniquely identify each device. To allow the Adjust SDK to use the Google advertising ID, you must integrate [Google Play Services][google-play-services].
@@ -842,6 +854,10 @@ Adjust.getIdfa(function(idfa) {
 
 
 ### <a id="di-gps-adid"></a>Google Play Services advertising identifier
+
+The Google Play Services Advertising Identifier (Google advertising ID) is a unique identifier for a device. Users can opt out of sharing their Google advertising ID by toggling the "Opt out of Ads Personalization" setting on their device. When a user has enabled this setting, the Adjust SDK returns a string of zeros when trying to read the Google advertising ID.
+
+> **Important**: If you are targeting Android 12 and above (API level 31), you need to add the [`com.google.android.gms.AD_ID` permission](#gps-adid-permission) to your app. If you do not add this permission, you will not be able to read the Google advertising ID even if the user has not opted out of sharing their ID.
 
 If you need to obtain the Google advertising ID, you can call the `getGoogleAdId` method of the `Adjust` instance. You need to pass a callback to that method in order to obtain the value:
 
