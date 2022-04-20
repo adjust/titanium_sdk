@@ -2,17 +2,18 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 4.28.0
+version: 4.29.7
 apiversion: 2
-architectures: armv7 i386 x86_64 arm64
+architectures: arm64 x86_64
 description: This is Titanium iOS module of the Adjust SDK.
 author: Adjust GmbH
 license: MIT License
 copyright: Copyright (c) 2012-2019 by Adjust GmbH
+mac: false
 
 # these should not be edited
-name: ios
+name: AdjustSdk
 moduleid: ti.adjust
 guid: a26ff431-b633-4008-a379-b106b271321d
 platform: iphone
-minsdk: 9.1.0.GA
+minsdk: 9.2.0
